@@ -8,6 +8,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "api-platform/core": "^3.2",
+        "fakerphp/faker": "^1.23",
         "nelmio/cors-bundle": "^2.4",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.26",
@@ -69,7 +70,7 @@
         "stop": "docker compose stop",
         "restart": "docker compose stop && sh ./start.sh",
         "enter": "docker exec -it php bash",
-        "test:unit": "docker exec -it php ./vendor/bin/phpunit",
+        "test:unit": "php ./vendor/bin/phpunit",
         "c:c": "docker exec -it php bin/console c:c"
     },
     "conflict": {
