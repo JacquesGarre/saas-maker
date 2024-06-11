@@ -1,0 +1,27 @@
+version: "3"
+services:
+
+  php:
+    container_name: php
+    build: ./docker/php/.
+    working_dir: /var/www/app
+    volumes:
+      - .:/var/www/app
+    networks:
+      - app-network
+
+  nginx:
+    container_name: nginx
+    image: nginx:alpine
+    working_dir: /var/www/app
+    ports:
+      - 8000:80
+    volumes:
+      - .:/var/www/app
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
