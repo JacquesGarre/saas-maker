@@ -21,6 +21,21 @@ services:
     networks:
       - app-network
 
+  db:
+    container_name: postgres
+    image: postgres:13
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  db_data:
+    driver: local
