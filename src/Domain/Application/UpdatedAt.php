@@ -7,7 +7,7 @@ namespace App\Domain\Application;
 use DateTimeImmutable;
 use DateTime;
 
-final class CreatedAt {
+final class UpdatedAt {
 
     private function __construct(private readonly DateTimeImmutable $value) 
     {
