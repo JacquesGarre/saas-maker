@@ -12,6 +12,9 @@ use App\Domain\User\FirstName;
 use App\Domain\User\LastName;
 use App\Domain\User\User;
 use App\Domain\User\PasswordHash;
+use App\Domain\User\UserCreatedDomainEvent;
+use App\Domain\User\UserUpdatedDomainEvent;
+use App\Domain\User\UserVerifiedDomainEvent;
 use App\Tests\Stubs\Domain\Shared\IdStub;
 use App\Tests\Stubs\Domain\User\PasswordHashStub;
 use App\Tests\Stubs\Domain\User\UserStub;
@@ -42,6 +45,8 @@ final class UserTest extends TestCase
         self::assertFalse($user->isVerified->value);
         self::assertEquals($now->value(), $user->createdAt->value());
         self::assertEquals($now->value(), $user->updatedAt->value());
+        self::assertCount(1, $user->domainEvents);
+        self::assertInstanceOf(UserCreatedDomainEvent::class, $user->domainEvents->last());
     }
 
     public function testUpdate(): void
@@ -62,13 +67,17 @@ final class UserTest extends TestCase
         self::assertEquals($beforeUser->isVerified->value, $user->isVerified->value);
         self::assertEquals($beforeUser->createdAt, $user->createdAt);
         self::assertNotEquals($beforeUser->updatedAt, $user->updatedAt);
+        self::assertCount(1, $user->domainEvents);
+        self::assertInstanceOf(UserUpdatedDomainEvent::class, $user->domainEvents->last());
     }
 
-    public function testIsVerified(): void
+    public function testVerify(): void
     {
         $user = UserStub::random();
         self::assertFalse($user->isVerified());
         $user = $user->verify();
+        self::assertCount(1, $user->domainEvents);
+        self::assertInstanceOf(UserVerifiedDomainEvent::class, $user->domainEvents->last());
         self::assertTrue($user->isVerified());
     }
 

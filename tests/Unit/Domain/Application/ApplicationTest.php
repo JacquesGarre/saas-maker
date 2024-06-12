@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Domain\Application;
 
 use App\Domain\Application\Application;
+use App\Domain\Application\ApplicationCreatedDomainEvent;
+use App\Domain\Application\ApplicationUpdatedDomainEvent;
 use App\Domain\Shared\CreatedAt;
 use App\Domain\Shared\UpdatedAt;
 use App\Tests\Stubs\Domain\Application\ApplicationStub;
@@ -30,6 +32,23 @@ final class ApplicationTest extends TestCase
         self::assertEquals($createdAt->value(), $application->createdAt->value());
         self::assertEquals($updatedAt->value(), $application->updatedAt->value());
         self::assertTrue($application->createdBy->equals($createdBy));
+        self::assertCount(1, $application->domainEvents);
+        self::assertInstanceOf(ApplicationCreatedDomainEvent::class, $application->domainEvents->last());
+    }
+
+    public function testToArray(): void
+    {
+        $application = ApplicationStub::random();
+        $expected = [
+            'id' => $application->id->value->toString(),
+            'name' => $application->name->value,
+            'subdomain' => $application->subdomain->value,
+            'created_at' => $application->createdAt->value(),
+            'updated_at' => $application->updatedAt->value(),
+            'created_by' => $application->createdBy->value->toString(),
+            'updated_by' => $application->updatedBy?->value->toString()
+        ];
+        self::assertEquals($expected, $application->toArray());
     }
 
     public function testUpdate(): void
@@ -46,5 +65,7 @@ final class ApplicationTest extends TestCase
         self::assertNotEquals($applicationBefore->updatedAt, $application->updatedAt);
         self::assertTrue($application->createdBy->equals($applicationBefore->createdBy));
         self::assertFalse($application->updatedBy->equals($applicationBefore->updatedBy));
+        self::assertCount(1, $application->domainEvents);
+        self::assertInstanceOf(ApplicationUpdatedDomainEvent::class, $application->domainEvents->last());
     }
 }

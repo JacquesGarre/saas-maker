@@ -17,11 +17,11 @@ final class UserUpdatedDomainEventTest extends TestCase
     {
         $user = UserStub::random();
         $domainEvent = UserUpdatedDomainEvent::fromUser($user);
-        $now = (new DateTimeImmutable())->format(DateTime::ATOM);
+        $now = (new DateTimeImmutable())->getTimestamp();
         self::assertNotNull($domainEvent->id);
         self::assertEquals($user->id->value->toString(), $domainEvent->aggregateId->toString());
         self::assertEquals(UserUpdatedDomainEvent::EVENT_TYPE, $domainEvent->type);
-        self::assertEquals($now, $domainEvent->occuredAt->format(DateTime::ATOM));
+        self::assertEqualsWithDelta($now, $domainEvent->occuredAt->getTimestamp(), 1);
         self::assertEquals($user->toArray(), $domainEvent->data);
     }
 

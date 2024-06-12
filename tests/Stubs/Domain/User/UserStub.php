@@ -21,12 +21,14 @@ final class UserStub
         $firstName = new FirstName($faker->name());
         $lastName = new LastName($faker->name());
         $passwordHash = PasswordHashStub::random();
-        return User::create(
+        $user = User::create(
             $id,
             $firstName,
             $lastName,
             $email,
             $passwordHash
         );
+        $user->clearDomainEvents();
+        return $user;
     }
 }

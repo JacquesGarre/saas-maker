@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Domain\User;
 
 use App\Domain\Shared\CreatedAt;
+use App\Domain\Shared\DomainEventsTrait;
 use App\Domain\Shared\Id;
 use App\Domain\Shared\UpdatedAt;
 
 final class User {
+
+    use DomainEventsTrait;
 
     private function __construct(
         public readonly Id $id,
@@ -20,6 +23,7 @@ final class User {
         public readonly CreatedAt $createdAt,
         public readonly UpdatedAt $updatedAt
     ) {  
+        $this->initDomainEventCollection();
     }
 
     public function toArray(): array
@@ -52,6 +56,7 @@ final class User {
             CreatedAt::now(),
             UpdatedAt::now()
         );
+        $user->notifyDomainEvent(UserCreatedDomainEvent::fromUser($user));
         return $user;
     }
 
@@ -71,6 +76,7 @@ final class User {
             $this->createdAt,
             UpdatedAt::now()
         );
+        $user->notifyDomainEvent(UserUpdatedDomainEvent::fromUser($user));
         return $user;
     }
 
@@ -86,6 +92,7 @@ final class User {
             $this->createdAt,
             UpdatedAt::now()
         );
+        $user->notifyDomainEvent(UserVerifiedDomainEvent::fromUser($user));
         return $user;
     }
 
