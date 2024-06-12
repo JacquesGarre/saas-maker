@@ -1,0 +1,17 @@
+App\Application\User\CreateUserCommand\CreateUserCommand:
+    properties:
+        id:
+            - NotBlank: ~
+            - Type: string
+        firstName:
+            - NotBlank: ~
+            - Type: string
+        lastName:
+            - NotBlank: ~
+            - Type: string
+        email:
+            - NotBlank: ~
+            - Email: ~
+        password:
+            - NotBlank: ~
+            - Type: string
