@@ -15,35 +15,42 @@ final class Application {
         public readonly Name $name,
         public readonly Subdomain $subdomain,
         public readonly CreatedAt $createdAt,
-        public readonly UpdatedAt $updatedAt
+        public readonly UpdatedAt $updatedAt,
+        public readonly Id $createdBy,
+        public readonly ?Id $updatedBy = null
     ) {
     }
 
     public static function create(
         Id $id,
         Name $name,
-        Subdomain $subdomain
+        Subdomain $subdomain,
+        Id $createdBy
     ): self {
         $application = new self(
             $id,
             $name,
             $subdomain,
             CreatedAt::now(),
-            UpdatedAt::now()
+            UpdatedAt::now(),
+            $createdBy
         );
         return $application;
     }
 
     public function update(
         Name $name,
-        Subdomain $subdomain
+        Subdomain $subdomain,
+        Id $updatedBy
     ): self {
         $application = new self(
             $this->id,
             $name,
             $subdomain,
             $this->createdAt,
-            UpdatedAt::now()
+            UpdatedAt::now(),
+            $this->createdBy,
+            $updatedBy
         );
         return $application;
     }

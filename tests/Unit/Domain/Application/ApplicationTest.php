@@ -20,7 +20,8 @@ final class ApplicationTest extends TestCase
         $id = IdStub::random();
         $name = NameStub::random();
         $subdomain = SubdomainStub::random();
-        $application = Application::create($id, $name, $subdomain);
+        $createdBy = IdStub::random();
+        $application = Application::create($id, $name, $subdomain, $createdBy);
         $createdAt = CreatedAt::now();
         $updatedAt = UpdatedAt::now();
         self::assertTrue($application->id->equals($id));
@@ -28,24 +29,22 @@ final class ApplicationTest extends TestCase
         self::assertEquals($subdomain->value, $application->subdomain->value);
         self::assertEquals($createdAt->value(), $application->createdAt->value());
         self::assertEquals($updatedAt->value(), $application->updatedAt->value());
+        self::assertTrue($application->createdBy->equals($createdBy));
     }
 
     public function testUpdate(): void
     {
-        $application = ApplicationStub::random();
-        $idBefore = $application->id;
-        $nameBefore = $application->name->value;
-        $subdomainBefore = $application->subdomain->value;
-        $createdAtBefore = $application->createdAt;
-        $updatedAtBefore = $application->updatedAt;
-
+        $applicationBefore = ApplicationStub::random();
         $newName = NameStub::random();
         $newSubdomain = SubdomainStub::random();
-        $application = $application->update($newName, $newSubdomain);
-        self::assertTrue($idBefore->equals($application->id));
-        self::assertNotEquals($nameBefore, $application->name->value);
-        self::assertNotEquals($subdomainBefore, $application->subdomain->value);
-        self::assertEquals($createdAtBefore, $application->createdAt);
-        self::assertNotEquals($updatedAtBefore, $application->updatedAt);
+        $updatedBy = IdStub::random();
+        $application = $applicationBefore->update($newName, $newSubdomain, $updatedBy);
+        self::assertTrue($applicationBefore->id->equals($application->id));
+        self::assertNotEquals($applicationBefore->name->value, $application->name->value);
+        self::assertNotEquals($applicationBefore->subdomain->value, $application->subdomain->value);
+        self::assertEquals($applicationBefore->createdAt, $application->createdAt);
+        self::assertNotEquals($applicationBefore->updatedAt, $application->updatedAt);
+        self::assertTrue($application->createdBy->equals($applicationBefore->createdBy));
+        self::assertFalse($application->updatedBy->equals($applicationBefore->updatedBy));
     }
 }

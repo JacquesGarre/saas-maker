@@ -14,6 +14,7 @@ final class ApplicationStub {
         $id = IdStub::random();
         $name = NameStub::random();
         $subdomain = SubdomainStub::random();
-        return Application::create($id, $name, $subdomain);
+        $createdBy = IdStub::random();
+        return Application::create($id, $name, $subdomain, $createdBy);
     }
 }

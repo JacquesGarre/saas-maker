@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Domain\Shared;
 
 use App\Domain\Shared\Exception\InvalidIdException;
-use DateTime;
 use PHPUnit\Framework\TestCase;
 use App\Domain\Shared\Id;
 use Faker\Factory;
@@ -36,5 +35,6 @@ final class IdTest extends TestCase
         $id3 = new Id();
         self::assertTrue($id1->equals($id2));
         self::assertFalse($id1->equals($id3));
+        self::assertFalse($id1->equals(null));
     }
 }

@@ -27,8 +27,11 @@ final class Id {
         }
     }
 
-    public function equals(self $id): bool
+    public function equals(?self $id = null): bool
     {
+        if (!$id) {
+            return false;
+        }
         return $this->value->equals($id->value);
     }
 }
