@@ -71,4 +71,19 @@ final class UserTest extends TestCase
         $user = $user->verify();
         self::assertTrue($user->isVerified());
     }
+
+    public function testToArray(): void
+    {
+        $user = UserStub::random();
+        $expected = [
+            'id' => $user->id->value->toString(),
+            'first_name' => $user->firstName->value,
+            'last_name' => $user->lastName->value,
+            'email' => $user->email->value,
+            'is_verified' => $user->isVerified->value,
+            'created_at' => $user->createdAt->value(),
+            'updated_at' => $user->updatedAt->value()
+        ];
+        self::assertEquals($expected, $user->toArray());
+    }
 }

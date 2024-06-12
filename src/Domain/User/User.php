@@ -22,6 +22,19 @@ final class User {
     ) {  
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id->value->toString(),
+            'first_name' => $this->firstName->value,
+            'last_name' => $this->lastName->value,
+            'email' => $this->email->value,
+            'is_verified' => $this->isVerified->value,
+            'created_at' => $this->createdAt->value(),
+            'updated_at' => $this->updatedAt->value()
+        ];
+    }
+
     public static function create(
         Id $id,
         FirstName $firstName,
