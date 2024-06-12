@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Application;
+namespace App\Domain\Shared;
 
 use DateTimeImmutable;
 use DateTime;
 
-final class CreatedAt {
+final class UpdatedAt {
 
     private function __construct(private readonly DateTimeImmutable $value) 
     {

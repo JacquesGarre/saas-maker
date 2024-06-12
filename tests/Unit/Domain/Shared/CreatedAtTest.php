@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\Application;
+namespace App\Tests\Unit\Domain\Shared;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
-use App\Domain\Application\CreatedAt;
+use App\Domain\Shared\CreatedAt;
 
 final class CreatedAtTest extends TestCase
 {
