@@ -15,12 +15,12 @@ This is a template repository for starting Symfony PHP projects with Docker, usi
  
 ## Installation
 
-#### 1. Clone the repository locally
+#### 1. Setup
 - `git clone git@github.com:JacquesGarre/saas-maker.git`
 - `cd saas-maker`
+- `cp .env.example .env.local`
 
-#### 2. Start the project
- - Start docker daemon
- - copy .env.example to .env
- - Run `composer start` to start the project and start coding
- - Go to http://localhost:8000
+#### 2. Start 
+- Start docker daemon
+- `composer start`
+- Go to http://localhost:8000
