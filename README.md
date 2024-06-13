@@ -1,8 +1,8 @@
-# Symfony PHP Project Template with Docker
+# Saas Maker 
 
 ## Overview
 
-This is a template repository for starting Symfony PHP projects with Docker, using PHP-FPM and Nginx as the web server. There is no database container included.
+This is supposed to be an app that will allow users to create their own SaaS, no-code.
 
 ## Requirements
 
@@ -12,7 +12,6 @@ This is a template repository for starting Symfony PHP projects with Docker, usi
 - PHP 8.3+ (php --version)
 - Composer version 2.3+ (composer -V)
 
- 
 ## Installation
 
 #### 1. Setup
