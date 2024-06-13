@@ -42,7 +42,7 @@ final class UserRepository implements UserRepositoryInterface {
         $this->entityManager->flush();
     }
 
-    public function findBy(
+    public function findBy( // TODO: Refactor with Criteria pattern
         ?FirstName $firstName = null, 
         ?LastName $lastName = null, 
         ?Email $email = null,

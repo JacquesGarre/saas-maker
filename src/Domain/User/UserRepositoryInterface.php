@@ -16,7 +16,7 @@ interface UserRepositoryInterface {
 
     public function remove(User $user): void;
 
-    public function findBy(
+    public function findBy( // TODO: Refactor with Criteria pattern
         ?FirstName $firstName = null, 
         ?LastName $lastName = null, 
         ?Email $email = null,
