@@ -4,7 +4,7 @@
                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <embeddable name="App\Domain\User\IsVerified">
-        <field name="value" type="boolean" column="is_verified"/>
+        <field name="value" type="boolean" column="is_verified" nullable="true"/>
     </embeddable>
 
 </doctrine-mapping>
