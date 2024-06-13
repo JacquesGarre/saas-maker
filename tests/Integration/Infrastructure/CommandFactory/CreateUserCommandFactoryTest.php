@@ -10,6 +10,7 @@ use App\Infrastructure\Exception\InvalidRequestContentException;
 use Faker\Factory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 final class CreateUserCommandFactoryTest extends WebTestCase
 {
@@ -60,8 +61,7 @@ final class CreateUserCommandFactoryTest extends WebTestCase
             'first_name' => $faker->name()
         ];
         $request = new Request([], [], [], [], [], [], json_encode($requestData));
-        $this->expectException(InvalidRequestContentException::class);
-        $this->expectExceptionMessage("Invalid json body");
+        $this->expectException(ValidationFailedException::class);
         $this->factory->fromRequest($request);
     }
 }

@@ -7,6 +7,7 @@ namespace App\Infrastructure\CommandFactory;
 use App\Application\User\CreateUserCommand\CreateUserCommand;
 use App\Infrastructure\Exception\InvalidRequestContentException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class CreateUserCommandFactory
@@ -28,6 +29,10 @@ final class CreateUserCommandFactory
             $content['email'] ?? null,
             $content['password'] ?? null
         );
+        $errors = $this->validator->validate($command);
+        if (count($errors) > 0) {
+            throw new ValidationFailedException($command, $errors);
+        }
         return $command;
     }
 }

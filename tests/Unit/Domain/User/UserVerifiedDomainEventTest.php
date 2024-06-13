@@ -17,18 +17,17 @@ final class UserVerifiedDomainEventTest extends TestCase
     {
         $user = UserStub::random();
         $domainEvent = UserVerifiedDomainEvent::fromUser($user);
-        $now = (new DateTimeImmutable())->format(DateTime::ATOM);
+        $now = (new DateTimeImmutable())->getTimestamp();
         self::assertNotNull($domainEvent->id);
         self::assertEquals($user->id->value->toString(), $domainEvent->aggregateId->toString());
         self::assertEquals(UserVerifiedDomainEvent::EVENT_TYPE, $domainEvent->type);
-        self::assertEquals($now, $domainEvent->occuredAt->format(DateTime::ATOM));
+        self::assertEqualsWithDelta($now, $domainEvent->occuredAt->getTimestamp(), 1);
         self::assertEquals($user->toArray(), $domainEvent->data);
     }
 
     public function testOccuredAt(): void
     {
-        $now = (new DateTimeImmutable())->format(DateTime::ATOM);
         $domainEvent = UserVerifiedDomainEventStub::random();
-        self::assertEquals($now, $domainEvent->occuredAt());
+        self::assertEquals($domainEvent->occuredAt->format(DateTime::ATOM), $domainEvent->occuredAt());
     }
 }

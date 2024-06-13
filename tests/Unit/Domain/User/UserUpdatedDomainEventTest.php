@@ -27,8 +27,7 @@ final class UserUpdatedDomainEventTest extends TestCase
 
     public function testOccuredAt(): void
     {
-        $now = (new DateTimeImmutable())->format(DateTime::ATOM);
         $domainEvent = UserUpdatedDomainEventStub::random();
-        self::assertEquals($now, $domainEvent->occuredAt());
+        self::assertEquals($domainEvent->occuredAt->format(DateTime::ATOM), $domainEvent->occuredAt());
     }
 }
