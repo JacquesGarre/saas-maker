@@ -2,7 +2,7 @@ App\Application\User\CreateUserCommand\CreateUserCommand:
     properties:
         id:
             - NotBlank: ~
-            - Type: string
+            - Uuid: ~
         firstName:
             - NotBlank: ~
             - Type: string
