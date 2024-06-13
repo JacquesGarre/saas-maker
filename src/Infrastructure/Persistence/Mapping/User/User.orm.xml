@@ -1,0 +1,15 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Domain\User\User" table="users">
+        <embedded name="id" class="App\Domain\Shared\Id"/>
+        <embedded name="firstName" class="App\Domain\User\FirstName"/>
+        <embedded name="lastName" class="App\Domain\User\LastName"/>
+        <embedded name="email" class="App\Domain\User\Email"/>
+        <embedded name="passwordHash" class="App\Domain\User\PasswordHash"/>
+        <embedded name="isVerified" class="App\Domain\User\IsVerified"/>
+        <embedded name="createdAt" class="App\Domain\Shared\CreatedAt"/>
+        <embedded name="updatedAt" class="App\Domain\Shared\UpdatedAt"/>
+    </entity>
+</doctrine-mapping>
