@@ -56,7 +56,6 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
             $user->updatedAt->value->getTimestamp(),
             1
         );
-        $this->repository->remove($user);
     }
 
     public function testUserAlreadyCreatedExceptionWithSameId(): void
@@ -73,7 +72,6 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
         );
         $this->expectException(UserAlreadyCreatedException::class);
         ($this->handler)($command);
-        $this->repository->remove($user);
     }
 
     public function testUserAlreadyCreatedExceptionWithSameEmail(): void
@@ -90,6 +88,5 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
         );
         $this->expectException(UserAlreadyCreatedException::class);
         ($this->handler)($command);
-        $this->repository->remove($user);
     }
 }

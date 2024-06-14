@@ -6,14 +6,10 @@ namespace App\Tests\Integration\Infrastructure\Persistence\Repository;
 
 use App\Domain\User\Email;
 use App\Domain\User\UserRepositoryInterface;
-use App\Infrastructure\Persistence\Repository\UserRepository;
 use App\Tests\Stubs\Domain\Shared\IdStub;
 use App\Tests\Stubs\Domain\User\UserStub;
 use Faker\Factory;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Doctrine\ORM\EntityManagerInterface;
-use PDO;
-use PDOException;
 
 final class UserRepositoryTest extends KernelTestCase
 {
@@ -27,6 +23,15 @@ final class UserRepositoryTest extends KernelTestCase
     }
 
     public function testAdd(): void
+    {
+        $user = UserStub::random();
+        $this->repository->add($user);
+
+        $fetchedUser = $this->repository->ofId($user->id);
+        self::assertEquals($user, $fetchedUser);
+    }
+
+    public function testRemove(): void
     {
         $user = UserStub::random();
         $this->repository->add($user);
@@ -54,9 +59,5 @@ final class UserRepositoryTest extends KernelTestCase
         $randomEmail = Email::fromString(Factory::create()->email());
         $fetchedUser = $this->repository->findOneByEmailOrId($randomEmail, $user->id);
         self::assertEquals($user, $fetchedUser);
-
-        $this->repository->remove($user);
-        $fetchedUser = $this->repository->ofId($user->id);
-        self::assertNull($fetchedUser);
     }
 }

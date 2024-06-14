@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "ext-pdo": "*",
         "api-platform/core": "^3.2",
+        "dama/doctrine-test-bundle": "^8.2",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-migrations-bundle": "^3.3",
@@ -80,7 +81,7 @@
         "restart": "docker compose stop && sh ./start.sh",
         "reset": "docker compose down && sh ./start.sh",
         "enter": "docker exec -it php bash",
-        "test:unit": "docker exec -it php ./vendor/bin/phpunit",
+        "test": "docker exec -it php ./vendor/bin/phpunit",
         "c:c": "docker exec -it php bin/console c:c"
     },
     "conflict": {
