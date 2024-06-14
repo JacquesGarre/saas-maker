@@ -15,4 +15,6 @@ interface UserRepositoryInterface {
     public function add(User $user): void;
 
     public function remove(User $user): void;
+
+    public function findOneByEmailOrId(Email $email, Id $id): ?User;
 }
