@@ -29,7 +29,7 @@ final class CreateUserControllerTest extends WebTestCase
     /**
      * @throws JsonException
      */
-    public function testCreateUser(): void
+    public function testSunnyCase(): void
     {
         $faker = Factory::create();
         $data = [
@@ -56,5 +56,22 @@ final class CreateUserControllerTest extends WebTestCase
 
         $fetchedUser = $this->repository->ofId(new Id($data['id']));
         self::assertNotNull($fetchedUser);
+    }
+
+    public function testBadRequest(): void
+    {
+        $this->client->request(
+            'POST',
+            '/api/v1/users',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode([], JSON_THROW_ON_ERROR)
+        );
+
+        self::assertEquals(
+            Response::HTTP_BAD_REQUEST,
+            $this->client->getResponse()->getStatusCode()
+        );
     }
 }
