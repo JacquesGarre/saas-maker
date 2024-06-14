@@ -6,6 +6,7 @@ namespace App\Tests\Integration\Infrastructure\Api\v1\Controller\User;
 
 use App\Domain\Shared\Id;
 use App\Domain\User\UserRepositoryInterface;
+use App\Infrastructure\Security\ApiKeyAuthenticator;
 use Faker\Factory;
 use JsonException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -45,9 +46,14 @@ final class CreateUserControllerTest extends WebTestCase
             '/api/v1/users',
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json'],
+            [
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_'.ApiKeyAuthenticator::API_KEY_HEADER => getenv('API_KEY')
+            ],
             json_encode($data, JSON_THROW_ON_ERROR)
         );
+        dump(getenv('API_KEY'));
+
 
         self::assertEquals(
             Response::HTTP_CREATED,
