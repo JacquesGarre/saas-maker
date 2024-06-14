@@ -4,7 +4,10 @@ services:
 
     _defaults:
         autowire: true      
-        autoconfigure: true 
+        autoconfigure: true
+
+    Symfony\Component\Messenger\MessageBusInterface $commandBus: '@command.bus'
+    App\Domain\CommandBus\CommandBusInterface: '@App\Infrastructure\Buses\SymfonyCommandBus'
 
     App\:
         resource: '../src/'
@@ -17,11 +20,12 @@ services:
         alias: App\Infrastructure\Persistence\Repository\UserRepository
         public: true
 
+    App\Infrastructure\Api\v1\HttpResponse\ExceptionListener:
+        class: 'App\Infrastructure\Api\v1\HttpResponse\ExceptionListener'
+        tags: [ kernel.event_listener ]
+
     command_handlers:
         namespace: App\Application\
         resource: '../src/Application/**/*CommandHandler.php'
         tags:
         - { name: messenger.message_handler, bus: command.bus }
-
-    Symfony\Component\Messenger\MessageBusInterface $commandBus: '@command.bus'
-    App\Domain\CommandBus\CommandBusInterface: '@App\Infrastructure\Buses\SymfonyCommandBus'

@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CreateUserController extends AbstractController
 {
     public function __construct(
-        private readonly CreateUserCommandFactory $commandFactory,
         private readonly CommandBusInterface $commandBus
     ) {
     }
@@ -28,7 +27,7 @@ final class CreateUserController extends AbstractController
     public function __invoke(Request $request): JsonResponse
     {
         // TODO : Authentication
-        $createUserCommand = $this->commandFactory->fromRequest($request);
+        $createUserCommand = CreateUserCommandFactory::fromRequest($request);
         $this->commandBus->dispatch($createUserCommand);
         return new JsonResponse([], Response::HTTP_CREATED);
     }

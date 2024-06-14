@@ -2,48 +2,41 @@
 
 namespace App\Infrastructure\Api\v1\HttpResponse;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 class ExceptionListener
 {
-
-    public function onKernelException(ExceptionEvent $event)
+    public function __invoke(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
         $response = match (true) {
-            $exception instanceof ValidationFailedException => $this->handleValidationFailedException($exception),
-            $exception instanceof HttpExceptionInterface => $this->handleHttpException($exception),
-            default => $this->handleGenericException($exception),
+            $exception instanceof ValidationFailedException => self::handleValidationFailedException($exception),
+            default => self::handleGenericException($exception),
         };
 
         $event->setResponse($response);
     }
 
-    private function handleValidationFailedException(ValidationFailedException $exception): JsonResponse
+    private static function handleValidationFailedException(ValidationFailedException $exception): JsonResponse
     {
         $errors = [];
         foreach ($exception->getViolations() as $violation) {
             $errors[] = $violation->getMessage();
         }
-        return new JsonResponse(['errors' => $errors], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        return new JsonResponse(
+            ['errors' => $errors],
+            Response::HTTP_UNPROCESSABLE_ENTITY
+        );
     }
 
-    private function handleHttpException(HttpExceptionInterface $exception): JsonResponse
-    {
-        return new JsonResponse([
-            'message' => $exception->getMessage(),
-            'code' => $exception->getStatusCode(),
-        ], JsonResponse::HTTP_BAD_REQUEST);
-    }
-
-    private function handleGenericException(\Throwable $exception): JsonResponse
+    private static function handleGenericException(\Throwable $exception): JsonResponse
     {
         return new JsonResponse([
             'message' => $exception->getMessage(),
             'code' => $exception->getCode(),
-        ], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        ], Response::HTTP_BAD_REQUEST);
     }
 }

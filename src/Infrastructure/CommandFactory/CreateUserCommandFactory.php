@@ -7,32 +7,24 @@ namespace App\Infrastructure\CommandFactory;
 use App\Application\User\CreateUserCommand\CreateUserCommand;
 use App\Infrastructure\Exception\InvalidRequestContentException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Exception\ValidationFailedException;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class CreateUserCommandFactory
 {
-    public function __construct(private readonly ValidatorInterface $validator)
-    {
-    }
-
-    public function fromRequest(Request $request): CreateUserCommand
+    /**
+     * @throws InvalidRequestContentException
+     */
+    public static function fromRequest(Request $request): CreateUserCommand
     {
         $content = json_decode($request->getContent(), true);
         if ($content === null) {
             throw new InvalidRequestContentException("Invalid json body");
         }
-        $command = new CreateUserCommand(
+        return new CreateUserCommand(
             $content['id'] ?? null,
             $content['first_name'] ?? null,
             $content['last_name'] ?? null,
             $content['email'] ?? null,
             $content['password'] ?? null
         );
-        $errors = $this->validator->validate($command);
-        if (count($errors) > 0) {
-            throw new ValidationFailedException($command, $errors);
-        }
-        return $command;
     }
 }

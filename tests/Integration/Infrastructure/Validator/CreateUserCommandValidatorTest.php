@@ -14,23 +14,6 @@ use function PHPSTORM_META\map;
 
 final class CreateUserCommandValidatorTest extends KernelTestCase {
 
-/*        id:
-            - NotBlank: ~
-            - Type: string
-        firstName:
-            - NotBlank: ~
-            - Type: string
-        lastName:
-            - NotBlank: ~
-            - Type: string
-        email:
-            - NotBlank: ~
-            - Email: ~
-        password:
-            - NotBlank: ~
-            - Type: string
-            */
-
     private readonly ValidatorInterface $validator;
 
     public function setUp(): void

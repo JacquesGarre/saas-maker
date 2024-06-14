@@ -8,21 +8,12 @@ use App\Application\User\CreateUserCommand\CreateUserCommand;
 use App\Infrastructure\CommandFactory\CreateUserCommandFactory;
 use App\Infrastructure\Exception\InvalidRequestContentException;
 use Faker\Factory;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 
-final class CreateUserCommandFactoryTest extends WebTestCase
+final class CreateUserCommandFactoryTest extends TestCase
 {
-
-    private CreateUserCommandFactory $factory;
-
-    protected function setUp(): void
-    {
-        self::bootKernel();
-        $container = self::getContainer();
-        $this->factory = $container->get(CreateUserCommandFactory::class);
-    }
 
     public function testFromRequestWithValidData(): void
     {
@@ -35,7 +26,7 @@ final class CreateUserCommandFactoryTest extends WebTestCase
             'password' => $faker->password()
         ];
         $request = new Request([], [], [], [], [], [], json_encode($requestData));
-        $command = $this->factory->fromRequest($request);
+        $command = CreateUserCommandFactory::fromRequest($request);
         $this->assertInstanceOf(CreateUserCommand::class, $command);
         $this->assertSame($requestData['id'], $command->id);
         $this->assertSame($requestData['first_name'], $command->firstName);
@@ -50,18 +41,6 @@ final class CreateUserCommandFactoryTest extends WebTestCase
         $request = new Request([], [], [], [], [], [], $invalidJson);
         $this->expectException(InvalidRequestContentException::class);
         $this->expectExceptionMessage("Invalid json body");
-        $this->factory->fromRequest($request);
-    }
-
-    public function testFromRequestWithMissingFields(): void
-    {
-        $faker = Factory::create();
-        $requestData = [
-            'id' => $faker->uuid(),
-            'first_name' => $faker->name()
-        ];
-        $request = new Request([], [], [], [], [], [], json_encode($requestData));
-        $this->expectException(ValidationFailedException::class);
-        $this->factory->fromRequest($request);
+        CreateUserCommandFactory::fromRequest($request);
     }
 }
