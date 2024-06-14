@@ -16,3 +16,9 @@ services:
     App\Domain\User\UserRepositoryInterface:
         alias: App\Infrastructure\Persistence\Repository\UserRepository
         public: true
+
+    command_handlers:
+        namespace: App\Application\
+        resource: '../src/Application/**/*CommandHandler.php'
+        tags:
+        - { name: messenger.message_handler, bus: command.bus }

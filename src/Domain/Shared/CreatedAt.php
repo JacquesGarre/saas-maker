@@ -6,10 +6,11 @@ namespace App\Domain\Shared;
 
 use DateTimeImmutable;
 use DateTime;
+use DateTimeInterface;
 
 final class CreatedAt {
 
-    private function __construct(private readonly DateTimeImmutable $value) 
+    private function __construct(public readonly DateTimeImmutable $value)
     {
     }
 
@@ -21,6 +22,6 @@ final class CreatedAt {
 
     public function value(): string
     {
-        return $this->value->format(DateTime::ATOM);
+        return $this->value->format(DateTimeInterface::ATOM);
     }
 }
