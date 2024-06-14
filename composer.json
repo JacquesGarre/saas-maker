@@ -78,7 +78,7 @@
         "restart": "docker compose stop && sh ./start.sh",
         "reset": "docker compose down && sh ./start.sh",
         "enter": "docker exec -it php bash",
-        "test:unit": "php ./vendor/bin/phpunit",
+        "test:unit": "docker exec -it php ./vendor/bin/phpunit",
         "c:c": "docker exec -it php bin/console c:c"
     },
     "conflict": {

@@ -10,24 +10,9 @@ use App\Domain\Shared\UpdatedAt;
 
 interface UserRepositoryInterface {
 
-    public function ofId(Id $id): User;
+    public function ofId(Id $id): ?User;
 
     public function add(User $user): void;
 
     public function remove(User $user): void;
-
-    public function findBy( // TODO: Refactor with Criteria pattern
-        ?FirstName $firstName = null, 
-        ?LastName $lastName = null, 
-        ?Email $email = null,
-        ?IsVerified $isVerified = null,
-        ?CreatedAt $createdBefore = null,
-        ?CreatedAt $createdAfter = null,
-        ?UpdatedAt $updatedBefore = null,
-        ?UpdatedAt $updatedAfter = null,
-        ?array $orderBy = null,
-        ?int $limit = null,
-        ?int $offset = null
-    ): array;
-
 }

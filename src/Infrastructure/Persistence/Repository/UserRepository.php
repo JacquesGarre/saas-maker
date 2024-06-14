@@ -25,9 +25,9 @@ final class UserRepository implements UserRepositoryInterface {
         $this->repository = $this->entityManager->getRepository(User::class);
     }
 
-    public function ofId(Id $id): User
+    public function ofId(Id $id): ?User
     {
-        return $this->repository->findOneBy(['id' => $id->value->toString()]);
+        return $this->repository->find($id->value);
     }
 
     public function add(User $user): void
@@ -40,34 +40,5 @@ final class UserRepository implements UserRepositoryInterface {
     {
         $this->entityManager->remove($user);
         $this->entityManager->flush();
-    }
-
-    public function findBy( // TODO: Refactor with Criteria pattern
-        ?FirstName $firstName = null, 
-        ?LastName $lastName = null, 
-        ?Email $email = null,
-        ?IsVerified $isVerified = null,
-        ?CreatedAt $createdBefore = null,
-        ?CreatedAt $createdAfter = null,
-        ?UpdatedAt $updatedBefore = null,
-        ?UpdatedAt $updatedAfter = null,
-        ?array $orderBy = null,
-        ?int $limit = null,
-        ?int $offset = null
-    ): array {
-        $criteria = [];
-        if ($firstName) {
-            $criteria['firstName'] = $firstName->value;
-        }
-        if ($lastName) {
-            $criteria['lastName'] = $lastName->value;
-        }
-        if ($email) {
-            $criteria['email'] = $email->value;
-        }
-        if ($isVerified) {
-            $criteria['isVerified'] = $isVerified->value;
-        }
-        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 }
