@@ -7,6 +7,7 @@ namespace App\Tests\Integration\Application\User\CreateUserCommand;
 use App\Application\User\CreateUserCommand\CreateUserCommand;
 use App\Application\User\CreateUserCommand\CreateUserCommandHandler;
 use App\Application\User\Exception\UserAlreadyCreatedException;
+use App\Domain\Shared\CommandBusInterface;
 use App\Domain\Shared\Id;
 use App\Domain\User\PasswordHash;
 use App\Domain\User\UserRepositoryInterface;
@@ -18,24 +19,21 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class CreateUserCommandHandlerTest extends KernelTestCase
 {
-    private readonly CreateUserCommandHandler $handler;
+    private readonly CommandBusInterface $commandBus;
     private readonly UserRepositoryInterface $repository;
 
     public function setUp(): void
     {
         self::bootKernel();
         $container = self::getContainer();
-        $this->handler = $container->get(CreateUserCommandHandler::class);
+        $this->commandBus = $container->get(CommandBusInterface::class);
         $this->repository = $container->get(UserRepositoryInterface::class);
     }
 
-    /**
-     * @throws UserAlreadyCreatedException
-     */
     public function testSunnyCase(): void
     {
         $command = CreateUserCommandStub::random();
-        ($this->handler)($command);
+        $this->commandBus->dispatch($command);
         $user = $this->repository->ofId(new Id($command->id));
         self::assertNotNull($user);
         self::assertEquals($command->id, $user->id->value->toString());
@@ -71,7 +69,7 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
             'p@ssw0Rd'
         );
         $this->expectException(UserAlreadyCreatedException::class);
-        ($this->handler)($command);
+        $this->commandBus->dispatch($command);
     }
 
     public function testUserAlreadyCreatedExceptionWithSameEmail(): void
@@ -87,6 +85,6 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
             'p@ssw0Rd'
         );
         $this->expectException(UserAlreadyCreatedException::class);
-        ($this->handler)($command);
+        $this->commandBus->dispatch($command);
     }
 }

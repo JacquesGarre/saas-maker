@@ -8,8 +8,8 @@ framework:
                 default_middleware: allow_no_handlers
                 middleware:
                     # - 'App\Infrastructure\MessageBus\CustomValidation'
-                    - doctrine_close_connection
-                    - doctrine_transaction
+                    # - doctrine_close_connection
+                    # - doctrine_transaction
         transports:
         routing:
 
