@@ -17,7 +17,6 @@ This is supposed to be an app that will allow users to create their own SaaS, no
 #### 1. Setup
 - `git clone git@github.com:JacquesGarre/saas-maker.git`
 - `cd saas-maker`
-- `cp .env.example .env.local`
 
 #### 2. Start 
 - Start docker daemon
