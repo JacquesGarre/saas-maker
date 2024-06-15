@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Infrastructure\CommandFactory;
+namespace App\Tests\Unit\Infrastructure\CommandFactory;
 
 use App\Application\User\CreateUserCommand\CreateUserCommand;
 use App\Infrastructure\CommandFactory\CreateUserCommandFactory;
@@ -10,7 +10,6 @@ use App\Infrastructure\Exception\InvalidRequestContentException;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 final class CreateUserCommandFactoryTest extends TestCase
 {
