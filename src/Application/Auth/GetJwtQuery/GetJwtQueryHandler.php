@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Application\Auth\GetJwtQuery;
 
+use App\Application\User\Exception\UserNotFoundException;
 use App\Domain\User\Email;
 use App\Domain\User\UserRepositoryInterface;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
 final class GetJwtQueryHandler {
 
@@ -21,6 +21,6 @@ final class GetJwtQueryHandler {
         if (!$user) {
             throw new UserNotFoundException("User not found");
         }
-        return new GetJwtQueryResult($user->jwt?->value);
+        return new GetJwtQueryResult($user->jwt()?->value);
     }
 }

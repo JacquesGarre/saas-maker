@@ -19,17 +19,53 @@ final class User {
 
     private function __construct(
         public readonly Id $id,
-        public readonly FirstName $firstName,
-        public readonly LastName $lastName,
-        public readonly Email $email,
-        public readonly PasswordHash $passwordHash,
-        public readonly IsVerified $isVerified,
+        private FirstName $firstName,
+        private LastName $lastName,
+        private Email $email,
+        private PasswordHash $passwordHash,
+        private IsVerified $isVerified,
         public readonly CreatedAt $createdAt,
-        public UpdatedAt $updatedAt,
-        public ?Jwt $jwt = null
+        private UpdatedAt $updatedAt,
+        private ?Jwt $jwt = null
     ) {  
         $this->initDomainEventCollection();
     }
+
+    public function firstName(): FirstName
+    {
+        return $this->firstName;
+    }
+
+    public function lastName(): LastName
+    {
+        return $this->lastName;
+    }
+
+    public function email(): Email
+    {
+        return $this->email;
+    }
+
+    public function passwordHash(): PasswordHash
+    {
+        return $this->passwordHash;
+    }
+
+    public function isVerified(): IsVerified
+    {
+        return $this->isVerified;
+    }
+
+    public function updatedAt(): UpdatedAt
+    {
+        return $this->updatedAt;
+    }
+
+    public function jwt(): ?Jwt
+    {
+        return $this->jwt ?? null;
+    }
+
 
     public function toArray(): array
     {
@@ -70,19 +106,13 @@ final class User {
         LastName $lastName,
         Email $email,
         PasswordHash $passwordHash
-    ): self {
-        $user = new self(
-            $this->id,
-            $firstName,
-            $lastName,
-            $email,
-            $passwordHash,
-            $this->isVerified,
-            $this->createdAt,
-            UpdatedAt::now()
-        );
-        $user->notifyDomainEvent(UserUpdatedDomainEvent::fromUser($user));
-        return $user;
+    ): void {
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->email = $email;
+        $this->passwordHash = $passwordHash;
+        $this->updatedAt = UpdatedAt::now();
+        $this->notifyDomainEvent(UserUpdatedDomainEvent::fromUser($this));
     }
 
     public function verify(): self
@@ -101,11 +131,6 @@ final class User {
         return $user;
     }
 
-    public function isVerified(): bool
-    {
-        return $this->isVerified->value;
-    }
-
     public function login(
         JwtGeneratorInterface $jwtGenerator,
         string $password
@@ -113,7 +138,7 @@ final class User {
         if (!$this->passwordHash->matches($password)) {
             throw new InvalidPasswordException("Wrong password");
         }
-        if (!$this->isVerified()) {
+        if (!$this->isVerified->value) {
             throw new UserNotVerifiedException("User is not verified");
         }
         $this->updatedAt = UpdatedAt::now();

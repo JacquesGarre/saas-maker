@@ -33,12 +33,9 @@ final class CreateUserCommandHandler {
         $lastName = new LastName($command->lastName);
         $email = Email::fromString($command->email);
         $passwordHash = PasswordHash::fromPlainPassword($command->password);
-        $user = User::create($id, $firstName, $lastName, $email, $passwordHash);
-
-        if ($this->repository->findOneByEmailOrId($user->email, $user->id)) {
+        if ($this->repository->findOneByEmailOrId($email, $id)) {
             throw new UserAlreadyCreatedException("User already exists");
         }
-
         $user = User::create($id, $firstName, $lastName, $email, $passwordHash);
         $this->repository->add($user);
         $this->eventBus->notifyAll($user->domainEvents);

@@ -34,7 +34,7 @@ final class JwtGenerator implements JwtGeneratorInterface {
             ->canOnlyBeUsedAfter($now)
             ->expiresAt($now->modify("+{$this->jwtExpirationTime} seconds"))
             ->withClaim('uid', $user->id->value->toString())
-            ->withClaim('email', $user->email->value)
+            ->withClaim('email', $user->email()->value)
             ->getToken($this->config->signer(), $this->config->signingKey())
             ->toString();
     }

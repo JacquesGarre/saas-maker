@@ -39,13 +39,13 @@ final class LoginCommandHandlerTest extends KernelTestCase
         $user = UserStub::randomVerified($password);
         $this->repository->add($user);
         $command = new LoginCommand(
-            $user->email->value,
+            $user->email()->value,
             $password
         );
         $this->eventBus->expects($this->once())->method('notifyAll');
         ($this->handler)($command);
         $fetchedUser = $this->repository->ofId($user->id);
-        self::assertNotNull($fetchedUser->jwt);
+        self::assertNotNull($fetchedUser->jwt());
     }
 
     public function testInvalidCredentials(): void

@@ -38,7 +38,7 @@ final class LoginControllerTest extends WebTestCase
         $this->repository->add($user);
 
         $data = [
-            'email' => $user->email->value,
+            'email' => $user->email()->value,
             'password' => $password,
         ];
         $this->client->request(
@@ -88,7 +88,7 @@ final class LoginControllerTest extends WebTestCase
         $this->repository->add($user);
 
         $data = [
-            'email' => $user->email->value,
+            'email' => $user->email()->value,
             'password' => $password,
         ];
         $this->client->request(

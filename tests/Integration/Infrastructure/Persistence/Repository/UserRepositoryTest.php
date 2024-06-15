@@ -49,11 +49,11 @@ final class UserRepositoryTest extends KernelTestCase
         $user = UserStub::random();
         $this->repository->add($user);
 
-        $fetchedUser = $this->repository->findOneByEmailOrId($user->email, $user->id);
+        $fetchedUser = $this->repository->findOneByEmailOrId($user->email(), $user->id);
         self::assertEquals($user, $fetchedUser);
 
         $randomId = IdStub::random();
-        $fetchedUser = $this->repository->findOneByEmailOrId($user->email, $randomId);
+        $fetchedUser = $this->repository->findOneByEmailOrId($user->email(), $randomId);
         self::assertEquals($user, $fetchedUser);
 
         $randomEmail = Email::fromString(Factory::create()->email());
@@ -66,7 +66,7 @@ final class UserRepositoryTest extends KernelTestCase
         $user = UserStub::random();
         $this->repository->add($user);
 
-        $fetchedUser = $this->repository->findOneByEmail($user->email);
+        $fetchedUser = $this->repository->findOneByEmail($user->email());
         self::assertEquals($user, $fetchedUser);
 
         $randomEmail = Email::fromString(Factory::create()->email());

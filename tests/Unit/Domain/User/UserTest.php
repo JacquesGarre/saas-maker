@@ -42,13 +42,13 @@ final class UserTest extends TestCase
             $passwordHash
         );
         self::assertTrue($id->equals($user->id));
-        self::assertEquals($firstName->value, $user->firstName->value);
-        self::assertEquals($lastName->value, $user->lastName->value);
-        self::assertEquals($email->value, $user->email->value);
-        self::assertEquals($passwordHash->value, $user->passwordHash->value);
-        self::assertFalse($user->isVerified->value);
+        self::assertEquals($firstName->value, $user->firstName()->value);
+        self::assertEquals($lastName->value, $user->lastName()->value);
+        self::assertEquals($email->value, $user->email()->value);
+        self::assertEquals($passwordHash->value, $user->passwordHash()->value);
+        self::assertFalse($user->isVerified()->value);
         self::assertEquals($now->value(), $user->createdAt->value());
-        self::assertEquals($now->value(), $user->updatedAt->value());
+        self::assertEquals($now->value(), $user->updatedAt()->value());
         self::assertCount(1, $user->domainEvents);
         self::assertInstanceOf(UserCreatedDomainEvent::class, $user->domainEvents->last());
     }
@@ -57,20 +57,21 @@ final class UserTest extends TestCase
     {
         $beforeUser = UserStub::random();
         $faker = Factory::create();
-        $user = $beforeUser->update(
+        $user = clone $beforeUser;
+        $user->update(
             new FirstName($faker->name()),
             new LastName($faker->name()),
             Email::fromString($faker->email()),
             PasswordHash::fromPlainPassword("n3wP@ssw0Rd")
         );
         self::assertTrue($beforeUser->id->equals($user->id));
-        self::assertNotEquals($beforeUser->firstName->value, $user->firstName->value);
-        self::assertNotEquals($beforeUser->lastName->value, $user->lastName->value);
-        self::assertNotEquals($beforeUser->email->value, $user->email->value);
-        self::assertNotEquals($beforeUser->passwordHash->value, $user->passwordHash->value);
-        self::assertEquals($beforeUser->isVerified->value, $user->isVerified->value);
+        self::assertNotEquals($beforeUser->firstName()->value, $user->firstName()->value);
+        self::assertNotEquals($beforeUser->lastName()->value, $user->lastName()->value);
+        self::assertNotEquals($beforeUser->email()->value, $user->email()->value);
+        self::assertNotEquals($beforeUser->passwordHash()->value, $user->passwordHash()->value);
+        self::assertEquals($beforeUser->isVerified()->value, $user->isVerified()->value);
         self::assertEquals($beforeUser->createdAt, $user->createdAt);
-        self::assertNotEquals($beforeUser->updatedAt, $user->updatedAt);
+        self::assertNotEquals($beforeUser->updatedAt(), $user->updatedAt());
         self::assertCount(1, $user->domainEvents);
         self::assertInstanceOf(UserUpdatedDomainEvent::class, $user->domainEvents->last());
     }
@@ -78,11 +79,11 @@ final class UserTest extends TestCase
     public function testVerify(): void
     {
         $user = UserStub::random();
-        self::assertFalse($user->isVerified());
+        self::assertFalse($user->isVerified()->value);
         $user = $user->verify();
         self::assertCount(1, $user->domainEvents);
         self::assertInstanceOf(UserVerifiedDomainEvent::class, $user->domainEvents->last());
-        self::assertTrue($user->isVerified());
+        self::assertTrue($user->isVerified()->value);
     }
 
     public function testToArray(): void
@@ -90,12 +91,12 @@ final class UserTest extends TestCase
         $user = UserStub::random();
         $expected = [
             'id' => $user->id->value->toString(),
-            'first_name' => $user->firstName->value,
-            'last_name' => $user->lastName->value,
-            'email' => $user->email->value,
-            'is_verified' => $user->isVerified->value,
+            'first_name' => $user->firstName()->value,
+            'last_name' => $user->lastName()->value,
+            'email' => $user->email()->value,
+            'is_verified' => $user->isVerified()->value,
             'created_at' => $user->createdAt->value(),
-            'updated_at' => $user->updatedAt->value()
+            'updated_at' => $user->updatedAt()->value()
         ];
         self::assertEquals($expected, $user->toArray());
     }
@@ -108,8 +109,8 @@ final class UserTest extends TestCase
         $user->login($jwtGenerator, $password);
         self::assertCount(1, $user->domainEvents);
         self::assertInstanceOf(UserLoggedInDomainEvent::class, $user->domainEvents->last());
-        self::assertTrue($user->isVerified());
-        self::assertNotNull($user->jwt);
+        self::assertTrue($user->isVerified()->value);
+        self::assertNotNull($user->jwt());
     }
 
     public function testLoginWrongPassword(): void

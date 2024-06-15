@@ -43,9 +43,9 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
         $user = $this->repository->ofId(new Id($command->id));
         self::assertNotNull($user);
         self::assertEquals($command->id, $user->id->value->toString());
-        self::assertEquals($command->email, $user->email->value);
-        self::assertEquals($command->firstName, $user->firstName->value);
-        self::assertEquals($command->lastName, $user->lastName->value);
+        self::assertEquals($command->email, $user->email()->value);
+        self::assertEquals($command->firstName, $user->firstName()->value);
+        self::assertEquals($command->lastName, $user->lastName()->value);
 
         $hash = PasswordHash::fromPlainPassword($command->password);
         self::assertTrue($hash->matches($command->password));
@@ -57,7 +57,7 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
         );
         self::assertEqualsWithDelta(
             (new DateTimeImmutable())->getTimestamp(),
-            $user->updatedAt->value->getTimestamp(),
+            $user->updatedAt()->value->getTimestamp(),
             1
         );
     }
@@ -87,7 +87,7 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
             Factory::create()->uuid(),
             Factory::create()->name(),
             Factory::create()->name(),
-            $user->email->value,
+            $user->email()->value,
             'p@ssw0Rd'
         );
         $this->expectException(UserAlreadyCreatedException::class);
