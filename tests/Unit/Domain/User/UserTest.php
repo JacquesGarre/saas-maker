@@ -80,7 +80,7 @@ final class UserTest extends TestCase
     {
         $user = UserStub::random();
         self::assertFalse($user->isVerified()->value);
-        $user = $user->verify();
+        $user->verify();
         self::assertCount(1, $user->domainEvents);
         self::assertInstanceOf(UserVerifiedDomainEvent::class, $user->domainEvents->last());
         self::assertTrue($user->isVerified()->value);

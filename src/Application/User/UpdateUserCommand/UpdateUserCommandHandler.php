@@ -28,10 +28,10 @@ final class UpdateUserCommandHandler {
         if (!$user) {
             throw new UserNotFoundException("User not found");
         }
-        $firstName = $command->firstName ? new FirstName($command->firstName) : $user->firstName;
-        $lastName = $command->lastName ? new LastName($command->lastName) : $user->lastName;
-        $email = $command->email ? Email::fromString($command->email) : $user->email;
-        $passwordHash = $command->password ? PasswordHash::fromPlainPassword($command->password) : $user->passwordHash;
+        $firstName = $command->firstName ? new FirstName($command->firstName) : null;
+        $lastName = $command->lastName ? new LastName($command->lastName) : null;
+        $email = $command->email ? Email::fromString($command->email) : null;
+        $passwordHash = $command->password ? PasswordHash::fromPlainPassword($command->password) : null;
         $user->update(
             $firstName,
             $lastName,

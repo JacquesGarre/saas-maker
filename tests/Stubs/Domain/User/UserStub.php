@@ -48,7 +48,7 @@ final class UserStub
             $email,
             $passwordHash
         );
-        $user = $user->verify();
+        $user->verify();
         $user->clearDomainEvents();
         return $user;
     }

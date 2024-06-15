@@ -102,33 +102,24 @@ final class User {
     }
 
     public function update(
-        FirstName $firstName,
-        LastName $lastName,
-        Email $email,
-        PasswordHash $passwordHash
+        ?FirstName $firstName = null,
+        ?LastName $lastName = null,
+        ?Email $email = null,
+        ?PasswordHash $passwordHash = null
     ): void {
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->email = $email;
-        $this->passwordHash = $passwordHash;
+        $this->firstName = $firstName ?? $this->firstName;
+        $this->lastName = $lastName ?? $this->lastName;
+        $this->email = $email ?? $this->email;
+        $this->passwordHash = $passwordHash ?? $this->passwordHash;
         $this->updatedAt = UpdatedAt::now();
         $this->notifyDomainEvent(UserUpdatedDomainEvent::fromUser($this));
     }
 
-    public function verify(): self
+    public function verify(): void
     {
-        $user = new self(
-            $this->id,
-            $this->firstName,
-            $this->lastName,
-            $this->email,
-            $this->passwordHash,
-            new IsVerified(true),
-            $this->createdAt,
-            UpdatedAt::now()
-        );
-        $user->notifyDomainEvent(UserVerifiedDomainEvent::fromUser($user));
-        return $user;
+        $this->isVerified = new IsVerified(true);
+        $this->updatedAt = UpdatedAt::now();
+        $this->notifyDomainEvent(UserVerifiedDomainEvent::fromUser($this));
     }
 
     public function login(
