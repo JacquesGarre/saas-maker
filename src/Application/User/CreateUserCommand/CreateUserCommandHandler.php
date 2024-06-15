@@ -25,7 +25,7 @@ final class CreateUserCommandHandler {
      */
     public function __invoke(CreateUserCommand $command): void
     {
-        $id = new Id($command->id);
+        $id = new Id($command->id); 
         $firstName = new FirstName($command->firstName);
         $lastName = new LastName($command->lastName);
         $email = Email::fromString($command->email);
