@@ -52,9 +52,6 @@ final class CreateUserControllerTest extends WebTestCase
             ],
             json_encode($data, JSON_THROW_ON_ERROR)
         );
-        dump(getenv('API_KEY'));
-
-
         self::assertEquals(
             Response::HTTP_CREATED,
             $this->client->getResponse()->getStatusCode()
@@ -71,12 +68,41 @@ final class CreateUserControllerTest extends WebTestCase
             '/api/v1/users',
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json'],
+            [
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_'.ApiKeyAuthenticator::API_KEY_HEADER => getenv('API_KEY')
+            ],
             json_encode([], JSON_THROW_ON_ERROR)
         );
 
         self::assertEquals(
             Response::HTTP_BAD_REQUEST,
+            $this->client->getResponse()->getStatusCode()
+        );
+    }
+
+    public function testUnauthenticated(): void
+    {
+        $faker = Factory::create();
+        $data = [
+            'id' => $faker->uuid(),
+            'first_name' => $faker->firstName(),
+            'last_name' => $faker->lastName(),
+            'email' => $faker->email(),
+            'password' => 'p@ssw0rD',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/users',
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/json'
+            ],
+            json_encode($data, JSON_THROW_ON_ERROR)
+        );
+        self::assertEquals(
+            Response::HTTP_UNAUTHORIZED,
             $this->client->getResponse()->getStatusCode()
         );
     }

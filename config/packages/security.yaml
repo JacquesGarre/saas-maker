@@ -10,17 +10,10 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        api:
-            pattern: ^/api/v1
-            stateless: true
-            custom_authenticators:
-                - App\Infrastructure\Security\ApiKeyAuthenticator
         main:
             lazy: true
             provider: users_in_memory
 
-    access_control:
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:
