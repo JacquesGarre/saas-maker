@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
+use App\Application\User\Exception\UserNotFoundException;
 
 class ExceptionListener
 {
@@ -14,11 +15,20 @@ class ExceptionListener
     {
         $exception = $event->getThrowable();
         $response = match (true) {
+            $exception instanceof UserNotFoundException => self::handleNotFoundException($exception),
             $exception instanceof ValidationFailedException => self::handleValidationFailedException($exception),
             $exception instanceof UnauthenticatedRequestException => self::handleUnauthenticatedRequestException($exception),
             default => self::handleGenericException($exception),
         };
         $event->setResponse($response);
+    }
+
+    private static function handleNotFoundException(UserNotFoundException $exception): JsonResponse
+    {
+        return new JsonResponse([
+            'message' => $exception->getMessage(),
+            'code' => $exception->getCode(),
+        ], Response::HTTP_NOT_FOUND);
     }
 
     private static function handleValidationFailedException(ValidationFailedException $exception): JsonResponse

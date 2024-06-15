@@ -29,8 +29,8 @@ final class UpdateUserController extends AbstractController
     public function __invoke(Request $request): JsonResponse
     {
         $user = $this->jwtAuthenticator->authenticate($request);
-        $updateUserCommand = UpdateUserCommandFactory::fromRequestAndUser($request, $user);
-        $this->commandBus->dispatch($updateUserCommand);
+        $command = UpdateUserCommandFactory::fromRequestAndUser($request, $user);
+        $this->commandBus->dispatch($command);
         return new JsonResponse([], Response::HTTP_ACCEPTED);
     }
 }
