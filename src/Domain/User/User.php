@@ -8,6 +8,8 @@ use App\Domain\Shared\CreatedAt;
 use App\Domain\Shared\DomainEventsTrait;
 use App\Domain\Shared\Id;
 use App\Domain\Shared\UpdatedAt;
+use App\Domain\User\Exception\InvalidPasswordException;
+use App\Domain\User\Exception\UserNotVerifiedException;
 
 final class User {
 
@@ -101,4 +103,14 @@ final class User {
         return $this->isVerified->value;
     }
 
+    public function login(string $password): void
+    {
+        if (!$this->passwordHash->matches($password)) {
+            throw new InvalidPasswordException("Wrong password");
+        }
+        if (!$this->isVerified()) {
+            throw new UserNotVerifiedException("User is not verified");
+        }
+        $this->notifyDomainEvent(UserLoggedInDomainEvent::fromUser($this));
+    }
 }

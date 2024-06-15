@@ -15,9 +15,12 @@ use App\Domain\User\PasswordHash;
 use App\Domain\User\UserCreatedDomainEvent;
 use App\Domain\User\UserUpdatedDomainEvent;
 use App\Domain\User\UserVerifiedDomainEvent;
+use App\Domain\User\UserLoggedInDomainEvent;
 use App\Tests\Stubs\Domain\Shared\IdStub;
 use App\Tests\Stubs\Domain\User\PasswordHashStub;
 use App\Tests\Stubs\Domain\User\UserStub;
+use App\Domain\User\Exception\InvalidPasswordException;
+use App\Domain\User\Exception\UserNotVerifiedException;
 
 final class UserTest extends TestCase
 {
@@ -94,5 +97,34 @@ final class UserTest extends TestCase
             'updated_at' => $user->updatedAt->value()
         ];
         self::assertEquals($expected, $user->toArray());
+    }
+
+    public function testLoginSunnyCase(): void
+    {
+        $password = 'p@ssW0rd';
+        $user = UserStub::randomVerified($password);
+        $user->login($password);
+        self::assertCount(1, $user->domainEvents);
+        self::assertInstanceOf(UserLoggedInDomainEvent::class, $user->domainEvents->last());
+        self::assertTrue($user->isVerified());
+    }
+
+    public function testLoginWrongPassword(): void
+    {
+        $password = 'p@ssW0rd';
+        $wrongPassword = Factory::create()->password();
+        $user = UserStub::randomVerified($password);
+        $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage("Wrong password");
+        $user->login($wrongPassword);
+    }
+
+    public function testLoginNotVerified(): void
+    {
+        $password = 'p@ssW0rd';
+        $user = UserStub::random($password);
+        $this->expectException(UserNotVerifiedException::class);
+        $this->expectExceptionMessage("User is not verified");
+        $user->login($password);
     }
 }
