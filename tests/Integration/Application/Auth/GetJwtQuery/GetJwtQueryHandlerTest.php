@@ -7,7 +7,6 @@ namespace App\Tests\Integration\Application\Auth\GetJwtQuery;
 use App\Application\Auth\GetJwtQuery\GetJwtQuery;
 use App\Application\Auth\GetJwtQuery\GetJwtQueryHandler;
 use App\Application\Auth\LoginCommand\LoginCommand;
-use App\Domain\Shared\EventBusInterface;
 use App\Domain\Shared\QueryBusInterface;
 use App\Domain\User\UserRepositoryInterface;
 use App\Tests\Stubs\Domain\User\UserStub;
@@ -21,7 +20,6 @@ final class GetJwtQueryHandlerTest extends KernelTestCase {
     private readonly CommandBusInterface $commandBus;
     private readonly QueryBusInterface $queryBus;
     private readonly UserRepositoryInterface $repository;
-    private readonly GetJwtQueryHandler $handler;
 
     public function setUp(): void
     {
