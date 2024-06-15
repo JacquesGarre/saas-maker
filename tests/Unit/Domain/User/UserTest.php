@@ -76,6 +76,28 @@ final class UserTest extends TestCase
         self::assertInstanceOf(UserUpdatedDomainEvent::class, $user->domainEvents->last());
     }
 
+    public function testUpdateWithNulls(): void
+    {
+        $beforeUser = UserStub::random();
+        $user = clone $beforeUser;
+        $user->update(
+            null,
+            null,
+            null,
+            null
+        );
+        self::assertTrue($beforeUser->id->equals($user->id));
+        self::assertEquals($beforeUser->firstName()->value, $user->firstName()->value);
+        self::assertEquals($beforeUser->lastName()->value, $user->lastName()->value);
+        self::assertEquals($beforeUser->email()->value, $user->email()->value);
+        self::assertEquals($beforeUser->passwordHash()->value, $user->passwordHash()->value);
+        self::assertEquals($beforeUser->isVerified()->value, $user->isVerified()->value);
+        self::assertEquals($beforeUser->createdAt, $user->createdAt);
+        self::assertNotEquals($beforeUser->updatedAt(), $user->updatedAt());
+        self::assertCount(1, $user->domainEvents);
+        self::assertInstanceOf(UserUpdatedDomainEvent::class, $user->domainEvents->last());
+    }
+
     public function testVerify(): void
     {
         $user = UserStub::random();
