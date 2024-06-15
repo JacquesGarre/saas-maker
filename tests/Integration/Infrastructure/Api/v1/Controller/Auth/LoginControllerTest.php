@@ -52,6 +52,9 @@ final class LoginControllerTest extends WebTestCase
             ],
             json_encode($data, JSON_THROW_ON_ERROR)
         );
+        $reponse = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertArrayHasKey('jwt', $reponse);
+        self::assertNotEmpty($reponse['jwt']);
         self::assertEquals(
             Response::HTTP_ACCEPTED,
             $this->client->getResponse()->getStatusCode()

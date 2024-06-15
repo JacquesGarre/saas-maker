@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Infrastructure\Api\v1\Controller\Auth;
 
 use App\Domain\Shared\CommandBusInterface;
+use App\Domain\Shared\QueryBusInterface;
 use App\Infrastructure\CommandFactory\LoginCommandFactory;
 use App\Infrastructure\Exception\InvalidRequestContentException;
+use App\Infrastructure\QueryFactory\GetJwtQueryFactory;
 use App\Infrastructure\Security\ApiKeyAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,6 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class LoginController extends AbstractController
 {
     public function __construct(
+        private readonly QueryBusInterface $queryBus,
         private readonly CommandBusInterface $commandBus,
         private readonly ApiKeyAuthenticator $apiKeyAuthenticator
     ) {
@@ -31,6 +34,8 @@ final class LoginController extends AbstractController
         $this->apiKeyAuthenticator->authenticate($request);
         $command = LoginCommandFactory::fromRequest($request);
         $this->commandBus->dispatch($command);
-        return new JsonResponse([], Response::HTTP_ACCEPTED);
+        $query = GetJwtQueryFactory::fromRequest($request);
+        $result = $this->queryBus->dispatch($query);
+        return new JsonResponse($result->toArray(), Response::HTTP_ACCEPTED);
     }
 }
