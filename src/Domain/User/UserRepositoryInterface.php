@@ -17,4 +17,6 @@ interface UserRepositoryInterface {
     public function remove(User $user): void;
 
     public function findOneByEmailOrId(Email $email, Id $id): ?User;
+
+    public function findOneByEmail(Email $email): ?User;
 }
