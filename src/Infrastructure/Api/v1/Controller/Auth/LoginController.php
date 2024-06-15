@@ -31,6 +31,6 @@ final class LoginController extends AbstractController
         $this->apiKeyAuthenticator->authenticate($request);
         $command = LoginCommandFactory::fromRequest($request);
         $this->commandBus->dispatch($command);
-        return new JsonResponse([], Response::HTTP_CREATED);
+        return new JsonResponse([], Response::HTTP_ACCEPTED);
     }
 }
