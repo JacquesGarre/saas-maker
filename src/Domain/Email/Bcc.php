@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User;
+namespace App\Domain\Email;
 
 use App\Domain\Shared\AbstractEmail;
 
-final class Email extends AbstractEmail
+final class Bcc extends AbstractEmail
 {
 }

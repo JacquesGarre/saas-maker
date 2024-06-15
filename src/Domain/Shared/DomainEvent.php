@@ -24,4 +24,9 @@ abstract class DomainEvent {
         return $this->occuredAt->format(DateTime::ATOM);
     }
 
+    public function aggregateId(): string
+    {
+        return $this->aggregateId->toString();
+    }
+
 }
