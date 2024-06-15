@@ -7,10 +7,7 @@ namespace App\Tests\Integration\Infrastructure\Validator;
 use App\Application\User\CreateUserCommand\CreateUserCommand;
 use Faker\Factory;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-
-use function PHPSTORM_META\map;
 
 final class CreateUserCommandValidatorTest extends KernelTestCase {
 
