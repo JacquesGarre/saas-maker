@@ -5,5 +5,5 @@ declare(strict_types=1);
 namespace App\Domain\Shared;
 
 interface QueryBusInterface {
-    public function dispatch(QueryInterface $query): void;
+    public function dispatch(QueryInterface $query): QueryResultInterface;
 }

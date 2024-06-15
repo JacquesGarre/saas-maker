@@ -12,6 +12,7 @@ services:
         bind:
             Symfony\Component\Messenger\MessageBusInterface $commandBus: '@command.bus'
             Symfony\Component\Messenger\MessageBusInterface $eventBus: '@event.bus'
+            Symfony\Component\Messenger\MessageBusInterface $queryBus: '@query.bus'
             $appName: '%app_name%'
             $apiKey: '%api_key%'
             $jwtExpirationTime: '%jwt_expiration_time%'
@@ -43,3 +44,9 @@ services:
         resource: '../src/Application/**/*EventHandler.php'
         tags:
         - { name: messenger.message_handler, bus: event.bus }
+
+    query_handlers:
+        namespace: App\Application\
+        resource: '../src/Application/**/*QueryHandler.php'
+        tags:
+        - { name: messenger.message_handler, bus: query.bus }
