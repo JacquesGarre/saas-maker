@@ -13,6 +13,7 @@ use App\Domain\User\PasswordHash;
 use App\Domain\User\UserRepositoryInterface;
 use App\Tests\Stubs\Application\User\CreateUserCommand\CreateUserCommandStub;
 use App\Tests\Stubs\Domain\User\UserStub;
+use App\Domain\Shared\EventBusInterface;
 use DateTimeImmutable;
 use Faker\Factory;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -21,6 +22,8 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
 {
     private readonly CommandBusInterface $commandBus;
     private readonly UserRepositoryInterface $repository;
+    private $eventBus;
+    private readonly CreateUserCommandHandler $handler;
 
     public function setUp(): void
     {
@@ -28,12 +31,15 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
         $container = self::getContainer();
         $this->commandBus = $container->get(CommandBusInterface::class);
         $this->repository = $container->get(UserRepositoryInterface::class);
+        $this->eventBus = $this->createMock(EventBusInterface::class);
+        $this->handler = new CreateUserCommandHandler($this->repository, $this->eventBus);
     }
 
     public function testSunnyCase(): void
     {
         $command = CreateUserCommandStub::random();
-        $this->commandBus->dispatch($command);
+        $this->eventBus->expects($this->once())->method('notifyAll');
+        ($this->handler)($command);
         $user = $this->repository->ofId(new Id($command->id));
         self::assertNotNull($user);
         self::assertEquals($command->id, $user->id->value->toString());
