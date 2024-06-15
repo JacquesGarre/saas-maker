@@ -8,7 +8,7 @@ services:
         autoconfigure: true
         bind:
             Symfony\Component\Messenger\MessageBusInterface $commandBus: '@command.bus'
-            App\Domain\CommandBus\CommandBusInterface: '@App\Infrastructure\Buses\SymfonyCommandBus'
+            Symfony\Component\Messenger\MessageBusInterface $eventBus: '@event.bus'
             $apiKey: '%api_key%'
 
     App\:
@@ -31,3 +31,9 @@ services:
         resource: '../src/Application/**/*CommandHandler.php'
         tags:
         - { name: messenger.message_handler, bus: command.bus }
+
+    event_handlers:
+        namespace: App\Application\
+        resource: '../src/Application/**/*EventHandler.php'
+        tags:
+        - { name: messenger.message_handler, bus: event.bus }

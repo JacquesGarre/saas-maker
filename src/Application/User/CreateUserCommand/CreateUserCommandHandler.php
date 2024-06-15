@@ -6,6 +6,7 @@ namespace App\Application\User\CreateUserCommand;
 
 use App\Application\User\Exception\UserAlreadyCreatedException;
 use App\Domain\Shared\Id;
+use App\Domain\Shared\EventBusInterface;
 use App\Domain\User\FirstName;
 use App\Domain\User\LastName;
 use App\Domain\User\Email;
@@ -15,8 +16,10 @@ use App\Domain\User\UserRepositoryInterface;
 
 final class CreateUserCommandHandler {
     
-    public function __construct(private readonly UserRepositoryInterface $repository)
-    {
+    public function __construct(
+        private readonly UserRepositoryInterface $repository,
+        private readonly EventBusInterface $eventBus
+    ) {
         
     }
 
@@ -38,5 +41,6 @@ final class CreateUserCommandHandler {
 
         $user = User::create($id, $firstName, $lastName, $email, $passwordHash);
         $this->repository->add($user);
+        $this->eventBus->notifyAll($user->domainEvents);
     }
 }
