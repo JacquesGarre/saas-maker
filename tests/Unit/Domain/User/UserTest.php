@@ -59,6 +59,7 @@ final class UserTest extends TestCase
         $faker = Factory::create();
         $user = clone $beforeUser;
         $user->update(
+            $beforeUser,
             new FirstName($faker->name()),
             new LastName($faker->name()),
             Email::fromString($faker->email()),
@@ -81,6 +82,7 @@ final class UserTest extends TestCase
         $beforeUser = UserStub::random();
         $user = clone $beforeUser;
         $user->update(
+            $beforeUser,
             null,
             null,
             null,

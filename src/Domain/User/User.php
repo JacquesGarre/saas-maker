@@ -12,6 +12,7 @@ use App\Domain\Shared\Id;
 use App\Domain\Shared\UpdatedAt;
 use App\Domain\User\Exception\InvalidPasswordException;
 use App\Domain\User\Exception\UserNotVerifiedException;
+use App\Domain\User\Exception\PermissionNotAllowedException;
 
 final class User {
 
@@ -102,11 +103,15 @@ final class User {
     }
 
     public function update(
+        User $updatedBy,
         ?FirstName $firstName = null,
         ?LastName $lastName = null,
         ?Email $email = null,
         ?PasswordHash $passwordHash = null
     ): void {
+        if (!$updatedBy->id->equals($this->id)) {
+            throw new PermissionNotAllowedException("User is not allowed to perform this action");
+        }
         $this->firstName = $firstName ?? $this->firstName;
         $this->lastName = $lastName ?? $this->lastName;
         $this->email = $email ?? $this->email;

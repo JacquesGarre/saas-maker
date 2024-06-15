@@ -8,7 +8,7 @@ use App\Domain\User\User;
 
 final class Jwt {
     
-    private function __construct(public readonly string $value)
+    public function __construct(public readonly string $value)
     {
     }
 

@@ -13,7 +13,8 @@ final class UpdateUserCommand implements CommandInterface
         public readonly ?string $firstName = null,
         public readonly ?string $lastName = null,
         public readonly ?string $email = null,
-        public readonly ?string $password = null
+        public readonly ?string $password = null,
+        public readonly ?string $updatedById = null
     ) {
     }
 }

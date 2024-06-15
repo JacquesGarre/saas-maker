@@ -1,0 +1,8 @@
+App\Application\User\UpdateUserCommand\UpdateUserCommand:
+    properties:
+        id:
+            - NotBlank: ~
+            - Uuid: ~
+        updatedById:
+            - NotBlank: ~
+            - Uuid: ~

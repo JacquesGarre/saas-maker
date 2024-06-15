@@ -7,6 +7,7 @@ namespace App\Infrastructure\Persistence\Repository;
 use App\Domain\Shared\Id;
 use App\Domain\User\Email;
 use App\Domain\User\User;
+use App\Domain\Auth\Jwt;
 use App\Domain\User\UserRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -62,6 +63,18 @@ final class UserRepository implements UserRepositoryInterface {
             ->andWhere($condition)
             ->setMaxResults(1)
             ->setParameter('email', $email->value);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function findOneByJwt(Jwt $jwt): ?User
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $condition = $qb->expr()->eq('u.jwt.value', ':jwt');
+        $qb->select('u')
+            ->from(User::class, 'u')
+            ->andWhere($condition)
+            ->setMaxResults(1)
+            ->setParameter('jwt', $jwt->value);
         return $qb->getQuery()->getOneOrNullResult();
     }
 }
