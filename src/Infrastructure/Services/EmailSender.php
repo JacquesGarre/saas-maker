@@ -4,9 +4,8 @@ namespace App\Infrastructure\Service;
 
 use App\Domain\Email\EmailSenderInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Part\DataPart;
-use Symfony\Component\Mime\Part\File;
+use Symfony\Component\Mime\Email as SymfonyEmail;
+use App\Domain\Email\Email;
 
 final class EmailSender implements EmailSenderInterface
 {
@@ -15,26 +14,15 @@ final class EmailSender implements EmailSenderInterface
     ) {
     }
 
-    public function sendEmail(
-        string $from, 
-        array $to, 
-        array $cc, 
-        array $bcc, 
-        string $subject, 
-        string $body, 
-        array $attachments = []
-    ): void {
-        $email = (new Email())
-            ->from($from)
-            ->cc(...$cc)
-            ->bcc(...$bcc)
-            ->to(...$to)
-            ->subject($subject)
-            ->text(strip_tags($body))
-            ->html($body);
-        foreach ($attachments as $attachment) {
-            $email->attachFromPath($attachment);
-        }
-        $this->mailer->send($email);
+    public function sendEmail(Email $email): void {
+        $symfonyEmail = (new SymfonyEmail())
+            ->from($email->from->value)
+            ->subject($email->subject->value)
+            ->text($email->html->toText())
+            ->html($email->html->value)
+            ->to(...$email->toCollection->toArray())
+            ->bcc(...$email->bccCollection->toArray())
+            ->cc(...$email->ccCollection->toArray());
+        $this->mailer->send($symfonyEmail);
     }
 }

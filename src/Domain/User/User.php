@@ -120,6 +120,11 @@ final class User {
         $this->notifyDomainEvent(UserUpdatedDomainEvent::fromUser($this));
     }
 
+    public function fullName(): string 
+    {
+        return $this->firstName->value.' '.$this->lastName->value;
+    }
+
     public function verify(): void
     {
         $this->isVerified = new IsVerified(true);

@@ -3,6 +3,7 @@ parameters:
     api_key: '%env(API_KEY)%'
     jwt_expiration_time: '%env(JWT_EXPIRATION_TIME)%'
     app_secret: '%env(APP_SECRET)%'
+    email_default_sender: '%env(EMAIL_DEFAULT_SENDER)%'
 
 services:
 
@@ -17,6 +18,7 @@ services:
             $apiKey: '%api_key%'
             $jwtExpirationTime: '%jwt_expiration_time%'
             $appSecret: '%app_secret%'
+            $emailDefaultSender: '%email_default_sender%'
             
     App\:
         resource: '../src/'

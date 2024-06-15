@@ -9,12 +9,19 @@ use App\Domain\User\UserCreatedDomainEvent;
 use App\Domain\User\UserRepositoryInterface;
 use App\Domain\Shared\Id;
 use App\Domain\Email\EmailSenderInterface;
+use App\Domain\Email\From;
+use App\Domain\Email\TemplateRendererInterface;
+use App\Domain\Email\UserVerificationEmail;
+use App\Domain\Shared\EventBusInterface;
 
 final class SendVerificationEmailOnUserCreatedEventHandler {
     
     public function __construct(
         private readonly UserRepositoryInterface $repository,
-        //private readonly EmailSenderInterface $emailSender
+        private readonly TemplateRendererInterface $templateRenderer,
+        private readonly EmailSenderInterface $emailSender,
+        private readonly EventBusInterface $eventBus,
+        private readonly string $emailDefaultSender
     ) {
         
     }
@@ -26,5 +33,13 @@ final class SendVerificationEmailOnUserCreatedEventHandler {
         if (!$user) {
             throw new UserNotFoundException("User not found");
         }
+        $email = UserVerificationEmail::fromUser(
+            $this->emailSender,
+            $this->templateRenderer,
+            new From($this->emailDefaultSender),
+            $user
+        );
+        $email->send();
+        $this->eventBus->notifyAll($email->domainEvents);
     }
 }

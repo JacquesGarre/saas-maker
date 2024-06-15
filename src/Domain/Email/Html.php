@@ -19,4 +19,9 @@ final class Html {
         $html = $renderer->render($templateName, $parameters);
         return new self($html);
     }
+
+    public function toText(): string
+    {
+        return strip_tags($this->value);
+    }
 }

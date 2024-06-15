@@ -6,6 +6,6 @@ namespace App\Domain\Email;
 
 interface EmailSenderInterface {
 
-    //public function sendEmail(Email $email): void;
+    public function sendEmail(Email $email): void;
 
 }
