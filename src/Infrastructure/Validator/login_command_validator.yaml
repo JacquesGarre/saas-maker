@@ -1,0 +1,8 @@
+App\Application\Auth\LoginCommand\LoginCommand:
+    properties:
+        email:
+            - NotBlank: ~
+            - Email: ~
+        password:
+            - NotBlank: ~
+            - Type: string
