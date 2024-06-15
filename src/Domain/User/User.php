@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
+use App\Domain\Auth\Jwt;
+use App\Domain\Auth\JwtGeneratorInterface;
 use App\Domain\Shared\CreatedAt;
 use App\Domain\Shared\DomainEventsTrait;
 use App\Domain\Shared\Id;
@@ -23,7 +25,8 @@ final class User {
         public readonly PasswordHash $passwordHash,
         public readonly IsVerified $isVerified,
         public readonly CreatedAt $createdAt,
-        public readonly UpdatedAt $updatedAt
+        public UpdatedAt $updatedAt,
+        public ?Jwt $jwt = null
     ) {  
         $this->initDomainEventCollection();
     }
@@ -103,14 +106,18 @@ final class User {
         return $this->isVerified->value;
     }
 
-    public function login(string $password): void
-    {
+    public function login(
+        JwtGeneratorInterface $jwtGenerator,
+        string $password
+    ): void {
         if (!$this->passwordHash->matches($password)) {
             throw new InvalidPasswordException("Wrong password");
         }
         if (!$this->isVerified()) {
             throw new UserNotVerifiedException("User is not verified");
         }
+        $this->updatedAt = UpdatedAt::now();
+        $this->jwt = Jwt::fromUser($jwtGenerator, $this);
         $this->notifyDomainEvent(UserLoggedInDomainEvent::fromUser($this));
     }
 }

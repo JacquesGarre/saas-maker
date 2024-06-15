@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\User;
 
+use App\Domain\Auth\JwtGeneratorInterface;
 use App\Domain\Shared\CreatedAt;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;
@@ -103,10 +104,12 @@ final class UserTest extends TestCase
     {
         $password = 'p@ssW0rd';
         $user = UserStub::randomVerified($password);
-        $user->login($password);
+        $jwtGenerator = $this->createMock(JwtGeneratorInterface::class);
+        $user->login($jwtGenerator, $password);
         self::assertCount(1, $user->domainEvents);
         self::assertInstanceOf(UserLoggedInDomainEvent::class, $user->domainEvents->last());
         self::assertTrue($user->isVerified());
+        self::assertNotNull($user->jwt);
     }
 
     public function testLoginWrongPassword(): void
@@ -114,17 +117,19 @@ final class UserTest extends TestCase
         $password = 'p@ssW0rd';
         $wrongPassword = Factory::create()->password();
         $user = UserStub::randomVerified($password);
+        $jwtGenerator = $this->createMock(JwtGeneratorInterface::class);
         $this->expectException(InvalidPasswordException::class);
         $this->expectExceptionMessage("Wrong password");
-        $user->login($wrongPassword);
+        $user->login($jwtGenerator, $wrongPassword);
     }
 
     public function testLoginNotVerified(): void
     {
         $password = 'p@ssW0rd';
         $user = UserStub::random($password);
+        $jwtGenerator = $this->createMock(JwtGeneratorInterface::class);
         $this->expectException(UserNotVerifiedException::class);
         $this->expectExceptionMessage("User is not verified");
-        $user->login($password);
+        $user->login($jwtGenerator, $password);
     }
 }

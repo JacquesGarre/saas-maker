@@ -18,7 +18,6 @@ class ExceptionListener
             $exception instanceof UnauthenticatedRequestException => self::handleUnauthenticatedRequestException($exception),
             default => self::handleGenericException($exception),
         };
-
         $event->setResponse($response);
     }
 

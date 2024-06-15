@@ -7,6 +7,7 @@ namespace App\Tests\Integration\Application\Auth\LoginCommand;
 use App\Application\Auth\Exception\InvalidCredentialsException;
 use App\Application\Auth\LoginCommand\LoginCommand;
 use App\Application\Auth\LoginCommand\LoginCommandHandler;
+use App\Domain\Auth\JwtGeneratorInterface;
 use App\Domain\Shared\CommandBusInterface;
 use App\Domain\Shared\EventBusInterface;
 use App\Domain\User\UserRepositoryInterface;
@@ -28,7 +29,8 @@ final class LoginCommandHandlerTest extends KernelTestCase
         $this->commandBus = $container->get(CommandBusInterface::class);
         $this->repository = $container->get(UserRepositoryInterface::class);
         $this->eventBus = $this->createMock(EventBusInterface::class);
-        $this->handler = new LoginCommandHandler($this->repository, $this->eventBus);
+        $jwtGenerator = $container->get(JwtGeneratorInterface::class);
+        $this->handler = new LoginCommandHandler($this->repository, $this->eventBus, $jwtGenerator);
     }
 
     public function testSunnyCase(): void
@@ -42,6 +44,8 @@ final class LoginCommandHandlerTest extends KernelTestCase
         );
         $this->eventBus->expects($this->once())->method('notifyAll');
         ($this->handler)($command);
+        $fetchedUser = $this->repository->ofId($user->id);
+        self::assertNotNull($fetchedUser->jwt);
     }
 
     public function testInvalidCredentials(): void

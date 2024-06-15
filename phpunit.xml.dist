@@ -18,7 +18,10 @@
         <env name="DATABASE_URL" value="postgresql://user:password@postgres:5432/saas-maker-db?serverVersion=13&amp;charset=utf8"/>
         <env name="MESSENGER_TRANSPORT_DSN" value="doctrine://default?auto_setup=0"/>
         <env name="CORS_ALLOW_ORIGIN" value="'^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$'"/>
-        <env name="API_KEY" value="secret_api_key"/>
+        <env name="API_KEY" value="api_key"/>
+        <env name="JWT_EXPIRATION_TIME" value="3600"/>
+        <env name="APP_NAME" value="saas-maker"/>
+        <env name="APP_SECRET" value="7248467f4355e479566abd2da1cea0a5"/>
     </php>
 
     <testsuites>

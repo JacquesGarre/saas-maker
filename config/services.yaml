@@ -1,5 +1,8 @@
 parameters:
+    app_name: '%env(APP_NAME)%'
     api_key: '%env(API_KEY)%'
+    jwt_expiration_time: '%env(JWT_EXPIRATION_TIME)%'
+    app_secret: '%env(APP_SECRET)%'
 
 services:
 
@@ -9,8 +12,11 @@ services:
         bind:
             Symfony\Component\Messenger\MessageBusInterface $commandBus: '@command.bus'
             Symfony\Component\Messenger\MessageBusInterface $eventBus: '@event.bus'
+            $appName: '%app_name%'
             $apiKey: '%api_key%'
-
+            $jwtExpirationTime: '%jwt_expiration_time%'
+            $appSecret: '%app_secret%'
+            
     App\:
         resource: '../src/'
         exclude:
