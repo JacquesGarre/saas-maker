@@ -60,4 +60,17 @@ final class UserRepositoryTest extends KernelTestCase
         $fetchedUser = $this->repository->findOneByEmailOrId($randomEmail, $user->id);
         self::assertEquals($user, $fetchedUser);
     }
+
+    public function testFindOneByEmail(): void
+    {
+        $user = UserStub::random();
+        $this->repository->add($user);
+
+        $fetchedUser = $this->repository->findOneByEmail($user->email);
+        self::assertEquals($user, $fetchedUser);
+
+        $randomEmail = Email::fromString(Factory::create()->email());
+        $fetchedUser = $this->repository->findOneByEmail($randomEmail);
+        self::assertNull($fetchedUser);
+    }
 }

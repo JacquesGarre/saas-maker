@@ -52,4 +52,16 @@ final class UserRepository implements UserRepositoryInterface {
             ->setParameter('id', $id->value->toString());
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function findOneByEmail(Email $email): ?User
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $condition = $qb->expr()->eq('u.email.value', ':email');
+        $qb->select('u')
+            ->from(User::class, 'u')
+            ->andWhere($condition)
+            ->setMaxResults(1)
+            ->setParameter('email', $email->value);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }
