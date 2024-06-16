@@ -8,7 +8,7 @@ use App\Domain\Auth\JwtGeneratorInterface;
 use App\Domain\Shared\CreatedAt;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;
-use App\Domain\User\Email;
+use App\Domain\Shared\EmailAddress;
 use App\Domain\User\FirstName;
 use App\Domain\User\LastName;
 use App\Domain\User\User;
@@ -29,7 +29,7 @@ final class UserTest extends TestCase
     {
         $faker = Factory::create();
         $id = IdStub::random();
-        $email = Email::fromString($faker->email());
+        $email = EmailAddress::fromString($faker->email());
         $firstName = new FirstName($faker->name());
         $lastName = new LastName($faker->name());
         $passwordHash = PasswordHashStub::random();
@@ -62,7 +62,7 @@ final class UserTest extends TestCase
             $beforeUser,
             new FirstName($faker->name()),
             new LastName($faker->name()),
-            Email::fromString($faker->email()),
+            EmailAddress::fromString($faker->email()),
             PasswordHash::fromPlainPassword("n3wP@ssw0Rd")
         );
         self::assertTrue($beforeUser->id->equals($user->id));

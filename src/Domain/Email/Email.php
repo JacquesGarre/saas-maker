@@ -6,6 +6,7 @@ namespace App\Domain\Email;
 
 use App\Domain\Shared\DomainEventsTrait;
 use App\Domain\Shared\Id;
+use App\Domain\Shared\EmailAddress;
 use App\Domain\Email\EmailSentDomainEvent;
 
 abstract class Email {
@@ -15,12 +16,12 @@ abstract class Email {
     public function __construct(
         public readonly Id $id,
         public readonly EmailSenderInterface $sender,
-        public readonly From $from,
-        public readonly EmailCollection $toCollection,
+        public readonly EmailAddress $from,
+        public readonly EmailAddressCollection $toCollection,
         public readonly Subject $subject,
         public readonly Html $html,
-        public readonly ?EmailCollection $ccCollection = null,
-        public readonly ?EmailCollection $bccCollection = null,
+        public readonly ?EmailAddressCollection $ccCollection = null,
+        public readonly ?EmailAddressCollection $bccCollection = null,
     ) {
         $this->initDomainEventCollection();
     }

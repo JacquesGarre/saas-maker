@@ -6,7 +6,7 @@ namespace App\Domain\Shared;
 
 use App\Domain\Shared\Exception\InvalidEmailException;
 
-abstract class AbstractEmail {
+final class EmailAddress {
     private function __construct(public readonly string $value) 
     {
     }
@@ -20,7 +20,7 @@ abstract class AbstractEmail {
     public static function assertValid(string $email)
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidEmailException("$email is not a valid email");
+            throw new InvalidEmailException("$email is not a valid email address");
         }
     }
 }

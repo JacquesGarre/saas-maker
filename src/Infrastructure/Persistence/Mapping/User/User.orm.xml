@@ -6,7 +6,7 @@
         <embedded name="id" class="App\Domain\Shared\Id" use-column-prefix="false"/>
         <embedded name="firstName" class="App\Domain\User\FirstName" use-column-prefix="false"/>
         <embedded name="lastName" class="App\Domain\User\LastName" use-column-prefix="false"/>
-        <embedded name="email" class="App\Domain\User\Email" use-column-prefix="false"/>
+        <embedded name="email" class="App\Domain\Shared\EmailAddress" use-column-prefix="false"/>
         <embedded name="passwordHash" class="App\Domain\User\PasswordHash" use-column-prefix="false"/>
         <embedded name="isVerified" class="App\Domain\User\IsVerified" use-column-prefix="false"/>
         <embedded name="createdAt" class="App\Domain\Shared\CreatedAt" use-column-prefix="false"/>

@@ -9,7 +9,7 @@ use App\Domain\Shared\Id;
 use App\Domain\Shared\EventBusInterface;
 use App\Domain\User\FirstName;
 use App\Domain\User\LastName;
-use App\Domain\User\Email;
+use App\Domain\Shared\EmailAddress;
 use App\Domain\User\PasswordHash;
 use App\Domain\User\User;
 use App\Domain\User\UserRepositoryInterface;
@@ -31,7 +31,7 @@ final class CreateUserCommandHandler {
         $id = new Id($command->id); 
         $firstName = new FirstName($command->firstName);
         $lastName = new LastName($command->lastName);
-        $email = Email::fromString($command->email);
+        $email = EmailAddress::fromString($command->email);
         $passwordHash = PasswordHash::fromPlainPassword($command->password);
         if ($this->repository->findOneByEmailOrId($email, $id)) {
             throw new UserAlreadyCreatedException("User already exists");

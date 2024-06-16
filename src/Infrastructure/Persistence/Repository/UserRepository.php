@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Shared\Id;
-use App\Domain\User\Email;
+use App\Domain\Shared\EmailAddress;
 use App\Domain\User\User;
 use App\Domain\Auth\Jwt;
 use App\Domain\User\UserRepositoryInterface;
@@ -38,7 +38,7 @@ final class UserRepository implements UserRepositoryInterface {
         $this->entityManager->flush();
     }
 
-    public function findOneByEmailOrId(Email $email, Id $id): ?User
+    public function findOneByEmailOrId(EmailAddress $email, Id $id): ?User
     {
         $qb = $this->entityManager->createQueryBuilder();
         $condition = $qb->expr()->orX(
@@ -54,7 +54,7 @@ final class UserRepository implements UserRepositoryInterface {
         return $qb->getQuery()->getOneOrNullResult();
     }
 
-    public function findOneByEmail(Email $email): ?User
+    public function findOneByEmail(EmailAddress $email): ?User
     {
         $qb = $this->entityManager->createQueryBuilder();
         $condition = $qb->expr()->eq('u.email.value', ':email');

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Infrastructure\Persistence\Repository;
 
-use App\Domain\User\Email;
+use App\Domain\Shared\EmailAddress;
 use App\Domain\User\UserRepositoryInterface;
 use App\Tests\Stubs\Domain\Shared\IdStub;
 use App\Tests\Stubs\Domain\User\UserStub;
@@ -56,7 +56,7 @@ final class UserRepositoryTest extends KernelTestCase
         $fetchedUser = $this->repository->findOneByEmailOrId($user->email(), $randomId);
         self::assertEquals($user, $fetchedUser);
 
-        $randomEmail = Email::fromString(Factory::create()->email());
+        $randomEmail = EmailAddress::fromString(Factory::create()->email());
         $fetchedUser = $this->repository->findOneByEmailOrId($randomEmail, $user->id);
         self::assertEquals($user, $fetchedUser);
     }
@@ -69,7 +69,7 @@ final class UserRepositoryTest extends KernelTestCase
         $fetchedUser = $this->repository->findOneByEmail($user->email());
         self::assertEquals($user, $fetchedUser);
 
-        $randomEmail = Email::fromString(Factory::create()->email());
+        $randomEmail = EmailAddress::fromString(Factory::create()->email());
         $fetchedUser = $this->repository->findOneByEmail($randomEmail);
         self::assertNull($fetchedUser);
     }

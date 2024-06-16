@@ -10,6 +10,7 @@ use App\Domain\Shared\CreatedAt;
 use App\Domain\Shared\DomainEventsTrait;
 use App\Domain\Shared\Id;
 use App\Domain\Shared\UpdatedAt;
+use App\Domain\Shared\EmailAddress;
 use App\Domain\User\Exception\InvalidPasswordException;
 use App\Domain\User\Exception\UserNotVerifiedException;
 use App\Domain\User\Exception\PermissionNotAllowedException;
@@ -22,7 +23,7 @@ final class User {
         public readonly Id $id,
         private FirstName $firstName,
         private LastName $lastName,
-        private Email $email,
+        private EmailAddress $email,
         private PasswordHash $passwordHash,
         private IsVerified $isVerified,
         public readonly CreatedAt $createdAt,
@@ -42,7 +43,7 @@ final class User {
         return $this->lastName;
     }
 
-    public function email(): Email
+    public function email(): EmailAddress
     {
         return $this->email;
     }
@@ -85,7 +86,7 @@ final class User {
         Id $id,
         FirstName $firstName,
         LastName $lastName,
-        Email $email,
+        EmailAddress $email,
         PasswordHash $passwordHash
     ): self {
         $user = new self(
@@ -106,7 +107,7 @@ final class User {
         User $updatedBy,
         ?FirstName $firstName = null,
         ?LastName $lastName = null,
-        ?Email $email = null,
+        ?EmailAddress $email = null,
         ?PasswordHash $passwordHash = null
     ): void {
         if (!$updatedBy->id->equals($this->id)) {

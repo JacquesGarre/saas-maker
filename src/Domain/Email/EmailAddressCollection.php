@@ -2,14 +2,14 @@
 
 namespace App\Domain\Email;
 
-use App\Domain\Shared\AbstractEmail;
+use App\Domain\Shared\EmailAddress;
 use Ramsey\Collection\AbstractCollection;
 
-final class EmailCollection extends AbstractCollection
+final class EmailAddressCollection extends AbstractCollection
 {
     public function getType(): string
     {
-        return AbstractEmail::class;
+        return EmailAddress::class;
     }
 
     public function toArray(): array 

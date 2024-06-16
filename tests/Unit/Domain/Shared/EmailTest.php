@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\User;
+namespace App\Tests\Unit\Domain\Shared;
 
 use App\Domain\Shared\Exception\InvalidEmailException;
-use App\Domain\User\Email;
+use App\Domain\Shared\EmailAddress;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;
 
-final class EmailTest extends TestCase
+final class EmailAddressTest extends TestCase
 {
     public function testFromString(): void
     {
         $value = Factory::create()->email();
-        $email = Email::fromString($value);
+        $email = EmailAddress::fromString($value);
         self::assertEquals($value, $email->value);
     }
 
@@ -22,6 +22,6 @@ final class EmailTest extends TestCase
     {
         $value = 'not an email';
         $this->expectException(InvalidEmailException::class);
-        Email::assertValid($value);
+        EmailAddress::assertValid($value);
     }
 }

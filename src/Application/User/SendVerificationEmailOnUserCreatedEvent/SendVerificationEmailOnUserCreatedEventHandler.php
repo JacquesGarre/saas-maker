@@ -9,9 +9,9 @@ use App\Domain\User\UserCreatedDomainEvent;
 use App\Domain\User\UserRepositoryInterface;
 use App\Domain\Shared\Id;
 use App\Domain\Email\EmailSenderInterface;
-use App\Domain\Email\From;
 use App\Domain\Email\TemplateRendererInterface;
 use App\Domain\Email\UserVerificationEmail;
+use App\Domain\Shared\EmailAddress;
 use App\Domain\Shared\EventBusInterface;
 
 final class SendVerificationEmailOnUserCreatedEventHandler {
@@ -35,7 +35,7 @@ final class SendVerificationEmailOnUserCreatedEventHandler {
         $email = UserVerificationEmail::fromUser(
             $this->emailSender,
             $this->templateRenderer,
-            From::fromString($this->emailDefaultSender),
+            EmailAddress::fromString($this->emailDefaultSender),
             $user
         );
         $email->send();

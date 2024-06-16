@@ -9,7 +9,7 @@ use App\Domain\Shared\Id;
 use App\Domain\Shared\EventBusInterface;
 use App\Domain\User\FirstName;
 use App\Domain\User\LastName;
-use App\Domain\User\Email;
+use App\Domain\Shared\EmailAddress;
 use App\Domain\User\PasswordHash;
 use App\Domain\User\UserRepositoryInterface;
 
@@ -37,7 +37,7 @@ final class UpdateUserCommandHandler {
 
         $firstName = $command->firstName ? new FirstName($command->firstName) : null;
         $lastName = $command->lastName ? new LastName($command->lastName) : null;
-        $email = $command->email ? Email::fromString($command->email) : null;
+        $email = $command->email ? EmailAddress::fromString($command->email) : null;
         $passwordHash = $command->password ? PasswordHash::fromPlainPassword($command->password) : null;
         $user->update(
             $updatedBy,

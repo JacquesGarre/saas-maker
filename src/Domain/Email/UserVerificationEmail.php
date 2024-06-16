@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Email;
 
-use App\Domain\Email\ToCollection;
+use App\Domain\Shared\EmailAddress;
 use App\Domain\Shared\Id;
 use App\Domain\User\User;
 
@@ -15,12 +15,10 @@ final class UserVerificationEmail extends Email {
     public static function fromUser(
         EmailSenderInterface $sender,
         TemplateRendererInterface $renderer,
-        From $from,
+        EmailAddress $from,
         User $user
     ): self {
-        $toCollection = new EmailCollection([
-            To::fromString($user->email()->value)
-        ]);
+        $toCollection = new EmailAddressCollection([$user->email()]);
         $html = Html::create(
             $renderer,
             new TemplateName(self::TEMPLATE_NAME),
