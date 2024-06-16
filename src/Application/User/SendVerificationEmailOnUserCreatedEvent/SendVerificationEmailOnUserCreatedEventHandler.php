@@ -32,6 +32,9 @@ final class SendVerificationEmailOnUserCreatedEventHandler {
         if (!$user) {
             throw new UserNotFoundException("User not found");
         }
+        if ($user->isVerified()->value) {
+            return;
+        }
         $email = UserVerificationEmail::fromUser(
             $this->emailSender,
             $this->templateRenderer,
