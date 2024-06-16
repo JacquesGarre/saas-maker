@@ -11,6 +11,7 @@ use App\Tests\Stubs\Domain\Application\ApplicationStub;
 use App\Tests\Stubs\Domain\Application\NameStub;
 use App\Tests\Stubs\Domain\Application\SubdomainStub;
 use App\Tests\Stubs\Domain\Shared\IdStub;
+use App\Tests\Stubs\Domain\User\UserStub;
 use PHPUnit\Framework\TestCase;
 
 final class ApplicationTest extends TestCase
@@ -20,14 +21,14 @@ final class ApplicationTest extends TestCase
         $id = IdStub::random();
         $name = NameStub::random();
         $subdomain = SubdomainStub::random();
-        $createdBy = IdStub::random();
+        $createdBy = UserStub::random();
         $application = Application::create($id, $name, $subdomain, $createdBy);
         $createdAt = CreatedAt::now();
         self::assertTrue($application->id->equals($id));
         self::assertEquals($name->value, $application->name->value);
         self::assertEquals($subdomain->value, $application->subdomain->value);
         self::assertEquals($createdAt->value(), $application->createdAt->value());
-        self::assertTrue($application->createdBy->equals($createdBy));
+        self::assertEquals($createdBy, $application->createdBy);
         self::assertCount(1, $application->domainEvents);
         self::assertInstanceOf(ApplicationCreatedDomainEvent::class, $application->domainEvents->last());
     }
@@ -40,7 +41,7 @@ final class ApplicationTest extends TestCase
             'name' => $application->name->value,
             'subdomain' => $application->subdomain->value,
             'created_at' => $application->createdAt->value(),
-            'created_by' => $application->createdBy->value->toString()
+            'created_by' => $application->createdBy->toArray()
         ];
         self::assertEquals($expected, $application->toArray());
     }

@@ -7,7 +7,7 @@ namespace App\Domain\Application;
 use App\Domain\Shared\CreatedAt;
 use App\Domain\Shared\DomainEventsTrait;
 use App\Domain\Shared\Id;
-use App\Domain\Shared\UpdatedAt;
+use App\Domain\User\User;
 
 final class Application {
 
@@ -18,7 +18,7 @@ final class Application {
         public readonly Name $name,
         public readonly Subdomain $subdomain,
         public readonly CreatedAt $createdAt,
-        public readonly Id $createdBy
+        public readonly User $createdBy
     ) {
         $this->initDomainEventCollection();
     }
@@ -30,7 +30,7 @@ final class Application {
             'name' => $this->name->value,
             'subdomain' => $this->subdomain->value,
             'created_at' => $this->createdAt->value(),
-            'created_by' => $this->createdBy->value->toString(),
+            'created_by' => $this->createdBy->toArray(),
         ];
     }
 
@@ -38,7 +38,7 @@ final class Application {
         Id $id,
         Name $name,
         Subdomain $subdomain,
-        Id $createdBy
+        User $createdBy
     ): self {
         $application = new self(
             $id,
