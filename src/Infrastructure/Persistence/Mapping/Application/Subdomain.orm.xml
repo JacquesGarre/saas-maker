@@ -3,8 +3,8 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <embeddable name="App\Domain\Shared\Id">
-        <id name="value" type="uuid" column="id"/>
+    <embeddable name="App\Domain\Application\Subdomain">
+        <field name="value" type="string" column="subdomain" nullable="true"/>
     </embeddable>
 
 </doctrine-mapping>

@@ -6,9 +6,7 @@ namespace App\Tests\Unit\Domain\Application;
 
 use App\Domain\Application\Application;
 use App\Domain\Application\ApplicationCreatedDomainEvent;
-use App\Domain\Application\ApplicationUpdatedDomainEvent;
 use App\Domain\Shared\CreatedAt;
-use App\Domain\Shared\UpdatedAt;
 use App\Tests\Stubs\Domain\Application\ApplicationStub;
 use App\Tests\Stubs\Domain\Application\NameStub;
 use App\Tests\Stubs\Domain\Application\SubdomainStub;
@@ -25,12 +23,10 @@ final class ApplicationTest extends TestCase
         $createdBy = IdStub::random();
         $application = Application::create($id, $name, $subdomain, $createdBy);
         $createdAt = CreatedAt::now();
-        $updatedAt = UpdatedAt::now();
         self::assertTrue($application->id->equals($id));
         self::assertEquals($name->value, $application->name->value);
         self::assertEquals($subdomain->value, $application->subdomain->value);
         self::assertEquals($createdAt->value(), $application->createdAt->value());
-        self::assertEquals($updatedAt->value(), $application->updatedAt->value());
         self::assertTrue($application->createdBy->equals($createdBy));
         self::assertCount(1, $application->domainEvents);
         self::assertInstanceOf(ApplicationCreatedDomainEvent::class, $application->domainEvents->last());
@@ -44,28 +40,8 @@ final class ApplicationTest extends TestCase
             'name' => $application->name->value,
             'subdomain' => $application->subdomain->value,
             'created_at' => $application->createdAt->value(),
-            'updated_at' => $application->updatedAt->value(),
-            'created_by' => $application->createdBy->value->toString(),
-            'updated_by' => $application->updatedBy?->value->toString()
+            'created_by' => $application->createdBy->value->toString()
         ];
         self::assertEquals($expected, $application->toArray());
-    }
-
-    public function testUpdate(): void
-    {
-        $applicationBefore = ApplicationStub::random();
-        $newName = NameStub::random();
-        $newSubdomain = SubdomainStub::random();
-        $updatedBy = IdStub::random();
-        $application = $applicationBefore->update($newName, $newSubdomain, $updatedBy);
-        self::assertTrue($applicationBefore->id->equals($application->id));
-        self::assertNotEquals($applicationBefore->name->value, $application->name->value);
-        self::assertNotEquals($applicationBefore->subdomain->value, $application->subdomain->value);
-        self::assertEquals($applicationBefore->createdAt, $application->createdAt);
-        self::assertNotEquals($applicationBefore->updatedAt, $application->updatedAt);
-        self::assertTrue($application->createdBy->equals($applicationBefore->createdBy));
-        self::assertFalse($application->updatedBy->equals($applicationBefore->updatedBy));
-        self::assertCount(1, $application->domainEvents);
-        self::assertInstanceOf(ApplicationUpdatedDomainEvent::class, $application->domainEvents->last());
     }
 }

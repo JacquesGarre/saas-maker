@@ -1,0 +1,14 @@
+App\Application\Application\CreateApplicationCommand\CreateApplicationCommand:
+    properties:
+        id:
+            - NotBlank: ~
+            - Uuid: ~
+        name:
+            - NotBlank: ~
+            - Type: string
+        subdomain:
+            - NotBlank: ~
+            - Type: string
+        createdById:
+            - NotBlank: ~
+            - Uuid: ~

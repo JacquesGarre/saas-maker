@@ -18,9 +18,7 @@ final class Application {
         public readonly Name $name,
         public readonly Subdomain $subdomain,
         public readonly CreatedAt $createdAt,
-        public readonly UpdatedAt $updatedAt,
-        public readonly Id $createdBy,
-        public readonly ?Id $updatedBy = null
+        public readonly Id $createdBy
     ) {
         $this->initDomainEventCollection();
     }
@@ -32,9 +30,7 @@ final class Application {
             'name' => $this->name->value,
             'subdomain' => $this->subdomain->value,
             'created_at' => $this->createdAt->value(),
-            'updated_at' => $this->updatedAt->value(),
             'created_by' => $this->createdBy->value->toString(),
-            'updated_by' => $this->updatedBy?->value->toString()
         ];
     }
 
@@ -49,28 +45,9 @@ final class Application {
             $name,
             $subdomain,
             CreatedAt::now(),
-            UpdatedAt::now(),
             $createdBy
         );
         $application->notifyDomainEvent(ApplicationCreatedDomainEvent::fromApplication($application));
-        return $application;
-    }
-
-    public function update(
-        Name $name,
-        Subdomain $subdomain,
-        Id $updatedBy
-    ): self {
-        $application = new self(
-            $this->id,
-            $name,
-            $subdomain,
-            $this->createdAt,
-            UpdatedAt::now(),
-            $this->createdBy,
-            $updatedBy
-        );
-        $application->notifyDomainEvent(ApplicationUpdatedDomainEvent::fromApplication($application));
         return $application;
     }
 }
