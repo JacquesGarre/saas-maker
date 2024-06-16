@@ -6,6 +6,4 @@ namespace App\Domain\User;
 
 use App\Domain\Shared\AbstractEmail;
 
-final class Email extends AbstractEmail
-{
-}
+final class Email extends AbstractEmail {}

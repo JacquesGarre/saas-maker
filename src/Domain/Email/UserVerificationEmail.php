@@ -10,7 +10,7 @@ use App\Domain\User\User;
 
 final class UserVerificationEmail extends Email {
 
-    public const TEMPLATE_NAME = 'user_verification';
+    public const TEMPLATE_NAME = 'user_verification_email';
 
     public static function fromUser(
         EmailSenderInterface $sender,
@@ -18,8 +18,9 @@ final class UserVerificationEmail extends Email {
         From $from,
         User $user
     ): self {
-        $toCollection = new ToCollection();
-        $toCollection->add($user->email());
+        $toCollection = new EmailCollection([
+            To::fromString($user->email()->value)
+        ]);
         $html = Html::create(
             $renderer,
             new TemplateName(self::TEMPLATE_NAME),

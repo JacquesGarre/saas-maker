@@ -22,10 +22,8 @@
         <env name="JWT_EXPIRATION_TIME" value="3600"/>
         <env name="APP_NAME" value="saas-maker"/>
         <env name="APP_SECRET" value="7248467f4355e479566abd2da1cea0a5"/>
-
-        <!-- ###+ symfony/mailer ### -->
-        <!-- MAILER_DSN=null://null -->
-        <!-- ###- symfony/mailer ### -->
+        <env name="MAILER_DSN" value="null://null"/>
+        <env name="EMAIL_DEFAULT_SENDER" value="contact@app.com"/>
     </php>
 
     <testsuites>

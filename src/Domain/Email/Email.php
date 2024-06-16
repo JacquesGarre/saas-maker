@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Email;
 
-use App\Domain\Email\CcCollection;
-use App\Domain\Email\BccCollection;
 use App\Domain\Shared\DomainEventsTrait;
 use App\Domain\Shared\Id;
-use App\Domain\Email\ToCollection;
 use App\Domain\Email\EmailSentDomainEvent;
 
 abstract class Email {
@@ -19,11 +16,11 @@ abstract class Email {
         public readonly Id $id,
         public readonly EmailSenderInterface $sender,
         public readonly From $from,
-        public readonly ToCollection $toCollection,
+        public readonly EmailCollection $toCollection,
         public readonly Subject $subject,
         public readonly Html $html,
-        public readonly ?CcCollection $ccCollection = null,
-        public readonly ?BccCollection $bccCollection = null,
+        public readonly ?EmailCollection $ccCollection = null,
+        public readonly ?EmailCollection $bccCollection = null,
     ) {
         $this->initDomainEventCollection();
     }

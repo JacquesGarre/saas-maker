@@ -23,7 +23,6 @@ final class SendVerificationEmailOnUserCreatedEventHandler {
         private readonly EventBusInterface $eventBus,
         private readonly string $emailDefaultSender
     ) {
-        
     }
     
     public function __invoke(UserCreatedDomainEvent $event): void
@@ -36,7 +35,7 @@ final class SendVerificationEmailOnUserCreatedEventHandler {
         $email = UserVerificationEmail::fromUser(
             $this->emailSender,
             $this->templateRenderer,
-            new From($this->emailDefaultSender),
+            From::fromString($this->emailDefaultSender),
             $user
         );
         $email->send();

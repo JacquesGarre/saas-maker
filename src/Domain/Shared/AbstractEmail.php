@@ -14,7 +14,7 @@ abstract class AbstractEmail {
     public static function fromString(string $email): self
     {
         self::assertValid($email);
-        return new self($email);
+        return new static($email);
     }
 
     public static function assertValid(string $email)
