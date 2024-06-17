@@ -41,7 +41,8 @@ final class ApplicationTest extends TestCase
             'name' => $application->name->value,
             'subdomain' => $application->subdomain->value,
             'created_at' => $application->createdAt->value(),
-            'created_by' => $application->createdBy->toArray()
+            'created_by' => $application->createdBy->toArray(),
+            'users' => $application->users()->toArray()
         ];
         self::assertEquals($expected, $application->toArray());
     }

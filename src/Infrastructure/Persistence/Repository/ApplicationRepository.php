@@ -21,7 +21,7 @@ final class ApplicationRepository implements ApplicationRepositoryInterface {
     }
 
     public function ofId(Id $id): ?Application
-    {
+    {   
         return $this->repository->find($id->value);
     }
 
@@ -47,5 +47,10 @@ final class ApplicationRepository implements ApplicationRepositoryInterface {
             ->setMaxResults(1)
             ->setParameter('subdomain', $subdomain->value);
         return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function testReset(): void
+    {
+        $this->entityManager->clear();
     }
 }

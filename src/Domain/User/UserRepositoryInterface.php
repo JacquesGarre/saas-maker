@@ -21,4 +21,6 @@ interface UserRepositoryInterface {
     public function findOneByEmail(EmailAddress $email): ?User;
 
     public function findOneByJwt(Jwt $jwt): ?User;
+
+    public function testReset(): void;
 }

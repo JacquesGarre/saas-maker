@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
+use App\Domain\Application\ApplicationUserCollection;
 use App\Domain\Auth\Jwt;
 use App\Domain\Auth\JwtGeneratorInterface;
 use App\Domain\Shared\CreatedAt;
@@ -15,7 +16,7 @@ use App\Domain\User\Exception\InvalidPasswordException;
 use App\Domain\User\Exception\UserNotVerifiedException;
 use App\Domain\User\Exception\PermissionNotAllowedException;
 
-final class User {
+class User {
 
     use DomainEventsTrait;
 
@@ -68,7 +69,6 @@ final class User {
         return $this->jwt ?? null;
     }
 
-
     public function toArray(): array
     {
         return [
@@ -89,6 +89,7 @@ final class User {
         EmailAddress $email,
         PasswordHash $passwordHash
     ): self {
+        $applications = new ApplicationUserCollection([]);
         $user = new self(
             $id,
             $firstName,

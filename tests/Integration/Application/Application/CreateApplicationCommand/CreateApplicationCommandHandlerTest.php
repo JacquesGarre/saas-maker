@@ -46,6 +46,7 @@ final class CreateApplicationCommandHandlerTest extends KernelTestCase {
         $faker = Factory::create();
         $user = UserStub::random();
         $this->userRepository->add($user);
+        $this->userRepository->testReset();
         $command = new CreateApplicationCommand(
             $faker->uuid(),
             $faker->name(),
@@ -54,12 +55,16 @@ final class CreateApplicationCommandHandlerTest extends KernelTestCase {
         );
         $this->eventBus->expects($this->once())->method('notifyAll');
         ($this->handler)($command);
+
+        $this->applicationRepository->testReset();
         $application = $this->applicationRepository->ofId(new Id($command->id));
         self::assertNotNull($application);
         self::assertEquals($command->id, $application->id->value->toString());
         self::assertEquals($command->name, $application->name->value);
         self::assertEquals($command->subdomain, $application->subdomain->value);
         self::assertEquals($command->createdById, $application->createdBy->id->value->toString());
+        self::assertCount(1, $application->users());
+        self::assertTrue($application->users()->first()->user->id->equals($application->createdBy->id));
     }
 
     public function testApplicationAlreadyCreatedWithIdException(): void

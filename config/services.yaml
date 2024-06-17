@@ -27,7 +27,9 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-
+    App\Infrastructure\Persistence\Listener\ApplicationPostLoadListener:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
 
     App\Infrastructure\Api\v1\HttpResponse\ExceptionListener:
         class: 'App\Infrastructure\Api\v1\HttpResponse\ExceptionListener'

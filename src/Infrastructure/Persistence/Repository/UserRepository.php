@@ -77,4 +77,9 @@ final class UserRepository implements UserRepositoryInterface {
             ->setParameter('jwt', $jwt->value);
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function testReset(): void
+    {
+        $this->entityManager->clear();
+    }
 }
