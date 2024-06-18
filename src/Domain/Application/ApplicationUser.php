@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Application;
 
 use App\Domain\Application\Application;
-use App\Domain\Shared\DomainEventsTrait;
 use App\Domain\Shared\Id;
 use App\Domain\User\User;
 
@@ -21,9 +20,8 @@ final class ApplicationUser {
     public function toArray(): array
     {
         return [
-            'id' => $this->id->value->toString(),
-            'application' => $this->application->toArray(),
             'user' => $this->user->toArray(),
+            //'role => ''
         ];
     }
 

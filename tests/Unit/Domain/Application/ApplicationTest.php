@@ -29,6 +29,8 @@ final class ApplicationTest extends TestCase
         self::assertEquals($subdomain->value, $application->subdomain->value);
         self::assertEquals($createdAt->value(), $application->createdAt->value());
         self::assertEquals($createdBy, $application->createdBy);
+        self::assertCount(1, $application->users());
+        self::assertEquals($createdBy, $application->users()->first()->user);
         self::assertCount(1, $application->domainEvents);
         self::assertInstanceOf(ApplicationCreatedDomainEvent::class, $application->domainEvents->last());
     }

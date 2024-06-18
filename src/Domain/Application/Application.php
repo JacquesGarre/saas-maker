@@ -24,12 +24,12 @@ final class Application {
         private ?ApplicationUserCollection $users = null
     ) {
         $this->initDomainEventCollection();
-        $this->users = $this->users ?? new ApplicationUserCollection([]);
+        $this->users = $users ?? new ApplicationUserCollection();
     }
 
-    public function users(): ?ApplicationUserCollection
+    public function users(): ApplicationUserCollection
     {
-        return $this->users ?? new ApplicationUserCollection([]);
+        return $this->users;
     }
 
     public function toArray(): array
@@ -58,26 +58,25 @@ final class Application {
             $createdBy
         );
         $applicationUser = ApplicationUser::create($application, $createdBy);
-        //$application->users->add($applicationUser);
+        $application->users->add($applicationUser);
         $application->notifyDomainEvent(ApplicationCreatedDomainEvent::fromApplication($application));
         return $application;
     }
 
     public function addUser(User $user): void
     {
-        $alreadyExistingApplicationUser = $this->users->filter(fn(ApplicationUser $au) => $au->user->id()->equals($user->id()))->first();
-        if ($alreadyExistingApplicationUser) {
+        $applicationUser = ApplicationUser::create($this, $user);
+        if($this->users->contains($applicationUser)){
             throw new UserAlreadyAddedInApplicationException("User already exists");
         }
-        $applicationUser = ApplicationUser::create($this, $user);
         $this->users->add($applicationUser);
         $this->notifyDomainEvent(ApplicationUserAddedDomainEvent::fromApplicationUser($applicationUser));
     }
 
     public function removeUser(User $user): void
     {   
-        $applicationUser = $this->users->filter(fn(ApplicationUser $au) => $au->user->id()->equals($user->id()))->first();
-        if (!$applicationUser) {
+        $applicationUser = ApplicationUser::create($this, $user);
+        if(!$this->users->contains($applicationUser)){
             throw new UserNotFoundException("Application user not found");
         }
         $this->users->remove($applicationUser);

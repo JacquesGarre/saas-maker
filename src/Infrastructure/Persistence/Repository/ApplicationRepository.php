@@ -27,6 +27,7 @@ final class ApplicationRepository implements ApplicationRepositoryInterface {
 
     public function add(Application $application): void
     {
+        dd($application);
         $this->entityManager->persist($application);
         $this->entityManager->flush();
     }
