@@ -31,8 +31,17 @@ final class ApplicationRepositoryTest extends KernelTestCase
         $application = ApplicationStub::random($user);
         $this->repository->add($application);
 
+        $this->repository->testReset();
         $fetchedApplication = $this->repository->ofId($application->id);
-        self::assertEquals($application, $fetchedApplication);
+        self::assertTrue($application->id->equals($fetchedApplication->id));
+        self::assertEquals($application->name->value, $fetchedApplication->name->value);
+        self::assertEquals($application->subdomain->value, $fetchedApplication->subdomain->value);
+        self::assertTrue($application->createdBy->id()->equals($fetchedApplication->createdBy->id()));
+        self::assertEquals($application->createdBy->firstName()->value, $fetchedApplication->createdBy->firstName()->value);
+        self::assertEquals($application->createdBy->lastName()->value, $fetchedApplication->createdBy->lastName()->value);
+        self::assertEquals($application->createdBy->email()->value, $fetchedApplication->createdBy->email()->value);
+        self::assertEquals($application->createdBy->createdAt()->value->getTimestamp(), $fetchedApplication->createdBy->createdAt()->value->getTimestamp());
+        self::assertEquals($application->createdBy->updatedAt()->value->getTimestamp(), $fetchedApplication->createdBy->updatedAt()->value->getTimestamp());
     }
 
     public function testRemove(): void

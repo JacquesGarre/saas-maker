@@ -16,7 +16,7 @@ final class UserUpdatedDomainEvent extends DomainEvent
     {
         parent::__construct(
             Uuid::uuid4(),
-            $user->id->value,
+            $user->id()->value,
             self::EVENT_TYPE,
             new DateTimeImmutable(),
             $user->toArray()

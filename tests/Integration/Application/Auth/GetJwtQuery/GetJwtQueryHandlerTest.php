@@ -39,7 +39,7 @@ final class GetJwtQueryHandlerTest extends KernelTestCase {
             $password
         );
         $this->commandBus->dispatch($command);
-        $fetchedUser = $this->repository->ofId($user->id);
+        $fetchedUser = $this->repository->ofId($user->id());
         self::assertNotNull($fetchedUser->jwt());
 
         $query = new GetJwtQuery($user->email()->value);

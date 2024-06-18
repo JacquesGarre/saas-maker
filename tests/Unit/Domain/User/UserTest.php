@@ -41,13 +41,13 @@ final class UserTest extends TestCase
             $email,
             $passwordHash
         );
-        self::assertTrue($id->equals($user->id));
+        self::assertTrue($id->equals($user->id()));
         self::assertEquals($firstName->value, $user->firstName()->value);
         self::assertEquals($lastName->value, $user->lastName()->value);
         self::assertEquals($email->value, $user->email()->value);
         self::assertEquals($passwordHash->value, $user->passwordHash()->value);
         self::assertFalse($user->isVerified()->value);
-        self::assertEquals($now->value(), $user->createdAt->value());
+        self::assertEquals($now->value(), $user->createdAt()->value());
         self::assertEquals($now->value(), $user->updatedAt()->value());
         self::assertCount(1, $user->domainEvents);
         self::assertInstanceOf(UserCreatedDomainEvent::class, $user->domainEvents->last());
@@ -65,13 +65,13 @@ final class UserTest extends TestCase
             EmailAddress::fromString($faker->email()),
             PasswordHash::fromPlainPassword("n3wP@ssw0Rd")
         );
-        self::assertTrue($beforeUser->id->equals($user->id));
+        self::assertTrue($beforeUser->id()->equals($user->id()));
         self::assertNotEquals($beforeUser->firstName()->value, $user->firstName()->value);
         self::assertNotEquals($beforeUser->lastName()->value, $user->lastName()->value);
         self::assertNotEquals($beforeUser->email()->value, $user->email()->value);
         self::assertNotEquals($beforeUser->passwordHash()->value, $user->passwordHash()->value);
         self::assertEquals($beforeUser->isVerified()->value, $user->isVerified()->value);
-        self::assertEquals($beforeUser->createdAt, $user->createdAt);
+        self::assertEquals($beforeUser->createdAt(), $user->createdAt());
         self::assertNotEquals($beforeUser->updatedAt(), $user->updatedAt());
         self::assertCount(1, $user->domainEvents);
         self::assertInstanceOf(UserUpdatedDomainEvent::class, $user->domainEvents->last());
@@ -88,13 +88,13 @@ final class UserTest extends TestCase
             null,
             null
         );
-        self::assertTrue($beforeUser->id->equals($user->id));
+        self::assertTrue($beforeUser->id()->equals($user->id()));
         self::assertEquals($beforeUser->firstName()->value, $user->firstName()->value);
         self::assertEquals($beforeUser->lastName()->value, $user->lastName()->value);
         self::assertEquals($beforeUser->email()->value, $user->email()->value);
         self::assertEquals($beforeUser->passwordHash()->value, $user->passwordHash()->value);
         self::assertEquals($beforeUser->isVerified()->value, $user->isVerified()->value);
-        self::assertEquals($beforeUser->createdAt, $user->createdAt);
+        self::assertEquals($beforeUser->createdAt(), $user->createdAt());
         self::assertNotEquals($beforeUser->updatedAt(), $user->updatedAt());
         self::assertCount(1, $user->domainEvents);
         self::assertInstanceOf(UserUpdatedDomainEvent::class, $user->domainEvents->last());
@@ -114,12 +114,12 @@ final class UserTest extends TestCase
     {
         $user = UserStub::random();
         $expected = [
-            'id' => $user->id->value->toString(),
+            'id' => $user->id()->value->toString(),
             'first_name' => $user->firstName()->value,
             'last_name' => $user->lastName()->value,
             'email' => $user->email()->value,
             'is_verified' => $user->isVerified()->value,
-            'created_at' => $user->createdAt->value(),
+            'created_at' => $user->createdAt()->value(),
             'updated_at' => $user->updatedAt()->value()
         ];
         self::assertEquals($expected, $user->toArray());

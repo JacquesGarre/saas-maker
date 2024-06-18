@@ -38,24 +38,24 @@ final class UpdateUserCommandHandlerTest extends KernelTestCase
         $this->repository->add($user);
 
         $command = new UpdateUserCommand(
-            $user->id->value->toString(),
+            $user->id()->value->toString(),
             Factory::create()->firstName(),
             Factory::create()->lastName(),
             Factory::create()->email(),
             'p4ss@w0rD',
-            $user->id->value->toString()
+            $user->id()->value->toString()
         );
         $this->eventBus->expects($this->once())->method('notifyAll');
         ($this->handler)($command);
 
         $updatedUser = $this->repository->ofId(new Id($command->id));
-        self::assertTrue($user->id->equals($updatedUser->id));
-        self::assertEquals($command->id, $updatedUser->id->value->toString());
+        self::assertTrue($user->id()->equals($updatedUser->id()));
+        self::assertEquals($command->id, $updatedUser->id()->value->toString());
         self::assertEquals($command->email, $updatedUser->email()->value);
         self::assertEquals($command->firstName, $updatedUser->firstName()->value);
         self::assertEquals($command->lastName, $updatedUser->lastName()->value);
         self::assertTrue($updatedUser->passwordHash()->matches($command->password));
-        self::assertEquals($user->createdAt->value->getTimestamp(), $updatedUser->createdAt->value->getTimestamp());
+        self::assertEquals($user->createdAt()->value->getTimestamp(), $updatedUser->createdAt()->value->getTimestamp());
         self::assertEqualsWithDelta(
             (new DateTimeImmutable())->getTimestamp(),
             $updatedUser->updatedAt()->value->getTimestamp(),
@@ -69,24 +69,24 @@ final class UpdateUserCommandHandlerTest extends KernelTestCase
         $this->repository->add($user);
 
         $command = new UpdateUserCommand(
-            $user->id->value->toString(),
+            $user->id()->value->toString(),
             null,
             null,
             null,
             null,
-            $user->id->value->toString()
+            $user->id()->value->toString()
         );
         $this->eventBus->expects($this->once())->method('notifyAll');
         ($this->handler)($command);
 
         $updatedUser = $this->repository->ofId(new Id($command->id));
-        self::assertTrue($user->id->equals($updatedUser->id));
-        self::assertEquals($command->id, $updatedUser->id->value->toString());
+        self::assertTrue($user->id()->equals($updatedUser->id()));
+        self::assertEquals($command->id, $updatedUser->id()->value->toString());
         self::assertEquals($user->email()->value, $updatedUser->email()->value);
         self::assertEquals($user->firstName()->value, $updatedUser->firstName()->value);
         self::assertEquals($user->lastName()->value, $updatedUser->lastName()->value);
         self::assertEquals($user->passwordHash()->value, $updatedUser->passwordHash()->value);
-        self::assertEquals($user->createdAt->value->getTimestamp(), $updatedUser->createdAt->value->getTimestamp());
+        self::assertEquals($user->createdAt()->value->getTimestamp(), $updatedUser->createdAt()->value->getTimestamp());
         self::assertEqualsWithDelta(
             (new DateTimeImmutable())->getTimestamp(),
             $updatedUser->updatedAt()->value->getTimestamp(),

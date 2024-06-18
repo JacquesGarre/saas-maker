@@ -28,7 +28,7 @@ final class UpdateUserCommandFactoryTest extends TestCase
         $request = new Request(
             [], 
             [], 
-            ['uuid' => $user->id->value->toString()], 
+            ['uuid' => $user->id()->value->toString()], 
             [], 
             [], 
             [], 
@@ -42,7 +42,7 @@ final class UpdateUserCommandFactoryTest extends TestCase
         self::assertEquals($requestData['last_name'], $command->lastName);
         self::assertEquals($requestData['email'], $command->email);
         self::assertEquals($requestData['password'], $command->password);
-        self::assertEquals($user->id->value->toString(), $command->updatedById);
+        self::assertEquals($user->id()->value->toString(), $command->updatedById);
     }
 
     public function testFromRequestWithInvalidData(): void

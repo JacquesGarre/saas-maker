@@ -51,7 +51,7 @@ final class CreateApplicationControllerTest extends WebTestCase
             $password
         );
         $this->commandBus->dispatch($command);
-        $user = $this->userRepository->ofId($user->id);
+        $user = $this->userRepository->ofId($user->id());
 
         $faker = Factory::create();
         $data = [
@@ -80,7 +80,7 @@ final class CreateApplicationControllerTest extends WebTestCase
         self::assertEquals($data['id'], $fetchedApplication->id->value->toString());
         self::assertEquals($data['name'], $fetchedApplication->name->value);
         self::assertEquals($data['subdomain'], $fetchedApplication->subdomain->value);
-        self::assertEquals($user->id->value->toString(), $fetchedApplication->createdBy->id->value->toString());
+        self::assertEquals($user->id()->value->toString(), $fetchedApplication->createdBy->id()->value->toString());
     }
 
     public function testUnauthenticated(): void
@@ -94,7 +94,7 @@ final class CreateApplicationControllerTest extends WebTestCase
             $password
         );
         $this->commandBus->dispatch($command);
-        $user = $this->userRepository->ofId($user->id);
+        $user = $this->userRepository->ofId($user->id());
 
         $faker = Factory::create();
         $data = [

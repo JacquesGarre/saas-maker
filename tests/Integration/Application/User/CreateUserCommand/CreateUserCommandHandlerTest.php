@@ -42,7 +42,7 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
         ($this->handler)($command);
         $user = $this->repository->ofId(new Id($command->id));
         self::assertNotNull($user);
-        self::assertEquals($command->id, $user->id->value->toString());
+        self::assertEquals($command->id, $user->id()->value->toString());
         self::assertEquals($command->email, $user->email()->value);
         self::assertEquals($command->firstName, $user->firstName()->value);
         self::assertEquals($command->lastName, $user->lastName()->value);
@@ -52,7 +52,7 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
 
         self::assertEqualsWithDelta(
             (new DateTimeImmutable())->getTimestamp(),
-            $user->createdAt->value->getTimestamp(),
+            $user->createdAt()->value->getTimestamp(),
             1
         );
         self::assertEqualsWithDelta(
@@ -68,7 +68,7 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
         $this->repository->add($user);
 
         $command = new CreateUserCommand(
-            $user->id->value->toString(),
+            $user->id()->value->toString(),
             Factory::create()->name(),
             Factory::create()->name(),
             Factory::create()->email(),

@@ -30,7 +30,7 @@ final class CreateApplicationCommandFactoryTest extends TestCase
         $this->assertSame($requestData['id'], $command->id);
         $this->assertSame($requestData['name'], $command->name);
         $this->assertSame($requestData['subdomain'], $command->subdomain);
-        $this->assertSame($user->id->value->toString(), $command->createdById);
+        $this->assertSame($user->id()->value->toString(), $command->createdById);
     }
 
     public function testFromRequestWithInvalidData(): void

@@ -19,7 +19,7 @@ final class UserLoggedInDomainEventTest extends TestCase
         $domainEvent = UserLoggedInDomainEvent::fromUser($user);
         $now = (new DateTimeImmutable())->getTimestamp();
         self::assertNotNull($domainEvent->id);
-        self::assertEquals($user->id->value->toString(), $domainEvent->aggregateId->toString());
+        self::assertEquals($user->id()->value->toString(), $domainEvent->aggregateId->toString());
         self::assertEquals(UserLoggedInDomainEvent::EVENT_TYPE, $domainEvent->type);
         self::assertEqualsWithDelta($now, $domainEvent->occuredAt->getTimestamp(), 1);
         self::assertEquals($user->toArray(), $domainEvent->data);

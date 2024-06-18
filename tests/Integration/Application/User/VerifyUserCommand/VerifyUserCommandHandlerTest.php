@@ -34,7 +34,7 @@ final class VerifyUserCommandHandlerTest extends KernelTestCase
         $this->repository->add($user);
         self::assertFalse($user->isVerified()->value);
         $command = new VerifyUserCommand(
-            $user->id->value->toString()
+            $user->id()->value->toString()
         );
         $this->eventBus->expects($this->once())->method('notifyAll');
         ($this->handler)($command);
@@ -46,7 +46,7 @@ final class VerifyUserCommandHandlerTest extends KernelTestCase
     {
         $user = UserStub::random();
         $command = new VerifyUserCommand(
-            $user->id->value->toString()
+            $user->id()->value->toString()
         );
         $this->expectException(UserNotFoundException::class);
         ($this->handler)($command);

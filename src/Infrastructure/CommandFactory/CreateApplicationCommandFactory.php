@@ -24,7 +24,7 @@ final class CreateApplicationCommandFactory
             $content['id'] ?? null,
             $content['name'] ?? null,
             $content['subdomain'] ?? null,
-            $user->id->value->toString()
+            $user->id()->value->toString()
         );
     }
 }

@@ -45,7 +45,7 @@ final class UpdateUserControllerTest extends WebTestCase
             $password
         );
         $this->commandBus->dispatch($command);
-        $user = $this->repository->ofId($user->id);
+        $user = $this->repository->ofId($user->id());
         $faker = Factory::create();
         $data = [
             'first_name' => $faker->firstName(),
@@ -57,7 +57,7 @@ final class UpdateUserControllerTest extends WebTestCase
         $this->client->getCookieJar()->set(new Cookie(JwtAuthenticator::JWT_COOKIE, $user->jwt()->value));
         $this->client->request(
             'PUT',
-            '/api/v1/users/' . $user->id->value->toString(),
+            '/api/v1/users/' . $user->id()->value->toString(),
             [],
             [],
             [
@@ -70,7 +70,7 @@ final class UpdateUserControllerTest extends WebTestCase
             $this->client->getResponse()->getStatusCode()
         );
 
-        $fetchedUser = $this->repository->ofId($user->id);
+        $fetchedUser = $this->repository->ofId($user->id());
         self::assertEquals($data['first_name'], $fetchedUser->firstName()->value);
         self::assertEquals($data['last_name'], $fetchedUser->lastName()->value);
         self::assertEquals($data['email'], $fetchedUser->email()->value);
@@ -90,7 +90,7 @@ final class UpdateUserControllerTest extends WebTestCase
         ];
         $this->client->request(
             'PUT',
-            '/api/v1/users/' . $user->id->value->toString(),
+            '/api/v1/users/' . $user->id()->value->toString(),
             [],
             [],
             [

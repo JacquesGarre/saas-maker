@@ -27,7 +27,7 @@ final class UserRepositoryTest extends KernelTestCase
         $user = UserStub::random();
         $this->repository->add($user);
 
-        $fetchedUser = $this->repository->ofId($user->id);
+        $fetchedUser = $this->repository->ofId($user->id());
         self::assertEquals($user, $fetchedUser);
     }
 
@@ -36,11 +36,11 @@ final class UserRepositoryTest extends KernelTestCase
         $user = UserStub::random();
         $this->repository->add($user);
 
-        $fetchedUser = $this->repository->ofId($user->id);
+        $fetchedUser = $this->repository->ofId($user->id());
         self::assertEquals($user, $fetchedUser);
 
         $this->repository->remove($user);
-        $fetchedUser = $this->repository->ofId($user->id);
+        $fetchedUser = $this->repository->ofId($user->id());
         self::assertNull($fetchedUser);
     }
 
@@ -49,7 +49,7 @@ final class UserRepositoryTest extends KernelTestCase
         $user = UserStub::random();
         $this->repository->add($user);
 
-        $fetchedUser = $this->repository->findOneByEmailOrId($user->email(), $user->id);
+        $fetchedUser = $this->repository->findOneByEmailOrId($user->email(), $user->id());
         self::assertEquals($user, $fetchedUser);
 
         $randomId = IdStub::random();
@@ -57,7 +57,7 @@ final class UserRepositoryTest extends KernelTestCase
         self::assertEquals($user, $fetchedUser);
 
         $randomEmail = EmailAddress::fromString(Factory::create()->email());
-        $fetchedUser = $this->repository->findOneByEmailOrId($randomEmail, $user->id);
+        $fetchedUser = $this->repository->findOneByEmailOrId($randomEmail, $user->id());
         self::assertEquals($user, $fetchedUser);
     }
 

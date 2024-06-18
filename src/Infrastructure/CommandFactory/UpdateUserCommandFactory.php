@@ -26,7 +26,7 @@ final class UpdateUserCommandFactory
             $content['last_name'] ?? null,
             $content['email'] ?? null,
             $content['password'] ?? null,
-            $user->id->value->toString()
+            $user->id()->value->toString()
         );
     }
 }

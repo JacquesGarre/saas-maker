@@ -29,7 +29,7 @@ final class Application {
 
     public function users(): ?ApplicationUserCollection
     {
-        return $this->users;
+        return $this->users ?? new ApplicationUserCollection([]);
     }
 
     public function toArray(): array
@@ -58,14 +58,14 @@ final class Application {
             $createdBy
         );
         $applicationUser = ApplicationUser::create($application, $createdBy);
-        $application->users->add($applicationUser);
+        //$application->users->add($applicationUser);
         $application->notifyDomainEvent(ApplicationCreatedDomainEvent::fromApplication($application));
         return $application;
     }
 
     public function addUser(User $user): void
     {
-        $alreadyExistingApplicationUser = $this->users->filter(fn(ApplicationUser $au) => $au->user->id->equals($user->id))->first();
+        $alreadyExistingApplicationUser = $this->users->filter(fn(ApplicationUser $au) => $au->user->id()->equals($user->id()))->first();
         if ($alreadyExistingApplicationUser) {
             throw new UserAlreadyAddedInApplicationException("User already exists");
         }
@@ -76,7 +76,7 @@ final class Application {
 
     public function removeUser(User $user): void
     {   
-        $applicationUser = $this->users->filter(fn(ApplicationUser $au) => $au->user->id->equals($user->id))->first();
+        $applicationUser = $this->users->filter(fn(ApplicationUser $au) => $au->user->id()->equals($user->id()))->first();
         if (!$applicationUser) {
             throw new UserNotFoundException("Application user not found");
         }

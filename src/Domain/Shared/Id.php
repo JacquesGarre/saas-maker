@@ -10,7 +10,7 @@ use App\Domain\Shared\Exception\InvalidIdException;
 
 final class Id {
 
-    public readonly UuidInterface $value;
+    public UuidInterface $value;
 
     public function __construct(?string $uuid = null)
     {

@@ -44,7 +44,7 @@ final class LoginCommandHandlerTest extends KernelTestCase
         );
         $this->eventBus->expects($this->once())->method('notifyAll');
         ($this->handler)($command);
-        $fetchedUser = $this->repository->ofId($user->id);
+        $fetchedUser = $this->repository->ofId($user->id());
         self::assertNotNull($fetchedUser->jwt());
     }
 

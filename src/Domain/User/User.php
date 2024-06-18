@@ -21,17 +21,22 @@ class User {
     use DomainEventsTrait;
 
     private function __construct(
-        public readonly Id $id,
+        private Id $id,
         private FirstName $firstName,
         private LastName $lastName,
         private EmailAddress $email,
         private PasswordHash $passwordHash,
         private IsVerified $isVerified,
-        public readonly CreatedAt $createdAt,
+        private CreatedAt $createdAt,
         private UpdatedAt $updatedAt,
         private ?Jwt $jwt = null
     ) {  
         $this->initDomainEventCollection();
+    }
+
+    public function id(): Id
+    {
+        return $this->id;
     }
 
     public function firstName(): FirstName
@@ -64,6 +69,11 @@ class User {
         return $this->updatedAt;
     }
 
+    public function createdAt(): CreatedAt
+    {
+        return $this->createdAt;
+    }
+
     public function jwt(): ?Jwt
     {
         return $this->jwt ?? null;
@@ -89,7 +99,6 @@ class User {
         EmailAddress $email,
         PasswordHash $passwordHash
     ): self {
-        $applications = new ApplicationUserCollection([]);
         $user = new self(
             $id,
             $firstName,

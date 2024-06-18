@@ -37,7 +37,7 @@ final class VerifyUserControllerTest extends WebTestCase
         self::assertFalse($user->isVerified()->value);
         $this->client->request(
             'POST',
-            '/api/v1/users/' . $user->id->value->toString().'/verify',
+            '/api/v1/users/' . $user->id()->value->toString().'/verify',
             [],
             [],
             [
@@ -49,7 +49,7 @@ final class VerifyUserControllerTest extends WebTestCase
             Response::HTTP_ACCEPTED,
             $this->client->getResponse()->getStatusCode()
         );
-        $fetchedUser = $this->repository->ofId($user->id);
+        $fetchedUser = $this->repository->ofId($user->id());
         self::assertTrue($fetchedUser->isVerified()->value);
     }
 
@@ -60,7 +60,7 @@ final class VerifyUserControllerTest extends WebTestCase
         self::assertFalse($user->isVerified()->value);
         $this->client->request(
             'POST',
-            '/api/v1/users/' . $user->id->value->toString().'/verify',
+            '/api/v1/users/' . $user->id()->value->toString().'/verify',
             [],
             [],
             [
