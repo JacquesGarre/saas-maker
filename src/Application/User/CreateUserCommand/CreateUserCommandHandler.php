@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\User\CreateUserCommand;
 
-use App\Application\User\Exception\UserAlreadyCreatedException;
+use App\Domain\User\Exception\UserAlreadyCreatedException;
 use App\Domain\Shared\Id;
 use App\Domain\Shared\EventBusInterface;
 use App\Domain\User\FirstName;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\User\SendVerificationEmailOnUserCreatedEvent;
 
-use App\Application\User\Exception\UserNotFoundException;
+use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\User\UserCreatedDomainEvent;
 use App\Domain\User\UserRepositoryInterface;
 use App\Domain\Shared\Id;

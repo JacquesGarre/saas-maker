@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\User\VerifyUserCommand;
 
-use App\Application\User\Exception\UserNotFoundException;
+use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\Shared\Id;
 use App\Domain\Shared\EventBusInterface;
 use App\Domain\User\UserRepositoryInterface;

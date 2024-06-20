@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Application\Auth\LoginCommand;
 
-use App\Application\Auth\Exception\InvalidCredentialsException;
+use App\Domain\Auth\Exception\InvalidCredentialsException;
 use App\Application\Auth\LoginCommand\LoginCommand;
 use App\Application\Auth\LoginCommand\LoginCommandHandler;
 use App\Domain\Auth\JwtGeneratorInterface;

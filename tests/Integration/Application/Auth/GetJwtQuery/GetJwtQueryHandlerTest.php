@@ -6,7 +6,7 @@ namespace App\Tests\Integration\Application\Auth\GetJwtQuery;
 
 use App\Application\Auth\GetJwtQuery\GetJwtQuery;
 use App\Application\Auth\LoginCommand\LoginCommand;
-use App\Application\User\Exception\UserNotFoundException;
+use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\Shared\QueryBusInterface;
 use App\Domain\User\UserRepositoryInterface;
 use App\Tests\Stubs\Domain\User\UserStub;

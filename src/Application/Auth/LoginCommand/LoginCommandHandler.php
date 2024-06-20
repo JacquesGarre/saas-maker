@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Auth\LoginCommand;
 
-use App\Application\Auth\Exception\InvalidCredentialsException;
+use App\Domain\Auth\Exception\InvalidCredentialsException;
 use App\Domain\Auth\JwtGeneratorInterface;
 use App\Domain\Shared\EventBusInterface;
 use App\Domain\Shared\EmailAddress;

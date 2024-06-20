@@ -6,8 +6,7 @@ namespace App\Tests\Integration\Application\User\UpdateUserCommand;
 
 use App\Application\User\UpdateUserCommand\UpdateUserCommand;
 use App\Application\User\UpdateUserCommand\UpdateUserCommandHandler;
-use App\Application\User\Exception\UserNotFoundException;
-use App\Domain\Shared\CommandBusInterface;
+use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\Shared\Id;
 use App\Domain\User\UserRepositoryInterface;
 use App\Tests\Stubs\Application\User\UpdateUserCommand\UpdateUserCommandStub;

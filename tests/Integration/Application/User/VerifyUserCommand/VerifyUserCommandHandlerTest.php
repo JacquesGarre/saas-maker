@@ -6,7 +6,7 @@ namespace App\Tests\Integration\Application\User\VerifyUserCommand;
 
 use App\Application\User\VerifyUserCommand\VerifyUserCommand;
 use App\Application\User\VerifyUserCommand\VerifyUserCommandHandler;
-use App\Application\User\Exception\UserNotFoundException;
+use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\Shared\Id;
 use App\Domain\User\UserRepositoryInterface;
 use App\Tests\Stubs\Domain\User\UserStub;

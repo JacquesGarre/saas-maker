@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Application\User\SendVerificationEmailOnUserCreatedEvent;
 
-use App\Application\User\Exception\UserNotFoundException;
+use App\Domain\User\Exception\UserNotFoundException;
 use App\Application\User\SendVerificationEmailOnUserCreatedEvent\SendVerificationEmailOnUserCreatedEventHandler;
 use App\Domain\Email\EmailSenderInterface;
 use App\Domain\Email\TemplateRendererInterface;
-use App\Domain\Shared\CommandBusInterface;
 use App\Domain\Shared\EmailAddress;
 use App\Domain\User\PasswordHash;
 use App\Domain\User\UserRepositoryInterface;

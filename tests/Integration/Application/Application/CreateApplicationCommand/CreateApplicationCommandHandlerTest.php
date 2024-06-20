@@ -6,7 +6,7 @@ namespace App\Tests\Integration\Application\Application\CreateApplicationCommand
 
 use App\Application\Application\CreateApplicationCommand\CreateApplicationCommand;
 use App\Application\Application\CreateApplicationCommand\CreateApplicationCommandHandler;
-use App\Application\User\Exception\UserNotFoundException;
+use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\Application\ApplicationRepositoryInterface;
 use App\Domain\Application\Exception\ApplicationAlreadyCreatedException;
 use App\Domain\Shared\CommandBusInterface;

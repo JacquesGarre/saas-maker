@@ -6,7 +6,7 @@ namespace App\Tests\Integration\Application\User\CreateUserCommand;
 
 use App\Application\User\CreateUserCommand\CreateUserCommand;
 use App\Application\User\CreateUserCommand\CreateUserCommandHandler;
-use App\Application\User\Exception\UserAlreadyCreatedException;
+use App\Domain\User\Exception\UserAlreadyCreatedException;
 use App\Domain\Shared\CommandBusInterface;
 use App\Domain\Shared\Id;
 use App\Domain\User\PasswordHash;

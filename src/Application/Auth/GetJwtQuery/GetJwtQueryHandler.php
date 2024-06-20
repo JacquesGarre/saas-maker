@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Auth\GetJwtQuery;
 
-use App\Application\User\Exception\UserNotFoundException;
+use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\Shared\EmailAddress;
 use App\Domain\User\UserRepositoryInterface;
 
