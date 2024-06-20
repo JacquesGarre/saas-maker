@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
-use App\Domain\Application\ApplicationUserCollection;
 use App\Domain\Auth\Jwt;
 use App\Domain\Auth\JwtGeneratorInterface;
 use App\Domain\Shared\CreatedAt;
