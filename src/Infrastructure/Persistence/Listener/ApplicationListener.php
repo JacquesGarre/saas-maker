@@ -12,13 +12,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreRemoveEventArgs;
 
-class ApplicationListener
+final class ApplicationListener
 {
     public function __construct(private readonly EntityManagerInterface $em)
     {
     }
 
-    public function postLoad(PostLoadEventArgs $args)
+    public function postLoad(PostLoadEventArgs $args): void
     {
         $application = $args->getObject();
         if ($application instanceof Application) {
