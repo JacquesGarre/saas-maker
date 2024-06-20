@@ -10,10 +10,10 @@ use App\Domain\Shared\CreatedAt;
 use App\Domain\Shared\DomainEventsTrait;
 use App\Domain\Shared\Id;
 use App\Domain\User\User;
-use App\Domain\ApplicationUser\ApplicationUserCollection;
-use App\Domain\ApplicationUser\ApplicationUser;
-use App\Domain\ApplicationUser\ApplicationUserAddedDomainEvent;
-use App\Domain\ApplicationUser\ApplicationUserRemovedDomainEvent;
+use App\Domain\Application\ApplicationUserCollection;
+use App\Domain\Application\ApplicationUser;
+use App\Domain\Application\ApplicationUserAddedDomainEvent;
+use App\Domain\Application\ApplicationUserRemovedDomainEvent;
 
 final class Application {
 

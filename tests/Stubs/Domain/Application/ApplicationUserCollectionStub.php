@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Stubs\Domain\ApplicationUser;
+namespace App\Tests\Stubs\Domain\Application;
 
-use App\Domain\ApplicationUser\ApplicationUserCollection;
+use App\Domain\Application\ApplicationUserCollection;
 use Faker\Factory;
 
 final class ApplicationUserCollectionStub {
