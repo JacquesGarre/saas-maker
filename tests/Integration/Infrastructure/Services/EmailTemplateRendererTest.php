@@ -35,7 +35,7 @@ final class EmailTemplateRendererTest extends KernelTestCase
             <html>
                 <body>
                     <p>Hello name,</p>
-                    <p>This is a test email.</p>
+                    <p>This is a verification email.</p>
                     <p>Best regards,<br/>Your Company</p>
                 </body>
             </html>
