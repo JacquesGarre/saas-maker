@@ -8,6 +8,5 @@
         <embedded name="subdomain" class="App\Domain\Application\Subdomain" use-column-prefix="false"/>
         <embedded name="createdAt" class="App\Domain\Shared\CreatedAt" use-column-prefix="false"/>
         <many-to-one field="createdBy" target-entity="App\Domain\User\User"/>
-        <one-to-many field="users" target-entity="App\Domain\Application\ApplicationUser" mapped-by="application"/>
     </entity>
 </doctrine-mapping>

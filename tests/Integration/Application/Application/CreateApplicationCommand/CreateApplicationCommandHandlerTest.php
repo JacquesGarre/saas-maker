@@ -63,9 +63,6 @@ final class CreateApplicationCommandHandlerTest extends KernelTestCase {
         self::assertEquals($command->name, $application->name->value);
         self::assertEquals($command->subdomain, $application->subdomain->value);
         self::assertEquals($command->createdById, $application->createdBy->id()->value->toString());
-        dd($application->users()->first());
-        self::assertCount(1, $application->users());
-        //self::assertTrue($application->users()->first()->user->id->equals($application->createdBy->id));
     }
 
     public function testApplicationAlreadyCreatedWithIdException(): void
