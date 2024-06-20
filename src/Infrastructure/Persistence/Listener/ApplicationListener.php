@@ -6,13 +6,13 @@ namespace App\Infrastructure\Persistence\Listener;
 
 use Doctrine\ORM\Event\PostLoadEventArgs;
 use App\Domain\Application\Application;
-use App\Domain\ApplicationUser\ApplicationUser;
-use App\Domain\ApplicationUser\ApplicationUserCollection;
+use App\Domain\Application\ApplicationUser;
+use App\Domain\Application\ApplicationUserCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreRemoveEventArgs;
 
-class ApplicationUserCollectionListener
+class ApplicationListener
 {
     public function __construct(private readonly EntityManagerInterface $em)
     {

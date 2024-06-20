@@ -31,7 +31,7 @@ services:
         class: 'App\Infrastructure\Api\v1\HttpResponse\ExceptionListener'
         tags: [ kernel.event_listener ]
         
-    App\Infrastructure\Persistence\Listener\ApplicationUserCollectionListener:
+    App\Infrastructure\Persistence\Listener\ApplicationListener:
         tags:
             - { name: doctrine.event_listener, event: postLoad }
             - { name: doctrine.event_listener, event: prePersist }
