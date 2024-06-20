@@ -30,6 +30,12 @@ services:
     App\Infrastructure\Api\v1\HttpResponse\ExceptionListener:
         class: 'App\Infrastructure\Api\v1\HttpResponse\ExceptionListener'
         tags: [ kernel.event_listener ]
+        
+    App\Infrastructure\Persistence\Listener\ApplicationUserCollectionListener:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preRemove }
 
     command_handlers:
         namespace: App\Application\

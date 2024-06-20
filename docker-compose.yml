@@ -8,6 +8,8 @@ services:
       - .:/var/www/app
     networks:
       - app-network
+    depends_on:
+      - db
 
   nginx:
     container_name: nginx
@@ -20,6 +22,9 @@ services:
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - app-network
+    depends_on:
+      - php
+      - db
 
   db:
     container_name: postgres

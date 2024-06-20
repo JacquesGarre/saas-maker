@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Infrastructure\Persistence\Repository;
 
+use App\Domain\Application\Application;
 use App\Domain\Application\ApplicationRepositoryInterface;
 use App\Domain\User\UserRepositoryInterface;
 use App\Tests\Stubs\Domain\Application\ApplicationStub;
@@ -33,6 +34,12 @@ final class ApplicationRepositoryTest extends KernelTestCase
 
         $this->repository->testReset();
         $fetchedApplication = $this->repository->ofId($application->id);
+
+        self::assertApplicationEquals($application, $fetchedApplication);
+    }
+
+    private static function assertApplicationEquals(Application $application, Application $fetchedApplication): void
+    {
         self::assertTrue($application->id->equals($fetchedApplication->id));
         self::assertEquals($application->name->value, $fetchedApplication->name->value);
         self::assertEquals($application->subdomain->value, $fetchedApplication->subdomain->value);
@@ -42,6 +49,8 @@ final class ApplicationRepositoryTest extends KernelTestCase
         self::assertEquals($application->createdBy->email()->value, $fetchedApplication->createdBy->email()->value);
         self::assertEquals($application->createdBy->createdAt()->value->getTimestamp(), $fetchedApplication->createdBy->createdAt()->value->getTimestamp());
         self::assertEquals($application->createdBy->updatedAt()->value->getTimestamp(), $fetchedApplication->createdBy->updatedAt()->value->getTimestamp());
+        self::assertCount(1, $fetchedApplication->users());
+        self::assertTrue($application->createdBy->id()->equals($fetchedApplication->users()->first()->user->id()));
     }
 
     public function testRemove(): void
@@ -53,9 +62,11 @@ final class ApplicationRepositoryTest extends KernelTestCase
         $this->repository->add($application);
 
         $fetchedApplication = $this->repository->ofId($application->id);
-        self::assertEquals($application, $fetchedApplication);
+        self::assertApplicationEquals($application, $fetchedApplication);
 
         $this->repository->remove($application);
+        $this->repository->testReset();
+
         $fetchedApplication = $this->repository->ofId($application->id);
         self::assertNull($fetchedApplication);
     }
@@ -67,8 +78,9 @@ final class ApplicationRepositoryTest extends KernelTestCase
 
         $application = ApplicationStub::random($user);
         $this->repository->add($application);
+        $this->repository->testReset();
 
         $fetchedApplication = $this->repository->findOneBySubdomain($application->subdomain);
-        self::assertEquals($application, $fetchedApplication);
+        self::assertApplicationEquals($application, $fetchedApplication);
     }
 }

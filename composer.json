@@ -87,7 +87,7 @@
         "restart": "docker compose stop && sh ./start.sh",
         "reset": "docker compose down && sh ./start.sh",
         "enter": "docker exec -it php bash",
-        "test": "docker exec -it php ./vendor/bin/phpunit",
+        "test": "docker exec -it php ./vendor/bin/phpunit tests/Integration/Infrastructure/Persistence/Repository/ApplicationRepositoryTest.php",
         "c:c": "docker exec -it php bin/console c:c",
         "d:m:d": "docker exec -it php bin/console doctrine:migrations:diff",
         "d:m:m": "docker exec -it php bin/console doctrine:migrations:migrate"
