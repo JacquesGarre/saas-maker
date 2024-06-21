@@ -14,6 +14,33 @@ final class PasswordHash {
     {
     }
 
+    // TODO : TEST THIS
+    public static function generate(): self
+    {
+        $plainPassword = self::generatePlainPassword();
+        return self::fromPlainPassword($plainPassword);
+    }
+
+    // TODO : TEST THIS
+    public static function generatePlainPassword(): string
+    {
+        $upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $lowerCase = 'abcdefghijklmnopqrstuvwxyz';
+        $digits = '0123456789';
+        $specialChars = '!@#$%^&*()-_=+<>?';
+        $allChars = $upperCase.$lowerCase.$digits.$specialChars;
+        $password = '';
+        $password .= $upperCase[random_int(0, strlen($upperCase) - 1)];
+        $password .= $lowerCase[random_int(0, strlen($lowerCase) - 1)];
+        $password .= $digits[random_int(0, strlen($digits) - 1)];
+        $password .= $specialChars[random_int(0, strlen($specialChars) - 1)];
+        for ($i = 4; $i < 8; $i++) {
+            $password .= $allChars[random_int(0, strlen($allChars) - 1)];
+        }
+        $password = str_shuffle($password);
+        return $password;
+    }
+
     public static function fromPlainPassword(string $value): self
     {
         self::assertValid($value);

@@ -112,6 +112,18 @@ class User {
         return $user;
     }
 
+    // TODO : TEST THIS
+    public static function fromEmail(EmailAddress $email): self 
+    {
+        return self::create(
+            new Id(),
+            FirstName::empty(),
+            LastName::empty(),
+            $email,
+            PasswordHash::generate()
+        );
+    }
+
     public function update(
         User $updatedBy,
         ?FirstName $firstName = null,
