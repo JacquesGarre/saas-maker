@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
+use App\Domain\Application\Application;
 use App\Domain\Auth\Jwt;
 use App\Domain\Auth\JwtGeneratorInterface;
 use App\Domain\Shared\CreatedAt;
@@ -115,13 +116,18 @@ class User {
     // TODO : TEST THIS
     public static function fromEmail(EmailAddress $email): self 
     {
-        return self::create(
+        $user = new self(
             new Id(),
             FirstName::empty(),
             LastName::empty(),
             $email,
-            PasswordHash::generate()
+            PasswordHash::generate(),
+            new IsVerified(true),
+            CreatedAt::now(),
+            UpdatedAt::now()
         );
+        $user->notifyDomainEvent(UserCreatedDomainEvent::fromUser($user));
+        return $user;
     }
 
     public function update(

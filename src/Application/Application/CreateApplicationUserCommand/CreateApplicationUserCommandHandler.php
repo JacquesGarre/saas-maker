@@ -11,7 +11,6 @@ use App\Domain\User\UserRepositoryInterface;
 use App\Domain\Application\Exception\ApplicationAlreadyCreatedException;
 use App\Domain\Application\Exception\ApplicationNotFoundException;
 use App\Domain\Shared\EmailAddress;
-use App\Domain\User\Exception\PermissionNotAllowedException;
 use App\Domain\User\Exception\UserNotFoundException;
 use App\Domain\User\User;
 
@@ -25,7 +24,7 @@ final class CreateApplicationUserCommandHandler {
         
     }
 
-    // TODO : TEST THIS
+    // TODO : Test this
     /**
      * @throws ApplicationAlreadyCreatedException
      */
@@ -36,20 +35,17 @@ final class CreateApplicationUserCommandHandler {
         if (!$application) {
             throw new ApplicationNotFoundException("Application not found");
         }
-        $invitedBy = $this->userRepository->ofId(new Id($command->invitedById));
-        if (!$invitedBy) {
+        $inviter = $this->userRepository->ofId(new Id($command->invitedById));
+        if (!$inviter) {
             throw new UserNotFoundException("User not found");
         }
-        if (!$application->users()->hasUser($invitedBy)) { // TODO : Move in the domain, in addUser method when roles
-            throw new PermissionNotAllowedException("Action not permitted");
-        }
-
-        $email = new EmailAddress($command->email); 
+        $email = EmailAddress::fromString($command->email); 
         $user = $this->userRepository->findOneByEmail($email);
         if (!$user) {
             $user = User::fromEmail($email);
+            $this->userRepository->add($user);
         }
-        $application->addUser($user);
-        $this->eventBus->notifyAll($application->domainEvents, $user->domainEvents);
+        $application->addUser($user, $inviter);
+        $this->eventBus->notifyAll($application->domainEvents);
     }
 }

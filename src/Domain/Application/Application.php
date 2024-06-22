@@ -14,6 +14,7 @@ use App\Domain\Application\ApplicationUserCollection;
 use App\Domain\Application\ApplicationUser;
 use App\Domain\Application\ApplicationUserAddedDomainEvent;
 use App\Domain\Application\ApplicationUserRemovedDomainEvent;
+use App\Domain\User\Exception\PermissionNotAllowedException;
 
 final class Application {
 
@@ -34,6 +35,13 @@ final class Application {
     public function users(): ?ApplicationUserCollection
     {
         return $this->users ?? new ApplicationUserCollection();
+    }
+
+    // TODO : TEST THIS
+    public function hasUser(User $user): bool
+    {
+        $applicationUser = $this->users->findByUser($user);
+        return $applicationUser !== null;
     }
 
     public function setUsers(ApplicationUserCollection $users): void
@@ -65,13 +73,16 @@ final class Application {
             CreatedAt::now(),
             $createdBy
         );
-        $application->addUser($createdBy);
+        $application->addUser($createdBy, $createdBy);
         $application->notifyDomainEvent(ApplicationCreatedDomainEvent::fromApplication($application));
         return $application;
     }
 
-    public function addUser(User $user): void
+    public function addUser(User $user, User $inviter): void
     {
+        if (!$user->id()->equals($inviter->id()) && !$this->hasUser($inviter)) {
+            throw new PermissionNotAllowedException("Inviter is not a user of this application");
+        }
         $applicationUser = ApplicationUser::create($this, $user);
         if ($this->users->findByUser($user)) {
             throw new UserAlreadyAddedInApplicationException("User already added");
