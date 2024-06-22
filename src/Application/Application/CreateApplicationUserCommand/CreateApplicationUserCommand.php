@@ -6,7 +6,7 @@ namespace App\Application\Application\CreateApplicationUserCommand;
 
 use App\Domain\Shared\CommandInterface;
 
-// TODO : TEST THIS + ADD VALIDATOR + TEST VALIDATOR!
+// TODO : TEST THIS + TEST VALIDATOR!
 final class CreateApplicationUserCommand implements CommandInterface
 {
     public function __construct(

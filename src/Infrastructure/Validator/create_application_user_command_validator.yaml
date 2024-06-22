@@ -1,0 +1,11 @@
+App\Application\Application\CreateApplicationUserCommand\CreateApplicationUserCommand:
+    properties:
+        applicationId:
+            - NotBlank: ~
+            - Uuid: ~
+        email:
+            - NotBlank: ~
+            - Type: string
+        invitedById:
+            - NotBlank: ~
+            - Uuid: ~

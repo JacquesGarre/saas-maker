@@ -84,7 +84,7 @@ final class Application {
             throw new PermissionNotAllowedException("Inviter is not a user of this application");
         }
         $applicationUser = ApplicationUser::create($this, $user);
-        if ($this->users->findByUser($user)) {
+        if ($this->hasUser($user)) {
             throw new UserAlreadyAddedInApplicationException("User already added");
         }
         $this->users->add($applicationUser);
@@ -93,10 +93,10 @@ final class Application {
 
     public function removeUser(User $user): void
     {
-        $applicationUser = $this->users->findByUser($user);
-        if (!$applicationUser) {
-            throw new UserNotFoundException("User was not in application");
+        if (!$this->hasUser($user)) {
+            throw new UserNotFoundException("User is not a user of this application");
         }
+        $applicationUser = $this->users->findByUser($user);
         $this->users->remove($applicationUser);
         $this->notifyDomainEvent(ApplicationUserRemovedDomainEvent::fromApplicationUser($applicationUser));
     }
