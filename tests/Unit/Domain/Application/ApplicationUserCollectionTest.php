@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Domain\Application;
 
 use App\Domain\Application\ApplicationUserCollection;
 use App\Tests\Stubs\Domain\Application\ApplicationUserStub;
+use App\Tests\Stubs\Domain\User\UserStub;
 use PHPUnit\Framework\TestCase;
 
 final class ApplicationUserCollectionTest extends TestCase
@@ -91,4 +92,14 @@ final class ApplicationUserCollectionTest extends TestCase
         $foundApplicationUser = $collection->findByUser($applicationUser2->user);
         self::assertEquals($applicationUser2, $foundApplicationUser);
     }
+
+    public function testHasUser(): void
+    {
+        $applicationUser = ApplicationUserStub::random();
+        $collection = new ApplicationUserCollection();
+        $collection->add($applicationUser);
+        self::assertTrue($collection->hasUser($applicationUser->user));
+        self::assertFalse($collection->hasUser(UserStub::random()));
+    }
 }
+

@@ -65,11 +65,9 @@ final class ApplicationUserCollection implements IteratorAggregate
         return null;
     }
 
-    // TODO : TEST THIS
     public function hasUser(User $user): bool
     {
         $applicationUser = $this->findByUser($user);
         return $applicationUser !== null;
     }
-
 }
