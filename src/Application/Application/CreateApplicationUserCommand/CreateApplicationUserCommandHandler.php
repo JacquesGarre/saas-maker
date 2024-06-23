@@ -24,7 +24,6 @@ final class CreateApplicationUserCommandHandler {
         
     }
 
-    // TODO : Test this
     /**
      * @throws ApplicationAlreadyCreatedException
      */
@@ -46,6 +45,7 @@ final class CreateApplicationUserCommandHandler {
             $this->userRepository->add($user);
         }
         $application->addUser($user, $inviter);
+        $this->applicationRepository->update($application);
         $this->eventBus->notifyAll($application->domainEvents);
     }
 }
