@@ -9,7 +9,6 @@ use App\Domain\Shared\DomainEvent;
 use DateTimeImmutable;
 use Ramsey\Uuid\Uuid;
 
-// TODO : TEST THIS
 final class UserInvitedDomainEvent extends DomainEvent
 {
     public const EVENT_TYPE = 'UserInvitedDomainEvent';
