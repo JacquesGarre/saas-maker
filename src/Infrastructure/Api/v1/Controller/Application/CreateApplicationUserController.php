@@ -22,7 +22,6 @@ final class CreateApplicationUserController extends AbstractController
     ) {
     }
 
-    // TODO : TEST THIS
     /**
      * @throws InvalidRequestContentException
      */
