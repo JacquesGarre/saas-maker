@@ -53,7 +53,7 @@ final class ApplicationTest extends TestCase
         $application = ApplicationStub::random();
         $beforeCount = $application->users()->count();
         $user = UserStub::random();
-        $application->addUser($user);       
+        $application->addUser($user, $user);       
         self::assertCount($beforeCount+1, $application->users());
         self::assertInstanceOf(ApplicationUserAddedDomainEvent::class, $application->domainEvents->last());
     }
@@ -63,9 +63,9 @@ final class ApplicationTest extends TestCase
         $application = ApplicationStub::random();
         $beforeCount = $application->users()->count();
         $user = UserStub::random();
-        $application->addUser($user);   
+        $application->addUser($user, $user);   
         $this->expectException(UserAlreadyAddedInApplicationException::class);    
-        $application->addUser($user);  
+        $application->addUser($user, $user);  
     }
 
     public function testRemoveUser(): void
@@ -95,5 +95,15 @@ final class ApplicationTest extends TestCase
             'created_by' => $application->createdBy->toArray()
         ];
         self::assertEquals($expected, $application->toArray());
+    }
+
+    public function testHasUser(): void
+    {
+        $application = ApplicationStub::random();
+        $user = $application->users()->first()->user;
+        self::assertTrue($application->hasUser($user));
+
+        $user = UserStub::random();
+        self::assertFalse($application->hasUser($user));
     }
 }

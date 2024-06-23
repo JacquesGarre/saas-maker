@@ -37,7 +37,6 @@ final class Application {
         return $this->users ?? new ApplicationUserCollection();
     }
 
-    // TODO : TEST THIS
     public function hasUser(User $user): bool
     {
         $applicationUser = $this->users->findByUser($user);
