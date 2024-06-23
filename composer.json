@@ -81,7 +81,7 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "start": "sh ./start.sh",
+        "start": "sh ./start.sh && cd public/app && ng serve --open=false",
         "down": "docker compose down",
         "stop": "docker compose stop",
         "restart": "docker compose stop && sh ./start.sh",

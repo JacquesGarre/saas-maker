@@ -17,9 +17,11 @@ echo " ${GREEN}➜ ${NC} Running database migrations..."
 docker exec -it php bin/console doctrine:migrations:migrate --no-interaction
 
 echo ""
+echo " ${GREEN}➜ ${NC} Installing front-end dependencies..."
+cd public/app && npm install
+
+echo ""
 echo " ${GREEN}➜ ${NC} Api running at ${GREEN}http://localhost:8000${NC}"
 echo " ${GREEN}➜ ${NC} Mailhog running at ${GREEN}http://localhost:8025${NC}"
 
-echo ""
-echo " ${GREEN}➜ ${NC} Installing front-end dependencies..."
-cd public/app && npm install && ng serve --open=false
+
