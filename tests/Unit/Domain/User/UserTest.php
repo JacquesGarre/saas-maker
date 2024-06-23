@@ -157,4 +157,22 @@ final class UserTest extends TestCase
         $this->expectExceptionMessage("User is not verified");
         $user->login($jwtGenerator, $password);
     }
+
+    public function testFromEmail(): void
+    {
+        $faker = Factory::create();
+        $email = EmailAddress::fromString($faker->email());
+        $user = User::fromEmail($email);
+        $now = CreatedAt::now();
+        self::assertNotNull($user->id()->value);
+        self::assertEquals('', $user->firstName()->value);
+        self::assertEquals('', $user->lastName()->value);
+        self::assertEquals($email->value, $user->email()->value);
+        self::assertNotEmpty($user->passwordHash()->value);
+        self::assertTrue($user->isVerified()->value);
+        self::assertEquals($now->value(), $user->createdAt()->value());
+        self::assertEquals($now->value(), $user->updatedAt()->value());
+        self::assertCount(1, $user->domainEvents);
+        self::assertInstanceOf(UserCreatedDomainEvent::class, $user->domainEvents->last());
+    }
 }

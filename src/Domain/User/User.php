@@ -113,7 +113,6 @@ class User {
         return $user;
     }
 
-    // TODO : TEST THIS
     public static function fromEmail(EmailAddress $email): self 
     {
         $user = new self(
