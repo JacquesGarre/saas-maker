@@ -8,20 +8,18 @@ use App\Domain\User\Exception\InvalidPasswordException;
 
 final class PasswordHash {
 
-    public const PASSWORD_REGEX = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/"; 
+    public const PASSWORD_REGEX = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()-_=+<>?]).{8,}$/"; 
 
     private function __construct(public readonly string $value) 
     {
     }
 
-    // TODO : TEST THIS
     public static function generate(): self
     {
         $plainPassword = self::generatePlainPassword();
         return self::fromPlainPassword($plainPassword);
     }
 
-    // TODO : TEST THIS
     public static function generatePlainPassword(): string
     {
         $upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -34,7 +32,7 @@ final class PasswordHash {
         $password .= $lowerCase[random_int(0, strlen($lowerCase) - 1)];
         $password .= $digits[random_int(0, strlen($digits) - 1)];
         $password .= $specialChars[random_int(0, strlen($specialChars) - 1)];
-        for ($i = 4; $i < 8; $i++) {
+        for ($i = 4; $i < 10; $i++) {
             $password .= $allChars[random_int(0, strlen($allChars) - 1)];
         }
         $password = str_shuffle($password);

@@ -33,4 +33,11 @@ final class PasswordHashTest extends TestCase
         self::assertTrue($passwordHash->matches($value));
         self::assertFalse($passwordHash->matches($wrongValue));
     }
+
+    public function testGeneratePlainPassword(): void
+    {
+        $password = PasswordHash::generatePlainPassword();
+        self::assertTrue(strlen($password)>8);
+        self::assertNull(PasswordHash::assertValid($password));
+    }
 }
