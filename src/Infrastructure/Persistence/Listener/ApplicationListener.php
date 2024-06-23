@@ -22,6 +22,7 @@ final class ApplicationListener
     {
         $application = $args->getObject();
         if ($application instanceof Application) {
+            $application->initDomainEventCollection();
             $applicationUserCollection = new ApplicationUserCollection();
             $users = $this->em->getRepository(ApplicationUser::class)->findBy(['application' => $application]);
             foreach ($users as $user) {

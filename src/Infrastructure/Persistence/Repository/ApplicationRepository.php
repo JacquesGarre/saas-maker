@@ -31,6 +31,16 @@ final class ApplicationRepository implements ApplicationRepositoryInterface {
         $this->entityManager->flush();
     }
 
+    public function update(Application $application): void
+    {
+        foreach ($application->users() as $applicationUser) {
+            if (!$this->entityManager->contains($applicationUser)) {
+                $this->entityManager->persist($applicationUser);
+            }
+        }
+        $this->entityManager->flush();
+    }
+
     public function remove(Application $application): void
     {
         $this->entityManager->remove($application);

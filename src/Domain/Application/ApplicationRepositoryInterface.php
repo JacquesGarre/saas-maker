@@ -14,6 +14,8 @@ interface ApplicationRepositoryInterface {
 
     public function remove(Application $application): void;
 
+    public function update(Application $application): void;
+
     public function findOneBySubdomain(Subdomain $subdomain): ?Application;
 
     public function testReset(): void;

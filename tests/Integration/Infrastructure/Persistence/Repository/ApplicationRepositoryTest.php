@@ -83,4 +83,26 @@ final class ApplicationRepositoryTest extends KernelTestCase
         $fetchedApplication = $this->repository->findOneBySubdomain($application->subdomain);
         self::assertApplicationEquals($application, $fetchedApplication);
     }
+
+    public function testUpdate(): void
+    {
+        $user = UserStub::random();
+        $this->userRepository->add($user);
+
+        $application = ApplicationStub::random($user);
+        $this->repository->add($application);
+
+        $this->repository->testReset();
+        $fetchedApplication = $this->repository->ofId($application->id);
+        
+        $newUser = UserStub::random();
+        $this->userRepository->add($newUser);
+
+        $fetchedApplication->addUser($newUser, $user);
+        $this->repository->update($fetchedApplication);
+
+        $this->repository->testReset();
+        $fetchedApplication = $this->repository->ofId($application->id);
+        self::assertCount(2, $fetchedApplication->users());
+    }
 }
