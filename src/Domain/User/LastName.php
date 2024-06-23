@@ -10,7 +10,6 @@ final class LastName {
     {
     }
 
-    // TODO : TEST THIS
     public static function empty(): self
     {
         return new self('');

@@ -16,4 +16,10 @@ final class FirstNameTest extends TestCase
         $firstName = new FirstName($value);
         self::assertEquals($value, $firstName->value); 
     }
+
+    public function testEmpty(): void
+    {
+        $firstName = FirstName::empty();
+        self::assertEquals('', $firstName->value);
+    }
 }
