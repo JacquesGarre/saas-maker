@@ -11,6 +11,14 @@ This is supposed to be an app that will allow users to create their own SaaS, no
 - Docker Compose version v2.21+ (docker compose version)
 - PHP 8.3+ (php --version)
 - Composer version 2.3+ (composer -V)
+- Node v22+ (node -v)
+- Npm v10+ (npm -v)
+- Angular CLI (npm install -g @angular/cli)
+
+## Project structure
+
+- `src/` Back-end (Symfony)
+- `public/app/` Front-end (Angular)
 
 ## Installation
 
@@ -21,4 +29,3 @@ This is supposed to be an app that will allow users to create their own SaaS, no
 #### 2. Start 
 - Start docker daemon
 - `composer start`
-- Go to http://localhost:8000
