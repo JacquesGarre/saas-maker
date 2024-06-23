@@ -5,7 +5,7 @@ App\Application\Application\CreateApplicationUserCommand\CreateApplicationUserCo
             - Uuid: ~
         email:
             - NotBlank: ~
-            - Type: string
+            - Email: ~
         invitedById:
             - NotBlank: ~
             - Uuid: ~
