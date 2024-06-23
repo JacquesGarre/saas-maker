@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class CreateApplicationUserCommandFactory
 {
-    // TODO : TEST THIS
     /**
      * @throws InvalidRequestContentException
      */
