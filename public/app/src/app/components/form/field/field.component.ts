@@ -16,5 +16,6 @@ export class FieldComponent {
 
   @Input() formGroup!: FormGroup;
   @Input() config!: FieldConfig;
+  @Input() submitting: boolean = false;
 
 }

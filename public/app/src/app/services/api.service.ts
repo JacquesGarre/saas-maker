@@ -1,0 +1,31 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { User } from '../models/user.interface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiService {
+
+  private apiUrl = 'http://localhost:8000/api/v1'; // TODO: put in .env
+  private apiKey = 'api_key'; // TODO: put in .env
+
+  constructor(private http: HttpClient) { }
+
+  createUser(user: User): Observable<any> {
+    const headers = new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'X-API-KEY': this.apiKey
+    });
+    let payload = {
+      id: user.id,
+      email: user.email,
+      first_name: user.firstName,
+      last_name: user.lastName,
+      password: user.password
+    }
+    return this.http.post<any>(`${this.apiUrl}/users`, payload, { headers });
+  }
+
+}

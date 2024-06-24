@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FieldValidatorConfig } from './field/field-validator-config.interface';
 import { FieldConfig } from './field/field-config.interface';
 import { matchValidator } from './custom-validators/match-validator';
+import { ApiService } from '../../services/api.service';
 
 
 @Component({
@@ -25,8 +26,9 @@ export class FormComponent {
   @Input() config!: FormConfig;
 
   formGroup!: FormGroup;
+  submitting: boolean = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private apiService: ApiService) {}
 
   ngOnInit(): void
   {
@@ -73,8 +75,9 @@ export class FormComponent {
   }
 
   onSubmit(): void {
+    this.submitting = true;
     if (this.formGroup && this.formGroup.valid) {
-      this.config.submitAction(this.formGroup.value);
+      this.config.submitAction(this.apiService, this.formGroup.value);
     }
   }
 

@@ -3,6 +3,7 @@ import { PublicNavbarComponent } from '../../components/public-navbar/public-nav
 import { FormConfig } from '../../components/form/form-config.interface';
 import { FormComponent } from '../../components/form/form.component';
 import { CommonModule } from '@angular/common';
+import { User } from '../../models/user.interface';
 
 @Component({
   selector: 'app-signup',
@@ -23,7 +24,7 @@ export class SignupComponent {
     fields: [
       {
         formControlName: 'email',
-        value: '',
+        value: 'jcqs.gr@gmail.com',
         type: 'email',
         label: 'Email address',
         required: true,
@@ -41,7 +42,7 @@ export class SignupComponent {
       },
       {
         formControlName: 'firstName',
-        value: '',
+        value: 'Jacques',
         type: 'text',
         label: 'First name',
         required: true,
@@ -54,7 +55,7 @@ export class SignupComponent {
       },
       {
         formControlName: 'lastName',
-        value: '',
+        value: 'Garré',
         type: 'text',
         label: 'Last name',
         required: true,
@@ -67,7 +68,7 @@ export class SignupComponent {
       },
       {
         formControlName: 'password',
-        value: '',
+        value: 'p@ssw0rD',
         type: 'password',
         label: 'Password',
         required: true,
@@ -90,7 +91,7 @@ export class SignupComponent {
       },
       {
         formControlName: 'passwordConfirmation',
-        value: '',
+        value: 'p@ssw0rD',
         type: 'password',
         label: 'Password confirmation',
         required: true,
@@ -109,9 +110,15 @@ export class SignupComponent {
     ]
   }
 
-  submitAction(values: any): void {
+
+  submitAction(apiService: any, user: User): void {
     console.log('submitAction in signup component')
-    console.log('values:', values)
+    console.log('values:', user)
+
+    apiService.createUser(user).subscribe((response: any) => {
+      console.log('User created:', response);
+    });
+
   }
 }
 
