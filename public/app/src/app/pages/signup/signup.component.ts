@@ -77,8 +77,13 @@ export class SignupComponent {
             errorMessage: 'Password is required'
           },
           {
+            type: 'pattern',
+            errorMessage: 'Password must have at least 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character',
+            value: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()-_=+<>?]).{1,}$'
+          },
+          {
             type: 'minlength',
-            errorMessage: 'Password must be at least 8 characters.',
+            errorMessage: 'Password must be at least 8 characters',
             value: 8
           }
         ]
@@ -93,6 +98,11 @@ export class SignupComponent {
           {
             type: 'required',
             errorMessage: 'Password confirmation is required'
+          },
+          {
+            type: 'match',
+            value: 'password',
+            errorMessage: 'Password confirmation should match your password'
           }
         ]
       }

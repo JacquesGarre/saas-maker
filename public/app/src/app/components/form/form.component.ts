@@ -5,6 +5,8 @@ import { FieldComponent } from './field/field.component';
 import { CommonModule } from '@angular/common';
 import { FieldValidatorConfig } from './field/field-validator-config.interface';
 import { FieldConfig } from './field/field-config.interface';
+import { matchValidator } from './custom-validators/match-validator';
+
 
 @Component({
   selector: 'app-form',
@@ -61,6 +63,9 @@ export class FormComponent {
         break;
         case 'maxlength':
           validators.push(Validators.maxLength(validator.value ? parseInt(validator.value.toString()) : 0))
+        break;
+        case 'match':
+          validators.push(matchValidator(validator.value ? validator.value.toString() : ''))
         break;
       }
     }

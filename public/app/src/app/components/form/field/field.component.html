@@ -13,7 +13,7 @@
         >
         <div *ngIf="formGroup.get(config.formControlName)?.invalid && formGroup.get(config.formControlName)?.touched">
             <ng-container *ngFor="let validator of config.validators">
-                <small *ngIf="formGroup.get(config.formControlName)?.errors?.[validator.type]">{{ validator.errorMessage }}</small>
+                <small class="block" *ngIf="formGroup.get(config.formControlName)?.errors?.[validator.type]">{{ validator.errorMessage }}</small>
             </ng-container>
         </div>
     </div>
