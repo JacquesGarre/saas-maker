@@ -79,6 +79,7 @@ export class FormComponent {
     if (this.formGroup && this.formGroup.valid) {
       this.config.submitAction(this.apiService, this.formGroup.value);
     }
+    //this.submitting = false;
   }
 
 }

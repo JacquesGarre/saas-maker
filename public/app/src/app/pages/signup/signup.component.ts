@@ -24,7 +24,7 @@ export class SignupComponent {
     fields: [
       {
         formControlName: 'email',
-        value: 'jcqs.gr@gmail.com',
+        value: 'test@test.com',
         type: 'email',
         label: 'Email address',
         required: true,
@@ -42,7 +42,7 @@ export class SignupComponent {
       },
       {
         formControlName: 'firstName',
-        value: 'Jacques',
+        value: 'test',
         type: 'text',
         label: 'First name',
         required: true,
@@ -55,7 +55,7 @@ export class SignupComponent {
       },
       {
         formControlName: 'lastName',
-        value: 'Garré',
+        value: 'test',
         type: 'text',
         label: 'Last name',
         required: true,
