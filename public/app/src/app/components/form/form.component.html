@@ -1,0 +1,12 @@
+<form *ngIf="formGroup" [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="space-y-6">
+    <ng-container *ngFor="let fieldConfig of config.fields">
+        <app-field [config]="fieldConfig" [formGroup]="formGroup"></app-field>
+    </ng-container>
+    <div>
+        <button 
+            type="submit"
+            class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            {{ config.submitBtnLabel }}
+        </button>
+    </div>
+</form>
