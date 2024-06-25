@@ -7,6 +7,7 @@ import { FieldValidatorConfig } from './field/field-validator-config.interface';
 import { FieldConfig } from './field/field-config.interface';
 import { matchValidator } from './custom-validators/match-validator';
 import { ApiService } from '../../services/api.service';
+import { ToasterComponent } from '../toaster/toaster.component';
 
 
 @Component({
@@ -16,7 +17,8 @@ import { ApiService } from '../../services/api.service';
     FieldComponent,
     FormsModule, 
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    ToasterComponent
   ],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
@@ -27,6 +29,9 @@ export class FormComponent {
 
   formGroup!: FormGroup;
   submitting: boolean = false;
+  toasterMessage: string = '';
+  showToaster: boolean = false;
+  toasterColor: string = 'green'; 
 
   constructor(private fb: FormBuilder, private apiService: ApiService) {}
 
@@ -77,9 +82,26 @@ export class FormComponent {
   onSubmit(): void {
     this.submitting = true;
     if (this.formGroup && this.formGroup.valid) {
-      this.config.submitAction(this.apiService, this.formGroup.value);
+      this.config.submitAction(this.formGroup.value).subscribe({
+        next: (response: any) => {
+          this.toasterMessage = 'Form submitted successfully';
+          this.showToaster = true;
+          this.toasterColor = 'green';          
+        },
+        error: (error: { message: string; }) => {
+          console.log(error)
+          this.toasterMessage = 'An error occured while submitting the form';
+          this.showToaster = true;
+          this.toasterColor = 'red';
+        }
+      });
+      setTimeout(() => {
+        this.showToaster = false;
+        this.submitting = false;
+      }, 2000);
+    } else {
+      this.submitting = false;
     }
-    //this.submitting = false;
   }
 
 }

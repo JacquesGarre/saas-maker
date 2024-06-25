@@ -7,8 +7,7 @@
             font-semibold leading-6 text-sm shadow rounded-md text-white 
             transition ease-in-out 
             duration-150"
-            [ngClass]="{ 'cursor-not-allowed bg-indigo-500 hover:bg-indigo-400': submitting, 'bg-indigo-600 hover:bg-indigo-500': !submitting }"
-            >
+            [ngClass]="{ 'cursor-not-allowed bg-indigo-500 hover:bg-indigo-400': submitting, 'bg-indigo-600 hover:bg-indigo-500': !submitting }">
             <svg *ngIf="submitting" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -20,4 +19,4 @@
         </button>
     </div>
 </form>
-
+<app-toaster [message]="toasterMessage" [show]="showToaster" [color]="toasterColor"></app-toaster>

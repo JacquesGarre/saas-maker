@@ -4,6 +4,8 @@ import { FormConfig } from '../../components/form/form-config.interface';
 import { FormComponent } from '../../components/form/form.component';
 import { CommonModule } from '@angular/common';
 import { User } from '../../models/user.interface';
+import { ApiService } from '../../services/api.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -18,8 +20,12 @@ import { User } from '../../models/user.interface';
 })
 export class SignupComponent {
 
+  constructor(private apiService: ApiService) {}
+
   signUpFormConfig: FormConfig = {
-    submitAction: this.submitAction,
+    submitAction: (user: User): Observable<any> => {
+      return this.apiService.createUser(user);
+    },
     submitBtnLabel: 'Sign up',
     fields: [
       {
@@ -111,14 +117,6 @@ export class SignupComponent {
   }
 
 
-  submitAction(apiService: any, user: User): void {
-    console.log('submitAction in signup component')
-    console.log('values:', user)
 
-    apiService.createUser(user).subscribe((response: any) => {
-      console.log('User created:', response);
-    });
-
-  }
 }
 
