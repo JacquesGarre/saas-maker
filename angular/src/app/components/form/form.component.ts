@@ -84,13 +84,12 @@ export class FormComponent {
     if (this.formGroup && this.formGroup.valid) {
       this.config.submitAction(this.formGroup.value).subscribe({
         next: (response: any) => {
-          this.toasterMessage = 'Form submitted successfully';
+          this.toasterMessage = response.message ?? 'Form submitted successfully';
           this.showToaster = true;
           this.toasterColor = 'green';          
         },
-        error: (error: { message: string; }) => {
-          console.log(error)
-          this.toasterMessage = 'An error occured while submitting the form';
+        error: (error: any) => {
+          this.toasterMessage = error.error.message ?? 'An error occured while submitting the form';
           this.showToaster = true;
           this.toasterColor = 'red';
         }
@@ -98,7 +97,7 @@ export class FormComponent {
       setTimeout(() => {
         this.showToaster = false;
         this.submitting = false;
-      }, 2000);
+      }, 3000);
     } else {
       this.submitting = false;
     }

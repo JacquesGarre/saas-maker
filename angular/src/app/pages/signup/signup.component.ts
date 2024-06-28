@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { User } from '../../models/user.interface';
 import { ApiService } from '../../services/api.service';
 import { Observable } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-signup',
@@ -24,6 +25,7 @@ export class SignupComponent {
 
   signUpFormConfig: FormConfig = {
     submitAction: (user: User): Observable<any> => {
+      user.id = user.id ?? uuidv4();
       return this.apiService.createUser(user);
     },
     submitBtnLabel: 'Sign up',

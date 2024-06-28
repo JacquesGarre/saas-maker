@@ -1,4 +1,6 @@
-<div *ngIf="show" class="bg-{{color}}-400 fixed bottom-4 right-4 max-w-xs w-full shadow-lg rounded-lg pointer-events-auto">
+<div *ngIf="show"
+    class="fixed bottom-4 right-4 max-w-xs w-full shadow-lg rounded-lg pointer-events-auto"
+    [ngClass]="{'bg-green-400': color === 'green', 'bg-red-400': color === 'red'}">
     <div class="rounded-lg shadow-xs overflow-hidden">
       <div class="p-4">
         <div class="flex items-start">
