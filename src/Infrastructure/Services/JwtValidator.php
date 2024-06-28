@@ -28,9 +28,10 @@ final class JwtValidator implements JwtValidatorInterface {
         $this->config = Configuration::forSymmetricSigner(new Sha256(), Key\InMemory::plainText($this->appSecret));
     }
 
-    public function assertValid(Jwt $jwt): void
+    // TODO: Integration test this
+    public function validate(string $jwt): bool
     {
-        $token = $this->config->parser()->parse($jwt->value);
+        $token = $this->config->parser()->parse($jwt);
         $clock = new SystemClock(new DateTimeZone('UTC'));
         $constraints = [
             new SignedWith($this->config->signer(), $this->config->signingKey()),
@@ -38,9 +39,6 @@ final class JwtValidator implements JwtValidatorInterface {
             new PermittedFor($this->appName),
             new LooseValidAt($clock)
         ];
-        $isValid = $this->config->validator()->validate($token, ...$constraints);
-        if (!$isValid) {
-            throw new InvalidJwtException("Invalid jwt token");
-        }
+        return $this->config->validator()->validate($token, ...$constraints);
     }
 }

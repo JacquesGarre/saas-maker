@@ -28,8 +28,7 @@ class JwtAuthenticator
         if (!$token) {
             throw new UnauthenticatedRequestException('No jwt token provided');
         }
-        $jwt = new Jwt($token);
-        $this->jwtValidator->assertValid($jwt);
+        $jwt = Jwt::fromToken($this->jwtValidator, $token);
         $user = $this->repository->findOneByJwt($jwt);
         if (!$user) {
             throw new UnauthenticatedRequestException('Wrong jwt token provided');
