@@ -18,7 +18,7 @@ docker exec -it php bin/console doctrine:migrations:migrate --no-interaction
 
 echo ""
 echo " ${GREEN}➜ ${NC} Installing front-end dependencies..."
-cd public/app && npm install
+cd angular && npm install
 
 echo ""
 echo " ${GREEN}➜ ${NC} Api running at ${GREEN}http://localhost:8000${NC}"
