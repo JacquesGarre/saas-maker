@@ -29,3 +29,10 @@ This is supposed to be an app that will allow users to create their own SaaS, no
 #### 2. Start 
 - Start docker daemon
 - `composer start`
+
+
+## Development
+
+#### Tests
+- `composer test`
+
