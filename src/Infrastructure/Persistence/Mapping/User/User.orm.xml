@@ -12,5 +12,6 @@
         <embedded name="createdAt" class="App\Domain\Shared\CreatedAt" use-column-prefix="false"/>
         <embedded name="updatedAt" class="App\Domain\Shared\UpdatedAt" use-column-prefix="false"/>
         <embedded name="jwt" class="App\Domain\Auth\Jwt" use-column-prefix="false"/>
+        <embedded name="verificationToken" class="App\Domain\User\VerificationToken" use-column-prefix="false"/>
     </entity>
 </doctrine-mapping>
