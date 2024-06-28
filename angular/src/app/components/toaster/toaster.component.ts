@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { ToasterConfig } from './toaster-config.interface';
 
 @Component({
   selector: 'app-toaster',
@@ -11,11 +12,10 @@ import { Component, Input } from '@angular/core';
   styleUrl: './toaster.component.scss'
 })
 export class ToasterComponent {
-  @Input() message: string = '';
-  @Input() show: boolean = false;
-  @Input() color: string = '';
+
+  @Input() config!: ToasterConfig;
 
   close() {
-    this.show = false;
+    this.config.show = false;
   }
 }

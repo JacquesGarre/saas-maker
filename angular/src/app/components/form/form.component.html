@@ -19,4 +19,4 @@
         </button>
     </div>
 </form>
-<app-toaster [message]="toasterMessage" [show]="showToaster" [color]="toasterColor"></app-toaster>
+<app-toaster *ngIf="toasterConfig" [config]="toasterConfig"></app-toaster>

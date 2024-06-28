@@ -6,8 +6,9 @@ import { CommonModule } from '@angular/common';
 import { FieldValidatorConfig } from './field/field-validator-config.interface';
 import { FieldConfig } from './field/field-config.interface';
 import { matchValidator } from './custom-validators/match-validator';
-import { ApiService } from '../../services/api.service';
 import { ToasterComponent } from '../toaster/toaster.component';
+import { Router } from '@angular/router';
+import { ToasterConfig } from '../toaster/toaster-config.interface';
 
 
 @Component({
@@ -29,11 +30,12 @@ export class FormComponent {
 
   formGroup!: FormGroup;
   submitting: boolean = false;
-  toasterMessage: string = '';
-  showToaster: boolean = false;
-  toasterColor: string = 'green'; 
+  toasterConfig!: ToasterConfig;
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) {}
+  constructor(
+    private fb: FormBuilder, 
+    private router: Router
+  ) {}
 
   ngOnInit(): void
   {
@@ -84,18 +86,28 @@ export class FormComponent {
     if (this.formGroup && this.formGroup.valid) {
       this.config.submitAction(this.formGroup.value).subscribe({
         next: (response: any) => {
-          this.toasterMessage = response.message ?? 'Form submitted successfully';
-          this.showToaster = true;
-          this.toasterColor = 'green';          
+          this.toasterConfig = {
+            message: response.message ?? 'Form submitted successfully',
+            show: true,
+            class: 'bottom-4 right-4 max-w-xs w-full bg-green-400'
+          }   
         },
         error: (error: any) => {
-          this.toasterMessage = error.error.message ?? 'An error occured while submitting the form';
-          this.showToaster = true;
-          this.toasterColor = 'red';
+          this.toasterConfig = {
+            message: error.error.message ?? 'An error occured while submitting the form',
+            show: true,
+            class: 'bottom-4 right-4 max-w-xs w-full bg-red-400'
+          }   
         }
       });
+      if (this.config.afterSubmitRedirection) {
+        this.router.navigate(
+          [this.config.afterSubmitRedirection.route], 
+          this.config.afterSubmitRedirection.extras
+        );
+      }
       setTimeout(() => {
-        this.showToaster = false;
+        this.toasterConfig.show = false;
         this.submitting = false;
       }, 3000);
     } else {

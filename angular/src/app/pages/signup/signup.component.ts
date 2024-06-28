@@ -28,6 +28,18 @@ export class SignupComponent {
       user.id = user.id ?? uuidv4();
       return this.apiService.createUser(user);
     },
+    afterSubmitRedirection: {
+      route: '/login', 
+      extras: { 
+        state: { 
+          toasterConfig: {
+            message: 'Your account has been successfully created. A verification email has been sent to your email address. Please check your inbox and follow the instructions to verify your account.',
+            show: true,
+            class: 'bottom-4 right-4 left-4 px-4 d-flex bg-green-400 text-center'
+          }
+        } 
+      }
+    },
     submitBtnLabel: 'Sign up',
     fields: [
       {
