@@ -18,7 +18,7 @@ This is supposed to be an app that will allow users to create their own SaaS, no
 ## Project structure
 
 - `src/` Back-end (Symfony)
-- `public/app/` Front-end (Angular)
+- `angular/` Front-end (Angular)
 
 ## Installation
 
