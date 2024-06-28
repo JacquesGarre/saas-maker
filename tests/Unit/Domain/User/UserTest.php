@@ -22,6 +22,7 @@ use App\Tests\Stubs\Domain\User\PasswordHashStub;
 use App\Tests\Stubs\Domain\User\UserStub;
 use App\Domain\User\Exception\InvalidPasswordException;
 use App\Domain\User\Exception\UserNotVerifiedException;
+use App\Domain\User\UserVerificationTokenGeneratedDomainEvent;
 
 final class UserTest extends TestCase
 {
@@ -120,7 +121,8 @@ final class UserTest extends TestCase
             'email' => $user->email()->value,
             'is_verified' => $user->isVerified()->value,
             'created_at' => $user->createdAt()->value(),
-            'updated_at' => $user->updatedAt()->value()
+            'updated_at' => $user->updatedAt()->value(),
+            'verification_token' => null
         ];
         self::assertEquals($expected, $user->toArray());
     }
@@ -157,6 +159,21 @@ final class UserTest extends TestCase
         $this->expectExceptionMessage("User is not verified");
         $user->login($jwtGenerator, $password);
     }
+
+    public function testGenerateVerificationToken(): void
+    {
+        $password = 'p@ssW0rd';
+        $user = UserStub::random($password);
+        $token = Factory::create()->text();
+        $jwtGenerator = $this->createMock(JwtGeneratorInterface::class);
+        $jwtGenerator->method('fromUser')->willReturn($token);
+        $user->generateVerificationToken($jwtGenerator);
+        self::assertEquals($token, $user->verificationToken()->value);
+        self::assertCount(1, $user->domainEvents);
+        self::assertInstanceOf(UserVerificationTokenGeneratedDomainEvent::class, $user->domainEvents->last());
+        self::assertEquals($token, $user->toArray()['verification_token']);
+    }
+
 
     public function testFromEmail(): void
     {

@@ -29,7 +29,8 @@ class User {
         private IsVerified $isVerified,
         private CreatedAt $createdAt,
         private UpdatedAt $updatedAt,
-        private ?Jwt $jwt = null
+        private ?Jwt $jwt = null,
+        private ?VerificationToken $verificationToken = null
     ) {  
         $this->initDomainEventCollection();
     }
@@ -79,6 +80,11 @@ class User {
         return $this->jwt ?? null;
     }
 
+    public function verificationToken(): ?VerificationToken
+    {
+        return $this->verificationToken ?? null;
+    }
+
     public function toArray(): array
     {
         return [
@@ -88,7 +94,8 @@ class User {
             'email' => $this->email->value,
             'is_verified' => $this->isVerified->value,
             'created_at' => $this->createdAt->value(),
-            'updated_at' => $this->updatedAt->value()
+            'updated_at' => $this->updatedAt->value(),
+            'verification_token' => $this->verificationToken?->value
         ];
     }
 
@@ -150,6 +157,14 @@ class User {
     public function fullName(): string 
     {
         return $this->firstName->value.' '.$this->lastName->value;
+    }
+
+    public function generateVerificationToken(
+        JwtGeneratorInterface $jwtGenerator
+    ): void {
+        $this->verificationToken = VerificationToken::fromUser($jwtGenerator, $this);
+        $this->updatedAt = UpdatedAt::now();
+        $this->notifyDomainEvent(UserVerificationTokenGeneratedDomainEvent::fromUser($this));
     }
 
     public function verify(): void
