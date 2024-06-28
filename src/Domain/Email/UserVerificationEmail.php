@@ -11,6 +11,7 @@ use App\Domain\User\User;
 final class UserVerificationEmail extends Email {
 
     public const TEMPLATE_NAME = 'user_verification_email';
+    public const VERIFY_URI = '/verify';
 
     public static function fromUser(
         EmailSenderInterface $sender,
@@ -22,7 +23,9 @@ final class UserVerificationEmail extends Email {
         $html = Html::create(
             $renderer,
             new TemplateName(self::TEMPLATE_NAME),
-            $user->toArray()
+            [
+                'user' => $user->toArray()
+            ]
         );
         return new self(
             new Id(),

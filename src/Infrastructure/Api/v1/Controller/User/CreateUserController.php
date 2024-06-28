@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Infrastructure\Api\v1\Controller\JsonResponse\UserCreatedJsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class CreateUserController extends AbstractController
 {
@@ -31,6 +31,6 @@ final class CreateUserController extends AbstractController
         $this->apiKeyAuthenticator->authenticate($request);
         $command = CreateUserCommandFactory::fromRequest($request);
         $this->commandBus->dispatch($command);
-        return new UserCreatedJsonResponse();
+        return new JsonResponse([], Response::HTTP_CREATED);
     }
 }

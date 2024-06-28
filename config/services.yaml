@@ -4,6 +4,8 @@ parameters:
     jwt_expiration_time: '%env(JWT_EXPIRATION_TIME)%'
     app_secret: '%env(APP_SECRET)%'
     email_default_sender: '%env(EMAIL_DEFAULT_SENDER)%'
+    company_name: '%env(COMPANY_NAME)%'
+    frontend_url: '%env(FRONTEND_URL)%'
 
 services:
 
@@ -19,7 +21,9 @@ services:
             $jwtExpirationTime: '%jwt_expiration_time%'
             $appSecret: '%app_secret%'
             $emailDefaultSender: '%email_default_sender%'
-            
+            $companyName: '%company_name%'
+            $frontEndUrl: '%frontend_url%'
+
     App\:
         resource: '../src/'
         exclude:
@@ -36,6 +40,9 @@ services:
             - { name: doctrine.event_listener, event: postLoad }
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preRemove }
+
+    App\Infrastructure\Twig\TwigExtension:
+        tags: ['twig.extension']
 
     command_handlers:
         namespace: App\Application\
