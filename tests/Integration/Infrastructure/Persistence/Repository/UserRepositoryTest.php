@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Infrastructure\Persistence\Repository;
 
 use App\Domain\Shared\EmailAddress;
+use App\Domain\Shared\TokenGeneratorInterface;
 use App\Domain\User\UserRepositoryInterface;
+use App\Domain\User\VerificationToken;
 use App\Tests\Stubs\Domain\Shared\IdStub;
 use App\Tests\Stubs\Domain\User\UserStub;
 use Faker\Factory;
@@ -14,12 +16,14 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 final class UserRepositoryTest extends KernelTestCase
 {
     private UserRepositoryInterface $repository;
+    private TokenGeneratorInterface $tokenGenerator;
 
     public function setUp(): void
     {
         self::bootKernel();
         $container = self::getContainer();
         $this->repository = $container->get(UserRepositoryInterface::class);
+        $this->tokenGenerator = $container->get(TokenGeneratorInterface::class);
     }
 
     public function testAdd(): void
@@ -71,6 +75,20 @@ final class UserRepositoryTest extends KernelTestCase
 
         $randomEmail = EmailAddress::fromString(Factory::create()->email());
         $fetchedUser = $this->repository->findOneByEmail($randomEmail);
+        self::assertNull($fetchedUser);
+    }
+
+    public function testFindOneByVerificationToken(): void
+    {
+        $user = UserStub::random();
+        $user->generateVerificationToken($this->tokenGenerator);
+        $this->repository->add($user);
+
+        $fetchedUser = $this->repository->findOneByVerificationToken($user->verificationToken());
+        self::assertEquals($user, $fetchedUser);
+
+        $randomToken = VerificationToken::fromString(Factory::create()->text());
+        $fetchedUser = $this->repository->findOneByVerificationToken($randomToken);
         self::assertNull($fetchedUser);
     }
 }

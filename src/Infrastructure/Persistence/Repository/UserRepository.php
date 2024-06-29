@@ -67,7 +67,6 @@ final class UserRepository implements UserRepositoryInterface {
         return $qb->getQuery()->getOneOrNullResult();
     }
 
-    // TODO : Integration test
     public function findOneByVerificationToken(VerificationToken $token): ?User
     {
         $qb = $this->entityManager->createQueryBuilder();
