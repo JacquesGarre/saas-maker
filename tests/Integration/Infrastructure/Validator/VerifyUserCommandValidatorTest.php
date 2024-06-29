@@ -23,31 +23,21 @@ final class VerifyUserCommandValidatorTest extends KernelTestCase {
     public function testSunnyCase(): void
     {
         $faker = Factory::create();
-        $command = new VerifyUserCommand($faker->uuid());
+        $command = new VerifyUserCommand($faker->text());
         $errors = $this->validator->validate($command);
         self::assertCount(0, $errors);
     }
 
-    public function testIdNull(): void
+    public function testTokenNull(): void
     {
-        $faker = Factory::create();
         $command = new VerifyUserCommand();
         $errors = $this->validator->validate($command);
         self::assertCount(1, $errors);
     }
 
-    public function testIdBlank(): void
+    public function testTokenBlank(): void
     {
-        $faker = Factory::create();
         $command = new VerifyUserCommand('');
-        $errors = $this->validator->validate($command);
-        self::assertCount(1, $errors);
-    }
-
-    public function testIdNotUuid(): void
-    {
-        $faker = Factory::create();
-        $command = new VerifyUserCommand($faker->name());
         $errors = $this->validator->validate($command);
         self::assertCount(1, $errors);
     }

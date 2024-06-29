@@ -1,5 +1,4 @@
 App\Application\User\VerifyUserCommand\VerifyUserCommand:
     properties:
-        id:
+        token:
             - NotBlank: ~
-            - Uuid: ~

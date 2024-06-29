@@ -17,4 +17,10 @@ final class VerificationToken
         $value = $tokenGenerator->generate();
         return new self($value);
     }
+
+    // TODO : unit test
+    public static function fromString(string $token): self
+    {
+        return new self($token);
+    }
 }

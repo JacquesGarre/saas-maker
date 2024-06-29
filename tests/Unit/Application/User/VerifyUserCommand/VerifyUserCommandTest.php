@@ -13,14 +13,14 @@ final class VerifyUserCommandTest extends TestCase {
     public function testConstructor(): void
     {
         $faker = Factory::create();
-        $id = $faker->uuid();
-        $command = new VerifyUserCommand($id);
-        self::assertEquals($id, $command->id);
+        $token = $faker->text();
+        $command = new VerifyUserCommand($token);
+        self::assertEquals($token, $command->token);
     }
 
     public function testConstructorWithNulls(): void
     {
         $command = new VerifyUserCommand();
-        self::assertNull($command->id);
+        self::assertNull($command->token);
     }
 }

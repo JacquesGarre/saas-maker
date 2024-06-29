@@ -11,6 +11,8 @@ use App\Domain\Shared\Id;
 use App\Domain\User\UserRepositoryInterface;
 use App\Tests\Stubs\Domain\User\UserStub;
 use App\Domain\Shared\EventBusInterface;
+use App\Domain\Shared\TokenGeneratorInterface;
+use Faker\Factory;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class VerifyUserCommandHandlerTest extends KernelTestCase
@@ -18,6 +20,7 @@ final class VerifyUserCommandHandlerTest extends KernelTestCase
     private readonly UserRepositoryInterface $repository;
     private $eventBus;
     private readonly VerifyUserCommandHandler $handler;
+    private readonly TokenGeneratorInterface $tokenGenerator;
 
     public function setUp(): void
     {
@@ -26,28 +29,26 @@ final class VerifyUserCommandHandlerTest extends KernelTestCase
         $this->repository = $container->get(UserRepositoryInterface::class);
         $this->eventBus = $this->createMock(EventBusInterface::class);
         $this->handler = new VerifyUserCommandHandler($this->repository, $this->eventBus);
+        $this->tokenGenerator = $container->get(TokenGeneratorInterface::class);
     }
 
     public function testSunnyCase(): void
     {
         $user = UserStub::random();
+        $user->generateVerificationToken($this->tokenGenerator);
         $this->repository->add($user);
         self::assertFalse($user->isVerified()->value);
-        $command = new VerifyUserCommand(
-            $user->id()->value->toString()
-        );
+        $command = new VerifyUserCommand($user->verificationToken()->value);
         $this->eventBus->expects($this->once())->method('notifyAll');
         ($this->handler)($command);
-        $updatedUser = $this->repository->ofId(new Id($command->id));
+        $updatedUser = $this->repository->ofId($user->id());
         self::assertTrue($updatedUser->isVerified()->value);
     }
 
     public function testUserNotFoundException(): void
     {
-        $user = UserStub::random();
-        $command = new VerifyUserCommand(
-            $user->id()->value->toString()
-        );
+        $faker = Factory::create();
+        $command = new VerifyUserCommand($faker->text());
         $this->expectException(UserNotFoundException::class);
         ($this->handler)($command);
     }

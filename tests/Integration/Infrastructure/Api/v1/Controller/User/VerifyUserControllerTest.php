@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Infrastructure\Api\v1\Controller\User;
 
-use App\Domain\Shared\CommandBusInterface;
+use App\Domain\Shared\TokenGeneratorInterface;
 use App\Domain\User\UserRepositoryInterface;
 use App\Infrastructure\Security\ApiKeyAuthenticator;
 use App\Tests\Stubs\Domain\User\UserStub;
@@ -18,6 +18,7 @@ final class VerifyUserControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private UserRepositoryInterface $repository;
+    private TokenGeneratorInterface $tokenGenerator;
 
     public function setUp(): void
     {
@@ -25,6 +26,7 @@ final class VerifyUserControllerTest extends WebTestCase
         $this->client = self::createClient();
         $container = self::getContainer();
         $this->repository = $container->get(UserRepositoryInterface::class);
+        $this->tokenGenerator = $container->get(TokenGeneratorInterface::class);
     }
 
     /**
@@ -33,17 +35,21 @@ final class VerifyUserControllerTest extends WebTestCase
     public function testSunnyCase(): void
     {
         $user = UserStub::random();
+        $user->generateVerificationToken($this->tokenGenerator);
         $this->repository->add($user);
         self::assertFalse($user->isVerified()->value);
         $this->client->request(
             'POST',
-            '/api/v1/users/' . $user->id()->value->toString().'/verify',
+            '/api/v1/users/verify',
             [],
             [],
             [
                 'CONTENT_TYPE' => 'application/json',
                 'HTTP_'.ApiKeyAuthenticator::API_KEY_HEADER => getenv('API_KEY')
-            ]
+            ],
+            json_encode([
+                'token' => $user->verificationToken()->value
+            ])
         );
         self::assertEquals(
             Response::HTTP_ACCEPTED,
@@ -56,16 +62,20 @@ final class VerifyUserControllerTest extends WebTestCase
     public function testUnauthenticated(): void
     {
         $user = UserStub::random();
+        $user->generateVerificationToken($this->tokenGenerator);
         $this->repository->add($user);
         self::assertFalse($user->isVerified()->value);
         $this->client->request(
             'POST',
-            '/api/v1/users/' . $user->id()->value->toString().'/verify',
+            '/api/v1/users/verify',
             [],
             [],
             [
                 'CONTENT_TYPE' => 'application/json'
-            ]
+            ],
+            json_encode([
+                'token' => $user->verificationToken()->value
+            ])
         );
         self::assertEquals(
             Response::HTTP_UNAUTHORIZED,

@@ -9,6 +9,7 @@ use App\Domain\Shared\EmailAddress;
 use App\Domain\User\User;
 use App\Domain\Auth\Jwt;
 use App\Domain\User\UserRepositoryInterface;
+use App\Domain\User\VerificationToken;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -63,6 +64,19 @@ final class UserRepository implements UserRepositoryInterface {
             ->andWhere($condition)
             ->setMaxResults(1)
             ->setParameter('email', $email->value);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    // TODO : Integration test
+    public function findOneByVerificationToken(VerificationToken $token): ?User
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $condition = $qb->expr()->eq('u.verificationToken.value', ':token');
+        $qb->select('u')
+            ->from(User::class, 'u')
+            ->andWhere($condition)
+            ->setMaxResults(1)
+            ->setParameter('token', $token->value);
         return $qb->getQuery()->getOneOrNullResult();
     }
 
