@@ -83,37 +83,65 @@ export class FormComponent {
 
   onSubmit(): void {
     this.submitting = true;
-    if (this.formGroup && this.formGroup.valid) {
-      this.config.submitAction(this.formGroup.value).subscribe({
-        next: (response: any) => {
-          this.toasterConfig = {
-            message: response.message ?? 'Form submitted successfully',
-            show: true,
-            class: 'bottom-4 right-4 max-w-xs w-full bg-green-400'
-          }   
-          if (this.config.afterSubmitRedirection) {
-            this.router.navigate(
-              [this.config.afterSubmitRedirection.route], 
-              this.config.afterSubmitRedirection.extras
-            );
-          }
-        },
-        error: (error: any) => {
-          this.toasterConfig = {
-            message: error.error.message ?? 'An error occured while submitting the form',
-            show: true,
-            class: 'bottom-4 right-4 max-w-xs w-full bg-red-400'
-          }   
-        }
-      });
-
-      setTimeout(() => {
-        this.toasterConfig.show = false;
-        this.submitting = false;
-      }, 3000);
-    } else {
+    if (!this.formGroup || !this.formGroup.valid) {
       this.submitting = false;
+      return;
     }
+    this.handleSubmit();
+  }
+
+  handleSubmit(): void {
+    this.config.submitAction(this.formGroup.value).subscribe({
+      next: (response: any) => {
+        this.handleSuccessToaster(response);
+        this.handleAfterSubmitAction(response);
+        this.handleAfterSubmitRedirection()
+      },
+      error: (error: any) => {
+        this.handleErrorToaster(error)
+      }
+    });
+    this.hideToaster();
+  }
+
+  handleSuccessToaster(response: any): void {
+    this.toasterConfig = {
+      message: response.message ?? 'Form submitted successfully',
+      show: true,
+      class: 'bottom-4 right-4 max-w-xs w-full bg-green-400'
+    }   
+  }
+
+  handleErrorToaster(error: any): void {
+    this.toasterConfig = {
+      message: error.error.message ?? 'An error occured while submitting the form',
+      show: true,
+      class: 'bottom-4 right-4 max-w-xs w-full bg-red-400'
+    }   
+  }
+
+  handleAfterSubmitAction(response: any): void {
+    if (this.config.afterSubmitAction) {
+      this.config.afterSubmitAction(response)
+    }
+  }
+
+  handleAfterSubmitRedirection(): void {
+    if (this.config.afterSubmitRedirection) {
+      this.router.navigate(
+        [this.config.afterSubmitRedirection.route], 
+        this.config.afterSubmitRedirection.extras
+      );
+    }
+  }
+
+
+  hideToaster(): void
+  {
+    setTimeout(() => {
+      this.toasterConfig.show = false;
+      this.submitting = false;
+    }, 3000);
   }
 
 }

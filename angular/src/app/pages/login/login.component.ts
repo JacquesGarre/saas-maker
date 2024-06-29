@@ -31,6 +31,11 @@ export class LoginComponent {
     submitAction: (user: User): Observable<any> => {
       return this.apiService.loginUser(user);
     },
+    afterSubmitAction: (response: any): Observable<any> => {
+      let jwt = response.jwt;
+      sessionStorage.setItem('jwt', jwt);
+      return new Observable();
+    },
     afterSubmitRedirection: {
       route: '/dashboard'
     },
