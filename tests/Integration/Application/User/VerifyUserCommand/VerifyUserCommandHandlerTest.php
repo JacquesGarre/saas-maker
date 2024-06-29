@@ -12,6 +12,7 @@ use App\Domain\User\UserRepositoryInterface;
 use App\Tests\Stubs\Domain\User\UserStub;
 use App\Domain\Shared\EventBusInterface;
 use App\Domain\Shared\TokenGeneratorInterface;
+use App\Domain\User\Exception\UserAlreadyVerifiedException;
 use Faker\Factory;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -50,6 +51,18 @@ final class VerifyUserCommandHandlerTest extends KernelTestCase
         $faker = Factory::create();
         $command = new VerifyUserCommand($faker->text());
         $this->expectException(UserNotFoundException::class);
+        ($this->handler)($command);
+    }
+
+    public function testUserAlreadyVerifiedException(): void
+    {
+        $user = UserStub::random();
+        $user->generateVerificationToken($this->tokenGenerator);
+        $user->verify();
+        $this->repository->add($user);
+        self::assertTrue($user->isVerified()->value);
+        $command = new VerifyUserCommand($user->verificationToken()->value);
+        $this->expectException(UserAlreadyVerifiedException::class);
         ($this->handler)($command);
     }
 }

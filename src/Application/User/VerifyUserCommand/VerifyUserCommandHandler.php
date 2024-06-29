@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Application\User\VerifyUserCommand;
 
 use App\Domain\User\Exception\UserNotFoundException;
-use App\Domain\Shared\Id;
 use App\Domain\Shared\EventBusInterface;
 use App\Domain\User\Exception\UserAlreadyVerifiedException;
 use App\Domain\User\UserRepositoryInterface;
@@ -19,7 +18,6 @@ final class VerifyUserCommandHandler {
     ) {
     }
 
-    // TODO: Integration test user already verified
     public function __invoke(VerifyUserCommand $command): void
     {
         $token = VerificationToken::fromString($command->token); 
