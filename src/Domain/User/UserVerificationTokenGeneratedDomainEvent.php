@@ -23,7 +23,6 @@ final class UserVerificationTokenGeneratedDomainEvent extends DomainEvent
         );
     }
 
-    // TODO: Unit test this
     public static function fromUser(User $user): self
     {
         return new self($user);
