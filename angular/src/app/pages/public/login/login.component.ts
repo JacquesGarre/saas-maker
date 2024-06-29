@@ -24,7 +24,6 @@ import { FormComponent } from '../../../components/form/form.component';
 })
 export class LoginComponent {
 
-
   toasterConfig: ToasterConfig;
 
   loginFormConfig: FormConfig = {

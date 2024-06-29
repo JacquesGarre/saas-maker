@@ -7,6 +7,7 @@ import { PublicLayoutComponent } from './layouts/public-layout/public-layout.com
 import { VerifyComponent } from './pages/public/verify/verify.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { DashboardComponent } from './pages/dashboard/dashboard/dashboard.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -21,6 +22,9 @@ export const routes: Routes = [
     },
     {
         path: 'dashboard',
+        canActivate: [
+            AuthGuard
+        ],
         component: DashboardLayoutComponent,
         children: [
             { path: '', component: DashboardComponent },
