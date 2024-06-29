@@ -21,7 +21,6 @@ final class Jwt {
         return new self($value);
     }
 
-    // TODO: Unit test this
     public static function fromToken(JwtValidatorInterface $validator, string $token): self
     {   
         if (!$validator->validate($token)) {
