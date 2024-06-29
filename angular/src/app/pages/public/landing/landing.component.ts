@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PublicNavbarComponent } from '../../components/public-navbar/public-navbar.component';
+import { PublicNavbarComponent } from '../../../components/public-navbar/public-navbar.component';
 
 @Component({
   selector: 'app-landing',

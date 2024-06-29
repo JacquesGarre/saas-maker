@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
-import { LandingComponent } from './pages/landing/landing.component';
-import { LoginComponent } from './pages/login/login.component';
-import { SignupComponent } from './pages/signup/signup.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { LandingComponent } from './pages/public/landing/landing.component';
+import { LoginComponent } from './pages/public/login/login.component';
+import { SignupComponent } from './pages/public/signup/signup.component';
+import { NotFoundComponent } from './pages/public/not-found/not-found.component';
 import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
-import { VerifyComponent } from './pages/verify/verify.component';
+import { VerifyComponent } from './pages/public/verify/verify.component';
+import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
+import { DashboardComponent } from './pages/dashboard/dashboard/dashboard.component';
 
 export const routes: Routes = [
     {
@@ -15,8 +17,15 @@ export const routes: Routes = [
             { path: 'sign-in', component: LoginComponent },
             { path: 'sign-up', component: SignupComponent },
             { path: 'verify/:verification_token', component: VerifyComponent },
-            { path: 'not-found', component: NotFoundComponent },
-            { path: '**', redirectTo: '/not-found' },
         ]
-    }
+    },
+    {
+        path: 'dashboard',
+        component: DashboardLayoutComponent,
+        children: [
+            { path: '', component: DashboardComponent },
+        ]
+    },
+    { path: 'not-found', component: NotFoundComponent },
+    { path: '**', redirectTo: '/not-found' },
 ];

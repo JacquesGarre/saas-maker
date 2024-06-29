@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { PublicNavbarComponent } from '../../components/public-navbar/public-navbar.component';
+import { PublicNavbarComponent } from '../../../components/public-navbar/public-navbar.component';
 import { Router } from '@angular/router';
-import { ToasterConfig } from '../../components/toaster/toaster-config.interface';
-import { ToasterComponent } from '../../components/toaster/toaster.component';
+import { ToasterConfig } from '../../../components/toaster/toaster-config.interface';
+import { ToasterComponent } from '../../../components/toaster/toaster.component';
 import { CommonModule } from '@angular/common';
-import { FormConfig } from '../../components/form/form-config.interface';
-import { User } from '../../models/user.interface';
+import { FormConfig } from '../../../components/form/form-config.interface';
+import { User } from '../../../models/user.interface';
 import { Observable } from 'rxjs';
-import { ApiService } from '../../services/api.service';
-import { FormComponent } from '../../components/form/form.component';
+import { ApiService } from '../../../services/api.service';
+import { FormComponent } from '../../../components/form/form.component';
 
 @Component({
   selector: 'app-login',

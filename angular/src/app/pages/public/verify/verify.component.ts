@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '../../services/api.service';
-import { ToasterConfig } from '../../components/toaster/toaster-config.interface';
-import { ToasterComponent } from '../../components/toaster/toaster.component';
+import { ApiService } from '../../../services/api.service';
+import { ToasterConfig } from '../../../components/toaster/toaster-config.interface';
+import { ToasterComponent } from '../../../components/toaster/toaster.component';
 import { CommonModule } from '@angular/common';
 
 @Component({

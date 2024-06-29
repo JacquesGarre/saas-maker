@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { PublicNavbarComponent } from '../../components/public-navbar/public-navbar.component';
-import { FormConfig } from '../../components/form/form-config.interface';
-import { FormComponent } from '../../components/form/form.component';
+import { PublicNavbarComponent } from '../../../components/public-navbar/public-navbar.component';
+import { FormConfig } from '../../../components/form/form-config.interface';
+import { FormComponent } from '../../../components/form/form.component';
 import { CommonModule } from '@angular/common';
-import { User } from '../../models/user.interface';
-import { ApiService } from '../../services/api.service';
+import { User } from '../../../models/user.interface';
+import { ApiService } from '../../../services/api.service';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
