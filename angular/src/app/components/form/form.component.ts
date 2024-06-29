@@ -91,6 +91,12 @@ export class FormComponent {
             show: true,
             class: 'bottom-4 right-4 max-w-xs w-full bg-green-400'
           }   
+          if (this.config.afterSubmitRedirection) {
+            this.router.navigate(
+              [this.config.afterSubmitRedirection.route], 
+              this.config.afterSubmitRedirection.extras
+            );
+          }
         },
         error: (error: any) => {
           this.toasterConfig = {
@@ -100,12 +106,7 @@ export class FormComponent {
           }   
         }
       });
-      if (this.config.afterSubmitRedirection) {
-        this.router.navigate(
-          [this.config.afterSubmitRedirection.route], 
-          this.config.afterSubmitRedirection.extras
-        );
-      }
+
       setTimeout(() => {
         this.toasterConfig.show = false;
         this.submitting = false;

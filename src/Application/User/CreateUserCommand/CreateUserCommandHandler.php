@@ -36,7 +36,7 @@ final class CreateUserCommandHandler {
         $email = EmailAddress::fromString($command->email);
         $passwordHash = PasswordHash::fromPlainPassword($command->password);
         if ($this->repository->findOneByEmailOrId($email, $id)) {
-            throw new UserAlreadyCreatedException("An account with this email address has already been created");
+            throw new UserAlreadyCreatedException("An account with this email address already exists");
         }
         $user = User::create(
             $id, 
