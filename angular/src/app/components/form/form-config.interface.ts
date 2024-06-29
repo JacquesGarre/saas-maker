@@ -7,6 +7,6 @@ export interface FormConfig {
   submitAction: (values: any) => Observable<any>;
   afterSubmitRedirection?: {
     route: string,
-    extras: {}
+    extras?: {}
   };
 }

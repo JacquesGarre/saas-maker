@@ -44,7 +44,6 @@ export class SignupComponent {
     fields: [
       {
         formControlName: 'email',
-        value: 'test@test.com',
         type: 'email',
         label: 'Email address',
         required: true,
@@ -62,7 +61,6 @@ export class SignupComponent {
       },
       {
         formControlName: 'firstName',
-        value: 'test',
         type: 'text',
         label: 'First name',
         required: true,
@@ -75,7 +73,6 @@ export class SignupComponent {
       },
       {
         formControlName: 'lastName',
-        value: 'test',
         type: 'text',
         label: 'Last name',
         required: true,
@@ -88,7 +85,6 @@ export class SignupComponent {
       },
       {
         formControlName: 'password',
-        value: 'p@ssw0rD',
         type: 'password',
         label: 'Password',
         required: true,
@@ -111,7 +107,6 @@ export class SignupComponent {
       },
       {
         formControlName: 'passwordConfirmation',
-        value: 'p@ssw0rD',
         type: 'password',
         label: 'Password confirmation',
         required: true,

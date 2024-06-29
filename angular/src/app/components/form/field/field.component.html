@@ -1,9 +1,9 @@
-<div [formGroup]="formGroup">
+<div [formGroup]="formGroup" class="mt-2">
     <label 
         [for]="config.formControlName" 
         class="block text-sm font-medium leading-6 text-gray-900"
     >{{ config.label }}</label>
-    <div class="mt-2">
+    <div class="mt-1">
         <input 
             [disabled]="submitting"
             [formControlName]="config.formControlName" 

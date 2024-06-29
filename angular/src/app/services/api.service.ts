@@ -39,4 +39,16 @@ export class ApiService {
     }
     return this.http.post<any>(`${this.apiUrl}/users/verify`, payload, { headers });
   }
+
+  loginUser(user: User): Observable<any> {
+    const headers = new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'X-API-KEY': this.apiKey
+    });
+    let payload = {
+      email: user.email,
+      password: user.password
+    }
+    return this.http.post<any>(`${this.apiUrl}/login`, payload, { headers });
+  }
 }

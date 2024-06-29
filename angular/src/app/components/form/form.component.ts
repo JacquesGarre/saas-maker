@@ -47,7 +47,7 @@ export class FormComponent {
     let formGroupConfig: any = {};
     for (const field of fieldsConfig) {
       formGroupConfig[field.formControlName] = [
-        field.value,
+        field.value ?? '',
         this.getFieldValidators(field.validators)
       ];
     }
