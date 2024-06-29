@@ -15,6 +15,7 @@ use App\Domain\User\UserRepositoryInterface;
 use App\Tests\Stubs\Application\User\CreateUserCommand\CreateUserCommandStub;
 use App\Tests\Stubs\Domain\User\UserStub;
 use App\Domain\Shared\EventBusInterface;
+use App\Domain\Shared\TokenGeneratorInterface;
 use DateTimeImmutable;
 use Faker\Factory;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -33,8 +34,8 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
         $this->commandBus = $container->get(CommandBusInterface::class);
         $this->repository = $container->get(UserRepositoryInterface::class);
         $this->eventBus = $this->createMock(EventBusInterface::class);
-        $jwtGenerator = $container->get(JwtGeneratorInterface::class);
-        $this->handler = new CreateUserCommandHandler($this->repository, $this->eventBus, $jwtGenerator);
+        $tokenGenerator = $container->get(TokenGeneratorInterface::class);
+        $this->handler = new CreateUserCommandHandler($this->repository, $this->eventBus, $tokenGenerator);
     }
 
     public function testSunnyCase(): void

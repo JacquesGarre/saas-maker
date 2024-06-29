@@ -12,6 +12,7 @@ use App\Domain\Shared\DomainEventsTrait;
 use App\Domain\Shared\Id;
 use App\Domain\Shared\UpdatedAt;
 use App\Domain\Shared\EmailAddress;
+use App\Domain\Shared\TokenGeneratorInterface;
 use App\Domain\User\Exception\InvalidPasswordException;
 use App\Domain\User\Exception\UserNotVerifiedException;
 use App\Domain\User\Exception\PermissionNotAllowedException;
@@ -160,9 +161,9 @@ class User {
     }
 
     public function generateVerificationToken(
-        JwtGeneratorInterface $jwtGenerator
+        TokenGeneratorInterface $tokenGenerator
     ): void {
-        $this->verificationToken = VerificationToken::fromUser($jwtGenerator, $this);
+        $this->verificationToken = VerificationToken::generate($tokenGenerator);
         $this->updatedAt = UpdatedAt::now();
         $this->notifyDomainEvent(UserVerificationTokenGeneratedDomainEvent::fromUser($this));
     }

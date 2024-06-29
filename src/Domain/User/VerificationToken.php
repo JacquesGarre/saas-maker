@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
-use App\Domain\Auth\JwtGeneratorInterface;
+use App\Domain\Shared\TokenGeneratorInterface;
 
 final class VerificationToken 
 {    
@@ -12,11 +12,9 @@ final class VerificationToken
     {
     }
     
-    public static function fromUser(
-        JwtGeneratorInterface $jwtGenerator,
-        User $user
-    ): self {   
-        $value = $jwtGenerator->fromUser($user);
+    public static function generate(TokenGeneratorInterface $tokenGenerator): self 
+    {   
+        $value = $tokenGenerator->generate();
         return new self($value);
     }
 }

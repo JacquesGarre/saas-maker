@@ -11,6 +11,7 @@ use App\Domain\Email\EmailSenderInterface;
 use App\Domain\Email\TemplateRendererInterface;
 use App\Domain\User\UserRepositoryInterface;
 use App\Domain\Shared\EventBusInterface;
+use App\Domain\Shared\TokenGeneratorInterface;
 use App\Tests\Stubs\Domain\User\UserStub;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -21,7 +22,7 @@ final class SendEmailOnVerificationTokenGeneratedEventHandlerTest extends Kernel
     private readonly UserRepositoryInterface $repository;
     private $eventBus;
     private readonly SendEmailOnVerificationTokenGeneratedEventHandler $handler;
-    private readonly JwtGeneratorInterface $jwtGenerator;
+    private readonly TokenGeneratorInterface $tokenGenerator;
 
     public function setUp(): void
     {
@@ -38,13 +39,13 @@ final class SendEmailOnVerificationTokenGeneratedEventHandlerTest extends Kernel
             $this->eventBus,
             getenv('EMAIL_DEFAULT_SENDER')
         );
-        $this->jwtGenerator = $container->get(JwtGeneratorInterface::class);
+        $this->tokenGenerator = $container->get(TokenGeneratorInterface::class);
     }
 
     public function testSunnyCase(): void
     {   
         $user = UserStub::random();
-        $user->generateVerificationToken($this->jwtGenerator);
+        $user->generateVerificationToken($this->tokenGenerator);
         $this->repository->add($user);
         $domainEvent = $user->domainEvents->last();
         $this->eventBus->expects($this->once())->method('notifyAll');
@@ -55,7 +56,7 @@ final class SendEmailOnVerificationTokenGeneratedEventHandlerTest extends Kernel
     public function testUserNotFoundException(): void
     {   
         $user = UserStub::random();
-        $user->generateVerificationToken($this->jwtGenerator);
+        $user->generateVerificationToken($this->tokenGenerator);
         $domainEvent = $user->domainEvents->last();
         $this->expectException(UserNotFoundException::class);
         ($this->handler)($domainEvent);
@@ -64,7 +65,7 @@ final class SendEmailOnVerificationTokenGeneratedEventHandlerTest extends Kernel
     public function testUserAlreadyVerified(): void
     {   
         $user = UserStub::random();
-        $user->generateVerificationToken($this->jwtGenerator);
+        $user->generateVerificationToken($this->tokenGenerator);
         $domainEvent = $user->domainEvents->last();
         $user->verify();
         $this->repository->add($user);
