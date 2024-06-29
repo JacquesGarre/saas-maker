@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\User\CreateUserCommand;
 
+use App\Domain\Auth\JwtGeneratorInterface;
 use App\Domain\User\Exception\UserAlreadyCreatedException;
 use App\Domain\Shared\Id;
 use App\Domain\Shared\EventBusInterface;
@@ -18,7 +19,8 @@ final class CreateUserCommandHandler {
     
     public function __construct(
         private readonly UserRepositoryInterface $repository,
-        private readonly EventBusInterface $eventBus
+        private readonly EventBusInterface $eventBus,
+        private readonly JwtGeneratorInterface $jwtGenerator
     ) {
         
     }
@@ -43,6 +45,7 @@ final class CreateUserCommandHandler {
             $email, 
             $passwordHash
         );
+        $user->generateVerificationToken($this->jwtGenerator);
         $this->repository->add($user);
         $this->eventBus->notifyAll($user->domainEvents);
     }

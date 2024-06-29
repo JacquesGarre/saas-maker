@@ -41,9 +41,6 @@ services:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preRemove }
 
-    App\Infrastructure\Twig\TwigExtension:
-        tags: ['twig.extension']
-
     command_handlers:
         namespace: App\Application\
         resource: '../src/Application/**/*CommandHandler.php'

@@ -6,6 +6,7 @@ namespace App\Tests\Integration\Application\User\CreateUserCommand;
 
 use App\Application\User\CreateUserCommand\CreateUserCommand;
 use App\Application\User\CreateUserCommand\CreateUserCommandHandler;
+use App\Domain\Auth\JwtGeneratorInterface;
 use App\Domain\User\Exception\UserAlreadyCreatedException;
 use App\Domain\Shared\CommandBusInterface;
 use App\Domain\Shared\Id;
@@ -32,7 +33,8 @@ final class CreateUserCommandHandlerTest extends KernelTestCase
         $this->commandBus = $container->get(CommandBusInterface::class);
         $this->repository = $container->get(UserRepositoryInterface::class);
         $this->eventBus = $this->createMock(EventBusInterface::class);
-        $this->handler = new CreateUserCommandHandler($this->repository, $this->eventBus);
+        $jwtGenerator = $container->get(JwtGeneratorInterface::class);
+        $this->handler = new CreateUserCommandHandler($this->repository, $this->eventBus, $jwtGenerator);
     }
 
     public function testSunnyCase(): void

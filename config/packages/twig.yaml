@@ -2,6 +2,9 @@ twig:
     file_name_pattern: '*.twig'
     paths:
         '%kernel.project_dir%/src/Infrastructure/Email/Template': ~
+    globals:
+        company_name: '%company_name%'
+        frontend_url: '%frontend_url%'
 
 when@test:
     twig:

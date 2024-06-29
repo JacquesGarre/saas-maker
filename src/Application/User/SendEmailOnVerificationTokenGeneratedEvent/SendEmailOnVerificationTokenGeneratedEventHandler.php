@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\User\SendVerificationEmailOnUserCreatedEvent;
+namespace App\Application\User\SendEmailOnVerificationTokenGeneratedEvent;
 
 use App\Domain\User\Exception\UserNotFoundException;
-use App\Domain\User\UserCreatedDomainEvent;
 use App\Domain\User\UserRepositoryInterface;
 use App\Domain\Shared\Id;
 use App\Domain\Email\EmailSenderInterface;
@@ -13,8 +12,9 @@ use App\Domain\Email\TemplateRendererInterface;
 use App\Domain\Email\UserVerificationEmail;
 use App\Domain\Shared\EmailAddress;
 use App\Domain\Shared\EventBusInterface;
+use App\Domain\User\UserVerificationTokenGeneratedDomainEvent;
 
-final class SendVerificationEmailOnUserCreatedEventHandler {
+final class SendEmailOnVerificationTokenGeneratedEventHandler {
     
     public function __construct(
         private readonly UserRepositoryInterface $repository,
@@ -25,7 +25,7 @@ final class SendVerificationEmailOnUserCreatedEventHandler {
     ) {
     }
     
-    public function __invoke(UserCreatedDomainEvent $event): void
+    public function __invoke(UserVerificationTokenGeneratedDomainEvent $event): void
     {
         $id = new Id($event->aggregateId());
         $user = $this->repository->ofId($id);
