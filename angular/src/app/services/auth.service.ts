@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() { }
+
+  constructor(private router: Router) { }
 
   isAuthenticated(): boolean {
     const token = sessionStorage.getItem('jwt');
@@ -19,5 +21,10 @@ export class AuthService {
     } catch (error) {
       return false;
     }
+  }
+
+  signOut(): void {
+    sessionStorage.removeItem('jwt');
+    this.router.navigate(['/']);
   }
 }
