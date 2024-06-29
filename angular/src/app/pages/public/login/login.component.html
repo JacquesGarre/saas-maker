@@ -14,11 +14,16 @@
         </div>
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <app-form *ngIf="loginFormConfig" [config]="loginFormConfig"></app-form>
+            <p class="mt-2 text-center text-sm text-gray-500">
+                <a href="#" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Forgot
+                    password?</a> <!-- TODO : forgot-password public page + back-end-->
+            </p>
             <p class="mt-10 text-center text-sm text-gray-500">
                 Not a member?
                 <a href="/sign-up" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Create your
                     account</a>
             </p>
+
         </div>
     </div>
 </div>

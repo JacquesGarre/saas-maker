@@ -14,10 +14,11 @@
           </svg>
         </button>
       </div>
+      <!-- TODO : Javascript to toggle menu -->
       <div class="hidden lg:flex lg:gap-x-12">
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Product</a>
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Features</a>
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Company</a>
+        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Product</a><!-- TODO : Product public page -->
+        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Features</a><!-- TODO : Features public page -->
+        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Company</a><!-- TODO : Company public -->
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end" *ngIf="!userIsLoggedIn">
         <a href="/sign-in" class="text-sm font-semibold leading-6 text-gray-900">Sign in <span aria-hidden="true">&rarr;</span></a>
@@ -26,9 +27,7 @@
         <a href="/dashboard" class="text-sm font-semibold leading-6 text-gray-900">Dashboard <span aria-hidden="true">&rarr;</span></a>
       </div>
     </nav>
-    <!-- Mobile menu, show/hide based on menu open state. -->
     <div class="lg:hidden" role="dialog" aria-modal="true">
-      <!-- Background backdrop, show/hide based on slide-over state. -->
       <div class="fixed inset-0 z-50"></div>
       <div class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between">
@@ -42,13 +41,14 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
+          <!-- TODO : Javascript to toggle menu -->
         </div>
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Product</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Features</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Company</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Product</a><!-- TODO : Product public page -->
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Features</a><!-- TODO : Features public page -->
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Company</a><!-- TODO : Company public page -->
             </div>
             <div class="py-6" *ngIf="!userIsLoggedIn">
               <a routerLink="/sign-in" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Sign in</a>
