@@ -23,10 +23,10 @@ final class VerifyUserCommandHandler {
         $token = VerificationToken::fromString($command->token); 
         $user = $this->repository->findOneByVerificationToken($token);
         if (!$user) {
-            throw new UserNotFoundException("Could not verify your email address");
+            throw new UserNotFoundException("We were unable to verify your email address");
         }
         if ($user->isVerified()->value) {
-            throw new UserAlreadyVerifiedException("Email address already verified");
+            throw new UserAlreadyVerifiedException("Your email address has already been verified");
         }
         $user->verify();
         $this->eventBus->notifyAll($user->domainEvents);

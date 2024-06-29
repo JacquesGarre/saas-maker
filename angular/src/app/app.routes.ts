@@ -12,7 +12,7 @@ export const routes: Routes = [
         component: PublicLayoutComponent,
         children: [
             { path: '', component: LandingComponent },
-            { path: 'login', component: LoginComponent },
+            { path: 'sign-in', component: LoginComponent },
             { path: 'sign-up', component: SignupComponent },
             { path: 'verify/:verification_token', component: VerifyComponent },
             { path: 'not-found', component: NotFoundComponent },

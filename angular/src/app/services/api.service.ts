@@ -29,19 +29,14 @@ export class ApiService {
     return this.http.post<any>(`${this.apiUrl}/users`, payload, { headers });
   }
 
-  verifyUser(token: string): Observable<any> {
+  verifyUser(token?: string): Observable<any> {
     const headers = new HttpHeaders({ 
       'Content-Type': 'application/json',
       'X-API-KEY': this.apiKey
     });
     let payload = {
-      id: user.id,
-      email: user.email,
-      first_name: user.firstName,
-      last_name: user.lastName,
-      password: user.password
+      token: token
     }
-    return this.http.post<any>(`${this.apiUrl}/users/${token}/verify`, payload, { headers });
+    return this.http.post<any>(`${this.apiUrl}/users/verify`, payload, { headers });
   }
-
 }

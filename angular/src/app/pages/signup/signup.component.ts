@@ -29,7 +29,7 @@ export class SignupComponent {
       return this.apiService.createUser(user);
     },
     afterSubmitRedirection: {
-      route: '/login', 
+      route: '/sign-in', 
       extras: { 
         state: { 
           toasterConfig: {
