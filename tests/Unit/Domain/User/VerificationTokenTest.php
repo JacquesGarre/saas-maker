@@ -20,4 +20,11 @@ final class VerificationTokenTest extends TestCase {
         $token = VerificationToken::generate($tokenGenerator);
         self::assertEquals($value, $token->value);
     }
+
+    public function testFromString(): void
+    {
+        $value = Factory::create()->text();
+        $token = VerificationToken::fromString($value);
+        self::assertEquals($value, $token->value);
+    }
 }
