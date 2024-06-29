@@ -17,7 +17,7 @@ final class JwtGenerator implements JwtGeneratorInterface {
 
     public function __construct(
         private readonly string $appName,
-        private readonly string $jwtExpirationTime,
+        private readonly int $jwtExpirationTime,
         private readonly string $appSecret
      ) {
         $this->config = Configuration::forSymmetricSigner(new Sha256(), Key\InMemory::plainText($this->appSecret));

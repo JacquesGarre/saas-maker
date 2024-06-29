@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Auth;
 
 use App\Domain\User\User;
-use App\Domain\Auth\Exception\InvalidJwtException;
 
 final class Jwt {
     
@@ -21,11 +20,9 @@ final class Jwt {
         return new self($value);
     }
 
-    public static function fromToken(JwtValidatorInterface $validator, string $token): self
+    public static function fromString(JwtValidatorInterface $validator, string $token): self
     {   
-        if (!$validator->validate($token)) {
-            throw new InvalidJwtException("Invalid jwt token");
-        }
+        $validator->validate($token);
         return new self($token);
     }
 }

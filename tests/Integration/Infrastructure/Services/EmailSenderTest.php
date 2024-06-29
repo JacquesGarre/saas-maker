@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Infrastructure\Services;
+namespace App\Tests\Integration\Infrastructure\Services;
 
+use App\Infrastructure\Services\EmailSender;
+use App\Infrastructure\Services\EmailTemplateRenderer;
 use App\Tests\Stubs\Domain\Email\UserVerificationEmailStub;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

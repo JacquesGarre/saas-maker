@@ -6,7 +6,6 @@ namespace App\Infrastructure\Services;
 
 use App\Domain\Auth\Exception\InvalidJwtException;
 use App\Domain\Auth\JwtValidatorInterface;
-use App\Domain\Auth\Jwt;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key;
@@ -16,6 +15,7 @@ use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\Clock\SystemClock;
 use DateTimeZone;
+use Exception;
 
 final class JwtValidator implements JwtValidatorInterface {
 
@@ -28,10 +28,8 @@ final class JwtValidator implements JwtValidatorInterface {
         $this->config = Configuration::forSymmetricSigner(new Sha256(), Key\InMemory::plainText($this->appSecret));
     }
 
-    // TODO: Integration test this
-    public function validate(string $jwt): bool
+    public function validate(string $jwt): void
     {
-        $token = $this->config->parser()->parse($jwt);
         $clock = new SystemClock(new DateTimeZone('UTC'));
         $constraints = [
             new SignedWith($this->config->signer(), $this->config->signingKey()),
@@ -39,6 +37,11 @@ final class JwtValidator implements JwtValidatorInterface {
             new PermittedFor($this->appName),
             new LooseValidAt($clock)
         ];
-        return $this->config->validator()->validate($token, ...$constraints);
+        try {
+            $token = $this->config->parser()->parse($jwt);
+            $this->config->validator()->validate($token, ...$constraints);
+        } catch(Exception $e) {
+            throw new InvalidJwtException($e->getMessage());
+        }
     }
 }

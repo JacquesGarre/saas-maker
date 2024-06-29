@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Infrastructure\Services;
+namespace App\Tests\Integration\Infrastructure\Services;
 
 use App\Domain\Email\TemplateName;
 use App\Domain\Email\UserVerificationEmail;
+use App\Infrastructure\Services\EmailTemplateRenderer;
 use App\Tests\Stubs\Domain\User\UserStub;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Twig\Environment;

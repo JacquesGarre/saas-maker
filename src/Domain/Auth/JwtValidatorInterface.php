@@ -6,5 +6,5 @@ namespace App\Domain\Auth;
 
 interface JwtValidatorInterface {
 
-    public function validate(string $jwt): bool;
+    public function validate(string $jwt): void;
 }
