@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.interface';
 import { environment } from '../../environments/environment';
+import { Application } from '../models/application.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,14 @@ export class ApiService {
   private apiKey = environment.apiKey; 
 
   constructor(private http: HttpClient) { }
+
+  headers(): HttpHeaders {
+    const jwt = sessionStorage.getItem('jwt');
+    return new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwt}`
+    });
+  }
 
   createUser(user: User): Observable<any> {
     const headers = new HttpHeaders({ 
@@ -51,4 +60,15 @@ export class ApiService {
     }
     return this.http.post<any>(`${this.apiUrl}/login`, payload, { headers });
   }
+
+  createApplication(application: Application): Observable<any> {
+    const headers = this.headers();
+    let payload = {
+      id: application.id,
+      name: application.name,
+      subdomain: application.subdomain
+    }
+    return this.http.post<any>(`${this.apiUrl}/applications`, payload, { headers });
+  }
+
 }

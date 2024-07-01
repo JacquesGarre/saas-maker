@@ -24,6 +24,7 @@ export class SignupComponent {
   constructor(private apiService: ApiService) {}
 
   signUpFormConfig: FormConfig = {
+    submitBtnLabel: 'Sign up',
     submitAction: (user: User): Observable<any> => {
       user.id = user.id ?? uuidv4();
       return this.apiService.createUser(user);
@@ -40,7 +41,6 @@ export class SignupComponent {
         } 
       }
     },
-    submitBtnLabel: 'Sign up',
     fields: [
       {
         formControlName: 'email',

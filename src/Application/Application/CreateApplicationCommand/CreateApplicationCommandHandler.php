@@ -33,10 +33,10 @@ final class CreateApplicationCommandHandler {
         $name = new Name($command->name);
         $subdomain = Subdomain::fromString($command->subdomain);
         if ($this->applicationRepository->ofId($id)) {
-            throw new ApplicationAlreadyCreatedException("Application with same id already exists");
+            throw new ApplicationAlreadyCreatedException("An application with the same id already exists");
         }
         if ($this->applicationRepository->findOneBySubdomain($subdomain)) {
-            throw new ApplicationAlreadyCreatedException("Application with same subdomain already exists");
+            throw new ApplicationAlreadyCreatedException("An application with the same subdomain already exists");
         }
         $user = $this->userRepository->ofId(new Id($command->createdById));
         if (!$user) {
