@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { ToasterConfig } from '../../../components/toaster/toaster-config.interface';
-import { ToasterComponent } from '../../../components/toaster/toaster.component';
+import { ToasterComponent } from '../../../components/toaster/toaster.component'; // TODO: toaster service -->
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -37,7 +37,7 @@ export class VerifyComponent {
   {
     this.apiService.verifyUser(this.token).subscribe({
       next: (response: any) => {
-        this.toasterConfig = {
+        this.toasterConfig = { // TODO: toaster service -->
           message: response.message ?? 'Your email address has been verified',
           show: true,
           class: 'bottom-4 right-4 max-w-xs w-full bg-green-400'
@@ -45,7 +45,7 @@ export class VerifyComponent {
       },
       error: (error: any) => {
         this.error = error.error.message;
-        this.toasterConfig = {
+        this.toasterConfig = { // TODO: toaster service -->
           message: error.error.message ?? 'Your email address has been verified',
           show: true,
           class: 'bottom-4 right-4 max-w-xs w-full bg-red-400'

@@ -33,6 +33,7 @@ export class CreateApplicationFormComponent {
     },
     afterSubmitAction: (response: any): Observable<any> => {
       this.modalService.close();
+      // TODO: Toaster service to display success
       return new Observable();
     },
     fields: [

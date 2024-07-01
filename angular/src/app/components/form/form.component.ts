@@ -8,7 +8,7 @@ import { FieldConfig } from './field/field-config.interface';
 import { matchValidator } from './custom-validators/match-validator';
 import { ToasterComponent } from '../toaster/toaster.component';
 import { Router } from '@angular/router';
-import { ToasterConfig } from '../toaster/toaster-config.interface';
+import { ToasterConfig } from '../toaster/toaster-config.interface'; // TODO: Toaster service to display error-->
 
 
 @Component({
@@ -19,7 +19,7 @@ import { ToasterConfig } from '../toaster/toaster-config.interface';
     FormsModule, 
     ReactiveFormsModule,
     CommonModule,
-    ToasterComponent
+    ToasterComponent // TODO: Toaster service to display error-->
   ],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
@@ -30,7 +30,7 @@ export class FormComponent {
 
   formGroup!: FormGroup;
   submitting: boolean = false;
-  toasterConfig!: ToasterConfig;
+  toasterConfig!: ToasterConfig; // TODO: Toaster service to display error-->
 
   constructor(
     private fb: FormBuilder, 
@@ -105,7 +105,7 @@ export class FormComponent {
   }
 
   handleSuccessToaster(response: any): void {
-    this.toasterConfig = {
+    this.toasterConfig = { // TODO: Toaster service to display success-->
       message: response.message ?? 'Form submitted successfully',
       show: true,
       class: 'bottom-4 right-4 max-w-xs w-full bg-green-400'
@@ -113,7 +113,7 @@ export class FormComponent {
   }
 
   handleErrorToaster(error: any): void {
-    this.toasterConfig = {
+    this.toasterConfig = { // TODO: Toaster service to display error-->
       message: error.error.message ?? 'An error occured while submitting the form',
       show: true,
       class: 'bottom-4 right-4 max-w-xs w-full bg-red-400'
@@ -139,7 +139,7 @@ export class FormComponent {
   hideToaster(): void
   {
     setTimeout(() => {
-      this.toasterConfig.show = false;
+      this.toasterConfig.show = false; // TODO: Should be in toaster service to hide
       this.submitting = false;
     }, 3000);
   }

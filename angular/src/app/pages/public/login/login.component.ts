@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { PublicNavbarComponent } from '../../../components/public-navbar/public-navbar.component';
 import { Router } from '@angular/router';
 import { ToasterConfig } from '../../../components/toaster/toaster-config.interface';
-import { ToasterComponent } from '../../../components/toaster/toaster.component';
+import { ToasterComponent } from '../../../components/toaster/toaster.component'; // TODO: Should be in toaster service --> 
 import { CommonModule } from '@angular/common';
 import { FormConfig } from '../../../components/form/form-config.interface';
 import { User } from '../../../models/user.interface';
@@ -15,7 +15,7 @@ import { FormComponent } from '../../../components/form/form.component';
   standalone: true,
   imports: [
     PublicNavbarComponent,
-    ToasterComponent,
+    ToasterComponent, // TODO: Should be in toaster service -->
     CommonModule,
     FormComponent
   ],
@@ -85,6 +85,6 @@ export class LoginComponent {
   }
 
   constructor(private router: Router, private apiService: ApiService) {
-    this.toasterConfig = this.router.getCurrentNavigation()?.extras?.state?.['toasterConfig'] ?? null;
+    this.toasterConfig = this.router.getCurrentNavigation()?.extras?.state?.['toasterConfig'] ?? null; // TODO: toaster service -->
   }
 }
