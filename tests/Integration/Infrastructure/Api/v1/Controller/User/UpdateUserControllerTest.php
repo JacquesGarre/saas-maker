@@ -54,14 +54,14 @@ final class UpdateUserControllerTest extends WebTestCase
             'password' => 'p@ssw000rD',
         ];
 
-        $this->client->getCookieJar()->set(new Cookie(JwtAuthenticator::JWT_COOKIE, $user->jwt()->value));
         $this->client->request(
             'PUT',
             '/api/v1/users/' . $user->id()->value->toString(),
             [],
             [],
             [
-                'CONTENT_TYPE' => 'application/json'
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_'.JwtAuthenticator::HEADER => 'Bearer '.$user->jwt()->value
             ],
             json_encode($data, JSON_THROW_ON_ERROR)
         );

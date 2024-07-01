@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class JwtAuthenticator
 {
-    public const JWT_COOKIE = 'jwt_token';
+    public const HEADER = 'Authorization';
 
     public function __construct(
         private readonly JwtValidatorInterface $jwtValidator,
@@ -24,7 +24,11 @@ class JwtAuthenticator
      */
     public function authenticate(Request $request): User
     {
-        $token = $request->cookies->get(self::JWT_COOKIE);
+        $authHeader = $request->headers->get(self::HEADER);
+        if (!$authHeader || !preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+            throw new UnauthenticatedRequestException('No jwt token provided');
+        }
+        $token = $matches[1];
         if (!$token) {
             throw new UnauthenticatedRequestException('No jwt token provided');
         }

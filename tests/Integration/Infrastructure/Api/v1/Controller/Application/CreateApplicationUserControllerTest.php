@@ -62,14 +62,14 @@ final class CreateApplicationUserControllerTest extends WebTestCase
         $data = [
             'email' => $faker->email(),
         ];
-        $this->client->getCookieJar()->set(new Cookie(JwtAuthenticator::JWT_COOKIE, $user->jwt()->value));
         $this->client->request(
             'POST',
             '/api/v1/applications/'.$application->id->value->toString().'/users',
             [],
             [],
             [
-                'CONTENT_TYPE' => 'application/json'
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_'.JwtAuthenticator::HEADER => 'Bearer '.$user->jwt()->value
             ],
             json_encode($data, JSON_THROW_ON_ERROR)
         );
